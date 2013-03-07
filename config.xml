@@ -33,7 +33,7 @@
 	<feature name="http://api.phonegap.com/1.0/file"/>
 	<feature name="http://api.phonegap.com/1.0/network"/>
     
-    <icon src="assets/icon_new.png" />
+    <icon src="assets/icon.png" />
 
     <gap:splash src="assets/splash/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
     <gap:splash src="assets/splash/android/screen-mdpi-portrait.png"  gap:platform="android" gap:density="mdpi" />
