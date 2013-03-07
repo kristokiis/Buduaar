@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Buduaar</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/photoswipe.css">
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script> 
+	<script src="js/swipe.min.js"></script>
+	<script src="js/flexSlider.min.js"></script>
+	<script src="js/lib/klass.min.js"></script>
+	<script src="js/code.photoswipe-3.0.5.min.js"></script>
+	<!--[if lt IE 9]> 
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
+	<![endif]-->
+	
+	
+</head>
+<body class="uudised">
+	<div class="page-sidebar-wrap">
+		<aside class="sidebar">
+			<section class="oveflowscroll">
+				<nav class="menu_level1">
+					
+				</nav>
+				
+			</section>
+		</aside>
+
+		<div class="page-wrap">
+		
+			<header>
+				<section class="logo_small">
+					<img src="images/logo_small.png" alt="logo"/>
+				</section>
+				
+				<nav class="sidebar_nav">
+					<a href="#cats" class="categories"><span>Kategooriad</span><div class="categoriesImg"></div></a>
+				</nav>
+				
+				<div class="clear"></div>
+			</header>
+
+		</div>
+		
+		<section class="barmenu">
+		
+			<nav class="menu_bar">
+				<a class="back" href="index.html"><span></span></a>
+				<a class="today" href="#"><span>Tänased</span></a>
+				<a class="top10" href="#"><span>TOP 10</span></a>
+				<a class="home" href="index.html"><span></span></a>
+				<a class="search" href="#"><span></span></a>
+			</nav>
+			
+			<section class="searchbox">
+				<form id="searchForm" action="#" autocomplete="off">
+					<input type="text" id="search" name="search" class="defaultText textinput" title="">
+					<input type="submit" class="submit" value="Otsi">
+				</form> 
+			</section>
+		</section>	
+		<div class="newsContainer">
+			<div class="page-wrap newssection" id="newsList">	
+				
+				<img class="hr" src="images/hr.png" alt="hr"/>
+				
+				<section class="hotnews">
+					
+					<section class="hotnews_title">
+						<div class="title">Nädala kuumad! (8)</div>
+						<div class="chilli"></div>
+					</section>
+					
+					<article id="slider" class="swipe">
+						<ul id="hotNews"></ul>
+						<a href="#" class="prev"><span></span></a> 
+						<a href="#" class="next"><span></span></a>
+					</article>
+					<ul style="display:none;" class="hotTemplate">
+						<li style="display:block" class="featured">
+							<img src="images/featured.jpg" width="183" height="179" alt="thumb"/>
+							<div class="text"><span>Ettevõtlik teismeline Marelle Suurmäe unistab suurest tulevikust</span></div>
+						</li>
+					</ul>
+				</section>
+				
+				
+				<section class="newslist">
+					
+				</section>
+				
+				<section style="display:none;" class="newsTemplate">
+					<article class="news">
+						<a href="#">
+							<img src="images/news.png" width="80" height="85" alt="thumb"/>
+							<div class="meta">12.10.2012    Staarid ja elu</div>
+							<div class="text">
+								<span>Ettevõtlik teismeline Marelle Suurmäe unistab suurest tulevikust</span>
+							</div>
+						</a>
+					</article>
+				</section>
+				
+				<footer>
+					<img class="baner" src="images/banner.jpg" alt="banner"/>
+								
+				</footer>
+				
+				
+				<div class="clear"></div>
+			
+			</div>
+			
+			<div class="page-wrap newssectionopen" id="newsItem">	
+			
+				<div class="clear"></div>
+				
+				<section class="meta">12.10.2012    Staarid ja elu</section>
+				
+				<section class="newsopen">
+					
+					<article id="post">
+						<h2>Moepromootor Mari Martin: Eesti naine ei julge sageli väärilist palka küsida</h2>
+						<img class="postthumb" src="images/postimg.png" alt="thumb"/>
+						<p id="newsContent"><p>
+						<br style="clear:both;" />
+					</article>
+					
+					<section id="gallery">
+						<h3>Galerii</h3>
+						<div class="gallery-slider">
+							<ul class="slides gallery">
+							
+							</ul>
+						</div>
+					</section>
+					
+					<section id="comments">
+						<h3>Kas nähtav brändifirma logo riietel on Sinu jaoks tähtis?</h3>
+						<p><input type="radio" />Eks mingil määral on ikka oluline, et firma logo oleks nähtaval kohal. Miks ma peaksin häbenema, et endale korralikke riideid osta saan?</p>
+						<p><input type="radio" />Firmamärgi logo suuruse järgi ma endale riideid ei vali, aga kui ese mulle lõikelt sobib, siis pole mul ka suure logo vastu midagi </p>
+						<p><input type="radio" />Ma pigem ei taha, et mingi brändifirma logo minu riietusel suurelt näha oleks</p>
+					</section>
+					
+				</section>
+				
+				
+				<a href="#" class="comments-tab active">Kommentaarid(<span class="commentsCount"></span>)</a>
+				<a href="#" class="comments-tab add-comment">Lisa kommentaar</a>
+				
+				<section id="commentsList" class="comment-section">
+					
+					
+				</section>
+				
+				<section style="display:none;" class="comments-template">
+					
+					<section class="wrap">
+						<h3>Sirtsuke 05-03-2013 13:12</h3>
+						<p>Yoyoyo, buduaar.</p>
+					</section>
+				
+				</section>
+					
+				<section id="addcomment" class="comment-section">
+					
+					<section class="wrap">
+						<form id="commentForm" action="#" autocomplete="off">
+							<input type="text" id="nimi" name="nimi" class="defaultText textinput" title="Nimi:"><br />
+							<input type="text" id="email" name="email" class="defaultText textinput" title="E-mail*:"><br />
+							<input type="text" id="vanus" name="vanus" class="defaultText textinput" title="Vanus:"><br />
+							
+							<textarea id="comment" name="comment" class="defaultText textarea" title="Kommentaar"></textarea><br />
+							<input type="submit" class="submit" value="Kommenteeri">
+							<div class="clear"></div>
+						</form> 
+						
+						<p class="ps">PS! Kommentaarid on lisatud Buduaar.ee lugejate poolt ja Buduaar ei vastuta kommentaaride sisu eest.<br />* E-maili ja telefoninumber ei ole teistele lugejatele nähtavad</p>
+					</section>
+				</section>
+				
+				<footer>
+					<img class="baner" src="images/banner.jpg" alt="banner"/>
+								
+				</footer>
+				
+				
+				<div class="clear"></div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<script src="js/scripts.js"></script> 
+	<script src="js/app.js"></script>
+</body>
+</html>
