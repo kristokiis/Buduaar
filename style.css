@@ -1154,7 +1154,7 @@ body{
 	box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2) inset;
 	color: #FFFFFF;
 	display: inline-block;
-	font-size: 26px;
+	font-size: 24px;
 	padding: 24px 0 0 90px;
 	text-decoration: none;
 }
@@ -2316,12 +2316,29 @@ body{
 
 @media screen and (max-width: 640px) {
 	.newsContainer .page-wrap{
-		width: 47%;
+		width: 48%;
+	}
+	
+}
+@media screen and (max-width: 520px) {
+	.page-wrap {
+		padding: 8px;
 	}
 }
 
 @media screen and (max-width: 480px) {
-	
+	.page-wrap {
+		padding: 2px;
+		
+	}
+	.newsContainer .page-wrap{
+		width: 49%;
+	}
+	.news .meta{
+		font-size: 11px;
+		padding: 0;
+		padding-right: 5px;
+	}
 	/* Frontpage */
 	.intro_btns div span {
 		font-size: 22px;
@@ -2404,8 +2421,8 @@ body{
 	.news .text span {
 		display: block;
 		padding: 5px 5px 0 85px;
-		font-size: 14px;
-		line-height: 16px;
+		font-size: 12px;
+		line-height: 14px;
 	}
 	
 	
