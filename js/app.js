@@ -12,6 +12,7 @@ var allCats = '';
 
 var app = {
 
+	currentNews: 0,
 	serverUrl: 'http://buduaar.ee/Api/',
 	imageUrl: 'http://buduaar.ee/files/Upload/Articles/%image%',
 	
@@ -50,7 +51,7 @@ var app = {
 		
 		$('#searchForm').submit(function(e) {
 			e.preventDefault();
-			console.log('ok..');
+			//console.log('ok..');
 			app.getArticles('search', $('#search').val());
 		});
 		
@@ -153,7 +154,7 @@ var app = {
 	},
 	
 	parseHotNews: function(news) {
-		console.log(news);
+		//console.log(news);
 		template = $('.hotTemplate');
 		$('.hotnews_title').find('.title').html('Nädala kuumad! (' + news.length + ')');
 		$('#hotNews').html('');
@@ -199,11 +200,14 @@ var app = {
 			app.getNews($(this).attr('rel'));
 		});
 		
+		//$('body').css('');
+		
 	},
 	
 	getNews: function(id) {
 		data = {};
-		
+		app.currentNews = id;
+		$('.postthumb:first').attr('src', '');
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
 			
 			$('#gallery').hide();
@@ -213,10 +217,13 @@ var app = {
 				e.preventDefault();
 				$('#newsList').removeClass('opened');
 				$('#newsItem').removeClass('opened');
+				$('#newsContent').html('');
+				$('#commentsList').html('');
 			});
 			
 			$('#post').find('h2').html(results.data.headline);
 			$('#newsContent').html(results.data.contents);
+			
 			$('.postthumb:first').attr('src', results.data.image);
 			
 			$('.postthumb:first').unbind('load');
@@ -224,8 +231,52 @@ var app = {
 				$('#newsList').addClass('opened');
 				$('#newsItem').addClass('opened');
 				//setTimeout(function() {
-					$('body').scrollTop(0);
+				$('body').scrollTop(0);
 				//}, 100);
+				
+				if (results.data.pollActive != '0') {
+					totalVote = results.data.timesPollTaken;
+					pollQuestion = results.data.pollQuestion;
+					$('#comments').html('<h3>' + pollQuestion + '</h3>');
+					data = {};
+					data.action = 'unserialize';
+					data.options = results.data.pollOptions;
+					data.options2 = results.data.pollStatistics;
+					
+					pollEnds = new Date(results.data.pollEnds);
+					currentTime = new Date();
+					
+					if (pollEnds > currentTime)
+						pollActive = true;
+					else
+						pollActive = false;
+					
+					//console.log(pollEnds + ' ja ' + currentTime);
+					
+					//console.log(pollActive);
+					
+					$.get('http://projects.efley.ee/buduaar/support.php', data, function(results) {
+
+						if (localStorage.getItem("poll_" + app.currentNews) || !pollActive) {
+							
+							$.each(results.options, function(i, option) {
+								$('#comments').append('<p>' + option + '</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/totalVote)+'%"></section></section>');
+								
+							});
+						} else {
+							
+							$.each(results.options, function(i, option) {
+									$('#comments').append('<p><input type="radio" value="' + i + '">' + option + '</p>');
+								});
+								$('#comments').find('input').click(function(e) {
+									app.answerPoll($(this).val(), results, totalVote, pollQuestion);
+							});
+						}
+						$('#comments').show();
+						
+						
+					}, 'jsonp');
+				}
 				
 				$.get(app.serverUrl + 'Article/comments/' + id + '?limit=1000', data, function(results) {
 					
@@ -276,15 +327,73 @@ var app = {
 
 	},
 	
-	postComment: function(values) {
+	postComment: function() {
+		data = {};
 		
-		console.log(values);
+		data.action = 'postComment';
+		data.id = app.currentNews;
+		data.name = $('#nimi').val();
+		data.mail = $('#email').val();
+		data.age = $('#vanus').val();
+		data.comment = $('#comment').val();
+		
+		$.get('http://projects.efley.ee/buduaar/support.php', data, function(results) {
+			//console.log(results);
+			if (results.status == 'success') {
+				$('#nimi').val('');
+				$('#email').val('');
+				$('#vanus').val('');
+				$('#comment').val('');
+				
+				$.get(app.serverUrl + 'Article/comments/' + app.currentNews + '?limit=1000', data, function(results) {
+					
+					total = results.data.length;
+					$('.commentsCount').html(total);
+					
+					$('#commentsList').html('');
+					$.each(results.data, function(i, item) {
+					
+						$('.comments-template').find('h3').html(item.nickname + ' ' + item.time);
+						$('.comments-template').find('p').html(item.comment);
+						
+						$('#commentsList').append($('.comments-template').html());
+						
+					});
+					
+					$('.comments-tab:not(.active)').click();
+					
+				}, 'jsonp');
+				
+			}
+				
+			
+		}, 'jsonp');
 		
 	},
 	
-	postPollAnswer: function() {
+	answerPoll: function(answer, results, total, question) {
+		data = {};
 		
-		
+		data.action = 'answerPoll';
+		data.answer = answer;
+	
+		$.get('http://projects.efley.ee/buduaar/support.php', data, function(result) {
+			if (result.status == 'success') {
+				
+				total = parseInt(total)+1;
+				
+				//console.log(results);
+				
+				results.options2[answer] = parseInt(results.options2[answer]) + 1;
+			
+				localStorage.setItem("poll_" + app.currentNews, true);
+				$('#comments').html('<h3>' + question + '</h3>');
+				$.each(results.options, function(i, option) {
+					$('#comments').append('<p>' + option + '</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/total)+'%"></section></section>');
+								
+				});
+			}
+		}, 'jsonp');
 	}
 	
 }

@@ -15,7 +15,7 @@
     </description>
 
     <author href="https://www.efley.ee" email="kristo@efley.ee">
-        Efley OÜ
+        Efley
     </author>
     
     <access origin="*" />
@@ -35,18 +35,17 @@
     
     <icon src="assets/icon.png" />
 
-    <gap:splash src="assets/splash/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
-    <gap:splash src="assets/splash/android/screen-mdpi-portrait.png"  gap:platform="android" gap:density="mdpi" />
-    <gap:splash src="assets/splash/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" />
-    <gap:splash src="assets/splash/android/screen-xhdpi-portrait.png" gap:platform="android" gap:density="xhdpi" />
+    <gap:splash src="assets/splash/android/screen-ldpi-portrait.jpg"  gap:platform="android" gap:density="ldpi" />
+    <gap:splash src="assets/splash/android/screen-mdpi-portrait.jpg"  gap:platform="android" gap:density="mdpi" />
+    <gap:splash src="assets/splash/android/screen-hdpi-portrait.jpg"  gap:platform="android" gap:density="hdpi" />
+    <gap:splash src="assets/splash/android/screen-xhdpi-portrait.jpg" gap:platform="android" gap:density="xhdpi" />
 
-    <gap:splash src="assets/splash/ios/screen-iphone-portrait.png"    	gap:platform="ios"	width="320" height="480" />
-    <gap:splash src="assets/splash/ios/screen-iphone-portrait-2x.png" 	gap:platform="ios"	width="640" height="960" />
-    <gap:splash src="assets/splash/ios/screen-iphone-portrait-2x.png" 	gap:platform="ios"	width="640" height="960" />
-    <gap:splash src="assets/splash/ios/Default-568h@2x.png" 			gap:platform="ios"	width="640" height="1136" />
+    <gap:splash src="assets/splash/ios/screen-iphone-portrait.jpg"    	gap:platform="ios"	width="320" height="480" />
+    <gap:splash src="assets/splash/ios/screen-iphone-portrait-2x.jpg" 	gap:platform="ios"	width="640" height="960" />
+    <gap:splash src="assets/splash/ios/Default-568h@2x.jpg" 			gap:platform="ios"	width="640" height="1136" />
     
-    <gap:splash src="assets/splash/ios/screen-ipad-portrait.png"      gap:platform="ios"     width="768" height="1024" />
-    <gap:splash src="assets/splash/ios/screen-ipad-landscape.png"     gap:platform="ios"     width="1024" height="768" />
+    <gap:splash src="assets/splash/ios/screen-ipad-portrait.jpg"      gap:platform="ios"     width="768" height="1024" />
+    <gap:splash src="assets/splash/ios/screen-ipad-landscape.jpg"     gap:platform="ios"     width="1024" height="768" />
     
 	
 

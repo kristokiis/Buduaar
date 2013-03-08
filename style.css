@@ -1985,8 +1985,8 @@ body{
 	background: url("images/loader.png") repeat-x scroll 0 0 transparent;
 	height: 11px;
 	width: 66%;
-	
-
+}
+.loader.animated {
 	-webkit-animation: infiniteloading 1s linear infinite, loadpreview 10s linear infinite;
 	-moz-animation:    infiniteloading .5s linear infinite, loadpreview 10s linear infinite;
 }
