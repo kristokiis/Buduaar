@@ -10,6 +10,9 @@ var user = {};
 var newsCats = {};
 var allCats = '';
 
+var newsType = '';
+var newsSearch = '';
+
 var app = {
 
 	currentNews: 0,
@@ -31,7 +34,7 @@ var app = {
 	initNews: function() {
 		this.initNewsLinks();
 		this.getNewsCats();
-		this.getArticles('hot', false);
+		this.getArticles('hot', false, 0);
 	},
 	
 	initProducts: function() {
@@ -46,13 +49,13 @@ var app = {
 	initNewsLinks: function() {
 		
 		$('.today').click(function(e) {
-			app.getArticles('today');
+			app.getArticles('today', false, 0);
 		});
 		
 		$('#searchForm').submit(function(e) {
 			e.preventDefault();
 			//console.log('ok..');
-			app.getArticles('search', $('#search').val());
+			app.getArticles('search', $('#search').val(), 0);
 		});
 		
 		$('.comments-tab').click(function(e) {
@@ -109,44 +112,51 @@ var app = {
 				e.preventDefault();
 				$('.categories').removeClass('active');
 				$('.sidebar').removeClass('active');
-				app.getArticles('category', $(this).data('cats'));
+				app.getArticles('category', $(this).data('cats'), 0);
 				if ($('#newsList').hasClass('opened')) {
 					$('#newsList').removeClass('opened');
 					$('#newsItem').removeClass('opened');
 				}
 			});
 			
-			app.getArticles('last', false);
+			app.getArticles('last', false, 0);
 			
 		}, 'jsonp');
 		
 	},
 	
-	getArticles: function(type, search) {
+	getArticles: function(type, search, start) {
+		
+		newsType = type;
+		newsSearch = search;
 		
 		data = {};
 		
 		if (type == 'hot') {
-			searchStr = '?categories=58&limit=8';
+			searchStr = '?categories=58&limit=8&start=' + start;
 		} else if (type == 'last') {
-			searchStr = '?lang=est&limit=20';
+			searchStr = '?lang=est&limit=20&start=' + start;
 		} else if (type == 'today') {
 			var today = new Date();
 			//today = 
-			searchStr = '?lang=est&limit=20&startDate=05-03-2013&endDate=05-03-2013';
+			searchStr = '?lang=est&limit=20&startDate=05-03-2013&endDate=05-03-2013&start=' + start;
 		} else if (type == 'search') {
-			searchStr = '?lang=est&limit=20&word=' + search;
+			searchStr = '?lang=est&limit=20&word=' + search + '&start=' + start;
 		} else if (type == 'category') {
 			//console.log(search);
-			searchStr = '?lang=est&limit=20&categories=' + search;
+			searchStr = '?lang=est&limit=20&categories=' + search + '&start=' + start;
 		}
+		
 		
 		$.get(app.serverUrl + 'Article/search/' + searchStr, data, function(results) {
 			
 			if (type == 'hot') {
 				app.parseHotNews(results.data);
 			} else {
-				app.parseNewsList(results.data);
+				if (start > 0)
+					app.parseNewsList(results.data, true);
+				else
+					app.parseNewsList(results.data, false);
 			}
 			
 		}, 'jsonp');
@@ -182,9 +192,10 @@ var app = {
 		});
 	},
 	
-	parseNewsList: function(news) {
+	parseNewsList: function(news, add) {
 		template = $('.newsTemplate');
-		$('.newslist').html('');
+		if (!add)
+			$('.newslist').html('');
 		$.each(news, function(i, item) {
 			image = app.imageUrl.replace('%image%', item.smallIcon);
 			template.find('a').attr('rel', item.id);
@@ -200,7 +211,14 @@ var app = {
 			app.getNews($(this).attr('rel'));
 		});
 		
-		//$('body').css('');
+		$(window).unbind('scroll');
+		$(window).scroll(function() {
+		   if($(window).scrollTop() + $(window).height() == $(document).height()) {
+		       //console.log('we are on the bottom, load more');
+		       totalNews = $('.newslist').find('.news').length;
+		       app.getArticles(newsType, newsSearch, totalNews);
+		   }
+		});
 		
 	},
 	
@@ -209,6 +227,8 @@ var app = {
 		app.currentNews = id;
 		$('.postthumb:first').attr('src', '');
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
+			
+			console.log(results);
 			
 			$('#gallery').hide();
 			$('#comments').hide();
@@ -225,6 +245,7 @@ var app = {
 			$('#newsContent').html(results.data.contents);
 			
 			$('.postthumb:first').attr('src', results.data.image);
+			$('.postthumb:first').attr('alt', results.data.headline);
 			
 			$('.postthumb:first').unbind('load');
 			$('.postthumb:first').load(function() {
@@ -233,6 +254,10 @@ var app = {
 				//setTimeout(function() {
 				$('body').scrollTop(0);
 				//}, 100);
+				console.log(results.data.image);
+				$('.postthumb:first').parent().attr('href', results.data.image);
+				
+				var myPhotoSwipeMain = $('.postthumb:first').parent().photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
 				
 				if (results.data.pollActive != '0') {
 					totalVote = results.data.timesPollTaken;
