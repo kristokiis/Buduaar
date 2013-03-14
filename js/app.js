@@ -572,7 +572,7 @@ var app = {
 	parseHotNews: function(news) {
 		//console.log(news);
 		template = $('.hotTemplate');
-		$('.hotnews_title').find('.title').html('Nädala kuumad! (' + news.length + ')');
+		$('.hotnews_title').find('.title').html('Nädala kuumad!');
 		$('#hotNews').html('');
 		$.each(news, function(i, item) {
 			image = app.imageUrl.replace('%image%', item.largeIcon);
