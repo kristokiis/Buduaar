@@ -435,8 +435,11 @@ var app = {
 		$('#commentForm').submit(function(e) {
 			e.preventDefault();
 			status = validateComment();
-			if (status == true)
+			//console.log(status);
+			if (status == true || status == 'true') {
+				//console.log('davai');
 				app.postComment();
+			}
 		})
 		
 	},
@@ -628,7 +631,7 @@ var app = {
 		$('.postthumb:first').attr('src', '');
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
 			
-			console.log(results);
+			//console.log(results);
 
 			$('#gallery').hide();
 			$('#comments').hide();
@@ -660,7 +663,7 @@ var app = {
 				//setTimeout(function() {
 				$('body').scrollTop(0);
 				//}, 100);
-				console.log(results.data.image);
+				//console.log(results.data.image);
 				$('#newsImage').attr('href', results.data.image);
 				//myPhotoSwipeMain = {};
 				//var myPhotoSwipeMain = $('#newsImage').photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
@@ -776,10 +779,10 @@ var app = {
 		data.mail = $('#email').val();
 		data.age = $('#vanus').val();
 		data.comment = $('#comment').val();
-		
+		//console.log(data);
 		$.get(app.supportUrl, data, function(results) {
 			//console.log(results);
-			if (results.status == 'success') {
+			if (results.code == '1') {
 				$('#nimi').val('');
 				$('#email').val('');
 				$('#vanus').val('');
@@ -819,7 +822,7 @@ var app = {
 		data.answer = answer;
 	
 		$.get(app.supportUrl, data, function(result) {
-			if (result.status == 'success') {
+			if (results.code == '1') {
 				
 				total = parseInt(total)+1;
 				
@@ -827,7 +830,7 @@ var app = {
 				
 				results.options2[answer] = parseInt(results.options2[answer]) + 1;
 			
-				//localStorage.setItem("poll_" + app.currentNews, true);
+				localStorage.setItem("poll_" + app.currentNews, true);
 				$('#comments').html('<h3>' + question + '</h3>');
 				$.each(results.options, function(i, option) {
 					$('#comments').append('<p>' + option + '</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/total)+'%"></section></section>');
