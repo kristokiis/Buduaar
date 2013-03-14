@@ -20,7 +20,7 @@ var app = {
 	currentNews: 0,
 	serverUrl: 'http://buduaar.ee/sites/api/',
 	imageUrl: 'http://buduaar.ee/files/Upload/Articles/%image%',
-	supportUrl: 'http://projects.efley.ee/buduaar/support.php/',
+	supportUrl: 'http://m.buduaar.ee/support.php/',
 	session: '',
 	
 	init: function() {
@@ -50,11 +50,11 @@ var app = {
 	},
 	
 	showLoader: function() {
-		$('.loader').css('height', $('body').height() + 'px');
+		$('.ajax-loader').css('height', $('body').height() + 'px');
 		
-		$('.loader').find('img').center();
+		$('.ajax-loader').find('img').center();
 		
-		$('.loader').fadeIn();
+		$('.ajax-loader').fadeIn();
 		
 	},
 	
@@ -173,7 +173,7 @@ var app = {
 					$('.newMessagesCount').html(total);
 				}, 'jsonp');
 			}
-			$('.loader').hide();
+			$('.ajax-loader').hide();
 		
 			if (!start)
 				$('#messagesList').html('');
@@ -245,7 +245,7 @@ var app = {
 		//data.markAsRead = true;
 		
 		$.get(app.serverUrl + 'User/message/' + id, data, function(results) {
-			$('.loader').hide();
+			$('.ajax-loader').hide();
 			
 			$('.menu_bar').find('.back').unbind('click');
 			$('.menu_bar').find('.back').click(function(e) {
@@ -472,6 +472,7 @@ var app = {
 				e.preventDefault();
 				$('.categories').removeClass('active');
 				$('.sidebar').removeClass('active');
+				$('body').scrollTop(0);
 				app.getArticles('category', $(this).data('cats'), 0);
 				
 				app.initNewsListScroll();
@@ -524,7 +525,7 @@ var app = {
 				week_ago = dd + '-' + mm + '-' + yyyy;
 				searchStr = '?lang=est&limit=10&start=0&orderBy=views&startDate=' + week_ago + '';
 				if (start > 0) {
-					$('.loader').hide();
+					$('.ajax-loader').hide();
 					return false;
 				}
 				break;
@@ -559,7 +560,7 @@ var app = {
 					app.parseNewsList(results.data, false);
 			}
 			
-			$('.loader').hide();
+			$('.ajax-loader').hide();
 			
 		}, 'jsonp');
 		
@@ -653,7 +654,7 @@ var app = {
 			
 			$('.postthumb:first').unbind('load');
 			$('.postthumb:first').load(function() {
-				$('.loader').hide();
+				$('.ajax-loader').hide();
 				$('#newsList').addClass('opened');
 				$('#newsItem').addClass('opened');
 				//setTimeout(function() {
@@ -814,6 +815,7 @@ var app = {
 		data = {};
 		
 		data.action = 'answerPoll';
+		data.id = app.currentNews;
 		data.answer = answer;
 	
 		$.get(app.supportUrl, data, function(result) {
@@ -825,7 +827,7 @@ var app = {
 				
 				results.options2[answer] = parseInt(results.options2[answer]) + 1;
 			
-				localStorage.setItem("poll_" + app.currentNews, true);
+				//localStorage.setItem("poll_" + app.currentNews, true);
 				$('#comments').html('<h3>' + question + '</h3>');
 				$.each(results.options, function(i, option) {
 					$('#comments').append('<p>' + option + '</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/total)+'%"></section></section>');

@@ -154,22 +154,12 @@ function validateComment(){
 	
 	jQuery("#nimi, #email, #vanus, #comment").removeClass('alertForm');		
 	var toret = true;
-	if(jQuery('#nimi').val() == jQuery("#nimi").attr('title')){	
-		jQuery("#nimi").addClass('alertForm');
-		toret = false;
-	}
+	
 	if($("#email").val() == "" || !validateEmail($("#email").val()) || $("#email").val() == $("#email")[0].title){
 		$("#email").addClass('alertForm');
 		toret = false;
 	}
-	if(jQuery("#vanus").val() == jQuery("#vanus").attr('title')){
-		jQuery("#vanus").addClass('alertForm');
-		toret = false;
-	}
-	if(jQuery("#comment").val() == jQuery("#comment").attr('title')){
-		jQuery("#comment").addClass('alertForm');
-		toret = false;
-	}
+	
 	return toret;
 }
 

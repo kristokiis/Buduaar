@@ -130,7 +130,7 @@ body{
 	
 }
 
-.loader {
+.ajax-loader {
 	display: none;
 	position: absolute;
 	z-index: 999;
@@ -138,7 +138,7 @@ body{
 	height: 100%;
 	background: rgba(0, 0, 0, 0.3);
 }
-.loader img {
+.ajax-loader img {
 	position: absolute;
     top: 50%;
     left: 50%;
