@@ -20,8 +20,122 @@
 	
 	
 </head>
-<body class="uudised">
-	<div class="page-sidebar-wrap">
+<body class="frontpage uudised">
+	<div class="loader">
+		<img src="images/ajax-loader.gif" />
+	</div>
+	<div id="page-wrap">
+		
+		<header>
+			<img class="logo" src="images/logo.png" alt="logo"/>
+			
+			<img class="hr" src="images/hr.png" alt="hr"/>
+		</header>
+		
+		<section>
+			 
+			<nav class="intro_btns">
+				<a href="#" class="news-link">
+					<div class="dark"><img src="images/web_img.png" width="101" height="98" alt="thumb"/><span>Buduaar.ee</span></div>
+				</a>
+				<a href="#" class="market-link">
+					<div class="pink"><img src="images/turg_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;<strong>(arendamisel)</strong></span></div>
+				</a>
+				<div class="lightpink open_bt_login"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE&nbsp;<strong>(arendamisel)</strong></span></div>
+			</nav>
+			<a href="http://www.buduaar.ee" style="color:white;width:100%;text-align:center;" class="usual-site">Buduaari veebiversiooni näeb SIIT</a>
+			<section class="loginform bturglogin">
+				<section class="wrap">
+					<form id="loginForm" action="#" autocomplete="off" onsubmit="return validateForm();">
+						<input type="text" id="username" name="username" class="defaultText textinput" title="Kasutajanimi"><br />
+						<input type="password" id="password" name="password" class="defaultText textinput" title="Parool"><br />
+						<input type="submit" class="submit" value="Logi sisse">
+					</form> 
+				</section>
+			</section>
+		</section>
+		
+		
+		<!--footer id="footer">
+			<img class="baner" src="images/banner.jpg" alt="thumb"/>
+						
+		</footer>-->
+		
+		
+		<div class="clear"></div>
+	</div>
+	
+	<div class="page-sidebar-wrap" id="marketPage" style="display:none;">
+		<div class="page-wrap">
+
+			<header>
+				<section class="logo_small">
+					<a href="#" class="logo-link"><img src="images/bturg_small.png" alt="logo"/></a>
+				</section>
+				
+				<div class="clear"></div>
+			</header>
+
+		</div>
+		
+		<section class="barmenu">
+		
+			<nav class="menu_bar">
+				<a class="back" href="#"><span></span></a>
+				<div class="topname"><a href="#" onclick="alert('Arendamisel');"><span>Alusta uut</span></a></div>
+				<a class="bank" href="#"><span class="">&nbsp;</span></a>
+				<a class="logout" href="#"><span></span></a>
+				<a class="home" href="index.html"><span></span></a>
+				
+				<span class="justifyer"></span>
+			</nav>
+			
+			<section class="searchbox">
+				<form id="searchForm" action="#" autocomplete="off" onsubmit="return validateForm();">
+					<input type="text" id="search" name="search" class="defaultText textinput" title="">
+					<input type="submit" class="submit" value="Otsi">
+				</form> 
+			</section>
+		</section>	
+		<div class="messagesContainer">
+			<div class="page-wrap toodepage" id="messageList">
+				<a href="#" class="messages-tab arrived active">Saabunud(<span class="newMessagesCount">0</span>)</a>
+				<a href="#" class="messages-tab send">Saadetud</a>
+				<section id="messagesList" class="comment-section answersList">
+				</section>
+				<section class="messageTemplate" style="display:none;">
+					<section class="wrap">
+						<h3>kasutaja aeg</h3>
+						<p>pealkiri</p>
+					</section>
+				</section>
+			</div>
+			
+			<div class="page-wrap" id="messageDetail">
+				<section id="messageDetail" class="comment-section answersList" style="margin-top:56px;">
+					<section class="wrap">
+						<h3>kasutaja aeg</h3>
+						<p><strong>pealkiri</strong></p>
+						<p class="message-description">sisu</p>
+					</section>
+				</section>
+				<section class="answerForm" style="display:block;">
+					<section class="wrap">
+						<form id="messageForm" action="#" autocomplete="off">
+							<input type="text" id="heading" name="heading" class="defaultText textinput" title="Pealkiri"><br />
+							<textarea id="message" name="message" class="defaultText textarea" title="Teade"></textarea><br />
+							<input type="submit" class="submit" value="Saada">
+							<div class="clear"></div>
+						</form> 
+						
+						
+					</section>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-sidebar-wrap" id="newsPage" style="display:none;">
 		<aside class="sidebar">
 			<section class="oveflowscroll">
 				<nav class="menu_level1">
@@ -35,15 +149,18 @@
 		
 			<header>
 				<section class="logo_small">
-					<img src="images/logo_small.png" alt="logo"/>
+					<a href="#" class="logo-link"><img src="images/logo_small.png" alt="logo"/></a>
 				</section>
 				
 				<nav class="sidebar_nav">
-					<a href="#cats" class="categories"><span>Kategooriad</span><div class="categoriesImg"></div></a>
+					<a href="#cats" class="refresh"><span></span><div class="refreshImg"></div></a>
+					<a href="#cats" class="categories"><span></span><div class="categoriesImg"></div></a>
 				</nav>
 				
 				<div class="clear"></div>
 			</header>
+			
+			
 
 		</div>
 		
@@ -58,10 +175,11 @@
 			</nav>
 			
 			<section class="searchbox">
-				<form id="searchForm" action="#" autocomplete="off">
+				<form id="searchForm" action="#" autocomplete="off" style="display:none;">
 					<input type="text" id="search" name="search" class="defaultText textinput" title="">
 					<input type="submit" class="submit" value="Otsi">
 				</form> 
+				<p class="android-message" style="color:white;font-size:20px;line-height:34px;">Lae alla androidi rakendus <a href="#" style="color:white;">siit</a></p>
 			</section>
 		</section>	
 		<div class="newsContainer">
@@ -72,7 +190,7 @@
 				<section class="hotnews">
 					
 					<section class="hotnews_title">
-						<div class="title">Nädala kuumad! (8)</div>
+						<div class="title">Nädala kuumad!</div>
 						<div class="chilli"></div>
 					</section>
 					
@@ -105,12 +223,12 @@
 						</a>
 					</article>
 				</section>
-				
+				<!--
 				<footer>
 					<img class="baner" src="images/banner.jpg" alt="banner"/>
 								
 				</footer>
-				
+				-->
 				
 				<div class="clear"></div>
 			
@@ -126,12 +244,13 @@
 					
 					<article id="post">
 						<h2>Moepromootor Mari Martin: Eesti naine ei julge sageli väärilist palka küsida</h2>
-						<a href="#"><img class="postthumb" src="images/postimg.png" alt="thumb"/></a>
-						<p id="newsContent"><p>
+						<a class="add-invisible" href="#" id="newsImage"><img class="postthumb" src="images/postimg.png" alt="thumb"/></a>
+						<p class="add-invisible" id="newsContent"><p>
+						<p class="add-visible" id="newsShortContent" style="display:none;"><p>
 						<br style="clear:both;" />
 					</article>
 					
-					<section id="gallery">
+					<section id="gallery" class="add-invisible">
 						<h3>Galerii</h3>
 						<div class="gallery-slider">
 							<ul class="slides gallery">
@@ -140,7 +259,7 @@
 						</div>
 					</section>
 					
-					<section id="comments">
+					<section id="comments" class="add-invisible">
 						
 						
 					</section>
@@ -150,7 +269,7 @@
 				<a href="#" class="comments-tab active">Kommentaarid(<span class="commentsCount"></span>)</a>
 				<a href="#" class="comments-tab add-comment">Lisa kommentaar</a>
 				
-				<section id="commentsList" class="comment-section">
+				<section id="commentsList" class="comment-section answersList">
 					
 					
 				</section>
@@ -164,7 +283,7 @@
 				
 				</section>
 					
-				<section id="addcomment" class="comment-section">
+				<section id="addcomment" class="comment-section answerForm">
 					
 					<section class="wrap">
 						<form id="commentForm" action="#" autocomplete="off">
@@ -180,12 +299,12 @@
 						<p class="ps">PS! Kommentaarid on lisatud Buduaar.ee lugejate poolt ja Buduaar ei vastuta kommentaaride sisu eest.<br />* E-maili ja telefoninumber ei ole teistele lugejatele nähtavad</p>
 					</section>
 				</section>
-				
+				<!--
 				<footer>
 					<img class="baner" src="images/banner.jpg" alt="banner"/>
 								
 				</footer>
-				
+				-->
 				
 				<div class="clear"></div>
 			</div>
@@ -195,5 +314,15 @@
 	
 	<script src="js/scripts.js"></script> 
 	<script src="js/app.js"></script>
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-1288764-14']);
+	  _gaq.push(['_trackPageview']);
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
 </body>
 </html>

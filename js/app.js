@@ -13,28 +13,373 @@ var allCats = '';
 var newsType = '';
 var newsSearch = '';
 
+var loaded = false;
+
 var app = {
 
 	currentNews: 0,
-	serverUrl: 'http://buduaar.ee/Api/',
+	serverUrl: 'http://buduaar.ee/sites/api/',
 	imageUrl: 'http://buduaar.ee/files/Upload/Articles/%image%',
+	supportUrl: 'http://projects.efley.ee/buduaar/support.php/',
+	session: '',
 	
 	init: function() {
 		this.initLogin();
-		this.initNews();
+		this.initNews(true);
 		
 		//this.initProducts();
 		//this.initAccount();
-	},
-	
-	initLogin: function() {
+		
+		$('.logo-link').click(function(e){
+			e.preventDefault();
+			$('body').scrollTop(0);
+			$('#page-wrap').fadeIn('fast');
+			$('#newsPage').hide();
+			$('#marketPage').hide();
+			$('.page-wrap').removeClass('opened');
+		});
+		$('.home').click(function(e){
+			e.preventDefault();
+			$('body').scrollTop(0);
+			$('#page-wrap').fadeIn('fast');
+			$('#newsPage').hide();
+			$('#marketPage').hide();
+			$('.page-wrap').removeClass('opened');
+		});
 		
 	},
 	
-	initNews: function() {
+	showLoader: function() {
+		$('.loader').css('height', $('body').height() + 'px');
+		
+		$('.loader').find('img').center();
+		
+		$('.loader').fadeIn();
+		
+	},
+	
+	initLogin: function() {
+		$('.news-link').unbind('click');
+		$('.news-link').click(function(e) {
+			e.preventDefault();
+			$('#page-wrap').hide();
+			$('#newsPage').fadeIn('fast');
+			
+			app.initNewsListScroll();
+			
+		});
+		$('.open_bt_login').unbind('click');
+		
+		/*$('.open_bt_login').toggle(function(e) {
+			e.preventDefault();
+			$(this).addClass('active');	
+			$('.bturglogin, #footer').addClass('active');
+			$('.usual-site').hide();
+			$('body').animate({scrollTop: "200px"}, 200);
+		}, function(e) {
+			e.preventDefault();
+			$(this).removeClass('active');	
+			$('.bturglogin, #footer').removeClass('active');
+			$('.usual-site').show();
+			$('body').animate({scrollTop: "0px"}, 200);
+		});*/
+		$('#loginForm').unbind('submit');
+		$('#loginForm').submit(function(e) {
+			e.preventDefault();
+			jQuery("#username, #password").removeClass('alertForm');		
+			var toret = true;
+			if(jQuery('#username').val() == jQuery("#username").attr('title')){	
+				jQuery("#username").addClass('alertForm');
+				toret = false;
+			}
+			if(jQuery("#password").val() == jQuery("#password").attr('title')){
+				jQuery("#password").addClass('alertForm');
+				toret = false;
+			}
+			
+			if (toret) {
+				
+				data.username = $('#username').val();
+				data.password = $('#password').val();
+			
+				$.get(app.supportUrl + '?action=login', data, function(results) {
+					
+					if (results.code == '1') {
+						app.session = results.data;
+						$('.open_bt_login').find('span').html('TEATED');
+						$('.open_bt_login').removeClass('active');	
+						$('.bturglogin, #footer').removeClass('active');
+						$('.usual-site').show();
+						$('body').animate({scrollTop: "0px"}, 200);
+						
+						$('#page-wrap').hide();
+						$('#marketPage').fadeIn('fast');
+						
+						app.initMessagesPage();
+						loaded = true;
+						$(window).unbind('scroll');
+						$(window).scroll(function() {
+						   if($(window).scrollTop() + $(window).height() == $(document).height() && !loaded) {
+						   	   loaded = true;
+						       totalNews = $('.messagesList').find('.wrap').length;
+						       app.initMessagesPage(totalNews, 0);
+						       setTimeout(function() {
+							       loaded = false;
+						       }, 1000);
+						       //alert('whaat');
+						   }
+						});	
+						
+					} else if (results.code == '201') {
+						jQuery("#username").addClass('alertForm');
+					} else if (results.code == '202') {
+						
+					} else if (results.code == '203') {
+						
+					} else if (results.code == '203') {
+						jQuery("#password").addClass('alertForm');
+					}
+				
+				}, 'jsonp');
+			}
+			
+		});
+		
+	},
+	
+	initMessagesPage: function(start, send) {
+	
+		app.showLoader();
+		
+		data.limit = 20;
+		data.start = start;
+		data.onlyUnread = 0;
+		data.sent = send;
+		
+		$.get(app.serverUrl + 'User/messages/', data, function(results) {
+		
+			if (!send) {
+				data = {};
+				data.limit = 100;
+				data.start = 0;
+				data.onlyUnread = 1;
+				data.session = app.session;
+				data.sent = 0;
+				
+				$.get(app.serverUrl + 'User/messages/', data, function(results) {
+					total = results.data.length;
+					if (!parseInt(total))
+						total = 0;
+					$('.newMessagesCount').html(total);
+				}, 'jsonp');
+			}
+			$('.loader').hide();
+		
+			if (!start)
+				$('#messagesList').html('');
+			$.each(results.data, function(i, item) {
+				$('.messageTemplate').find('.wrap').attr('id', item.id);
+				$('.messageTemplate').find('h3').html(item.username + ' ' + item.datetime);
+				$('.messageTemplate').find('p').html(item.headline);
+				$('#messagesList').append($('.messageTemplate').html());
+			});
+			loaded = false;
+			
+			$('#messagesList').find('.wrap').click(function(){
+				app.initMessage($(this).attr('id'), send);
+				
+			});
+			
+			$('.open_bt_login').unbind('click');
+			$('.open_bt_login').click(function(e) {
+				e.preventDefault();
+				$('#page-wrap').hide();
+				$('#marketPage').fadeIn('fast');
+				app.initMessagesPage();
+			});
+			
+			$('.logout').unbind('click');
+			$('.logout').click(function(e) {
+				e.preventDefault();
+				app.session = '';
+				$('#page-wrap').fadeIn('fast');
+				$('#marketPage').hide();
+				$('.open_bt_login').find('span').html('LOGI SISSE');
+				app.initLogin();
+			});
+			
+			$('.menu_bar').find('.back').unbind('click');
+			$('.menu_bar').find('.back').click(function(e) {
+				e.preventDefault();
+				$('#page-wrap').fadeIn('fast');
+				$('#marketPage').hide();
+			});
+			
+			$('.messages-tab').unbind('click');
+			$('.messages-tab').click(function(e) {
+				e.preventDefault();
+				$('.messages-tab').removeClass('active');
+				$(this).addClass('active');
+				if ($(this).hasClass('arrived')) {
+					app.initMessagesPage(0, 0);
+				} else {
+					app.initMessagesPage(0, 1);
+				}
+			});
+			
+		}, 'jsonp');
+		
+	},
+	
+	initMessage: function(id, sent) {
+	
+		app.showLoader();
+		
+		id = id;
+		
+		data = {};
+		if (sent)
+			data.viewAsSent = 1;
+		else
+			data.markAsRead = 1;
+		//data.markAsRead = true;
+		
+		$.get(app.serverUrl + 'User/message/' + id, data, function(results) {
+			$('.loader').hide();
+			
+			$('.menu_bar').find('.back').unbind('click');
+			$('.menu_bar').find('.back').click(function(e) {
+				e.preventDefault();
+				$('.messagesContainer').find('.page-wrap').removeClass('opened');
+				$('.menu_bar').find('.back').unbind('click');
+				$('.menu_bar').find('.back').click(function(e) {
+					e.preventDefault();
+					$('#page-wrap').fadeIn('fast');
+					$('#marketPage').hide();
+				});
+			});
+			
+			$('#messageDetail').find('h3').html(results.data.username + ' ' + results.data.datetime);
+			$('#messageDetail').find('strong').html(results.data.headline);
+			$('#messageDetail').find('.message-description').html(results.data.contents);
+			$('#heading').val(results.data.headline);
+			
+			
+			//check new messages :)			
+			$.get(app.serverUrl + 'User/messages/', data, function(results) {
+				total = results.data.length;
+				if (!parseInt(total))
+					total = 0;
+				$('.newMessagesCount').html(total);
+			}, 'jsonp');
+			
+			$('.messagesContainer').find('.page-wrap').addClass('opened');
+		
+			$('#messageForm').unbind('submit');
+			$('#messageForm').submit(function(e) {
+				e.preventDefault();
+				toret = true;
+				if(jQuery("#heading").val() == jQuery("#heading").attr('title')){
+					jQuery("#heading").addClass('alertForm');
+					toret = false;
+				}
+				if(jQuery("#message").val() == jQuery("#message").attr('title') && jQuery("#message").val() < 3){
+					jQuery("#message").addClass('alertForm');
+					toret = false;
+				}
+				if (toret) {
+					data = {};
+					data.heading = $('#heading').val();
+					data.message = $('#message').val();
+					data.session = app.session;
+					if (sent)
+						data.to = results.data.to;
+					else
+						data.to = results.data.from;
+					
+					$.get(app.supportUrl + '?action=sendMessage', data, function(results) {
+						jQuery("#heading").removeClass('alertForm');
+						jQuery("#message").removeClass('alertForm').val('');
+						
+						$('#marketPage').find('.menu_bar').find('.back').click();
+						$('#marketPage').find('.send').click();
+					
+					}, 'jsonp');
+				}
+			});
+		
+		}, 'jsonp');
+		
+	},
+	
+	initNewsListScroll: function() {
+	
+		$(window).unbind('scroll');
+		$(window).scroll(function() {
+		   if($(window).scrollTop() + $(window).height() == $(document).height() && !loaded) {
+		   	   loaded = true;
+		       totalNews = $('.newslist').find('.news').length;
+		       app.getArticles(newsType, newsSearch, totalNews);
+		       setTimeout(function() {
+			       loaded = false;
+			       
+			       
+			       
+		       }, 1000);
+		       //alert('whaat');
+		   }
+		});	
+		setTimeout(function() {
+			if (1 == 2 && !localStorage.getItem("android_denied")) {
+			//if (navigator.userAgent.match(/Android/i)) {
+				$('#newsPage').find('#searchForm').hide();
+				$('#newsPage').find('.android-message').show();
+				$('#newsPage').find('.searchbox').addClass('active');
+				$('#newsPage').find('.newssection, .newssectionopen, .barsubmenu, .underbarsubmenu, .toodepage, .account').addClass('active');
+			}
+			setTimeout(function() {
+				$('#newsPage').find('#searchForm').show();
+				$('#newsPage').find('.android-message').hide();
+				$('#newsPage').find('.searchbox').removeClass('active');
+				$('#newsPage').find('.newssection, .newssectionopen, .barsubmenu, .underbarsubmenu, .toodepage, .account').removeClass('active');
+			}, 5000);
+		}, 1000);
+		
+		$('.android-close').click(function(e) {
+			localStorage.setItem("android_denied", true);
+		});
+		
+		$('.menu_bar').find('.back').unbind('click');
+		$('.menu_bar').find('.back').click(function(e) {
+			e.preventDefault();
+			if (newsType != 'last') {
+				app.getArticles('last', false, 0);
+			} else {	
+				$('#newsPage').hide();
+				$('#page-wrap').fadeIn('fast');
+				$(window).unbind('scroll');
+			}
+		});
+		
+		setTimeout(function(){
+			var pageheight = $(document).height();
+			$('.oveflowscroll').css('height', pageheight);
+		},500);
+		
+	},
+	
+	initNews: function(cats) {
 		this.initNewsLinks();
 		this.getNewsCats();
 		this.getArticles('hot', false, 0);
+		
+		$('#newsPage').find('.refresh').unbind('click');
+		$('#newsPage').find('.refresh').click(function(e) {
+			e.preventDefault();
+			app.getArticles('hot', false, 0);
+			app.getArticles('last', false, 0);
+			
+		})
 	},
 	
 	initProducts: function() {
@@ -49,7 +394,13 @@ var app = {
 	initNewsLinks: function() {
 		
 		$('.today').click(function(e) {
+			e.preventDefault();
 			app.getArticles('today', false, 0);
+		});
+		
+		$('.top10').click(function(e) {
+			e.preventDefault();
+			app.getArticles('top10', false, 0);
 		});
 		
 		$('#searchForm').submit(function(e) {
@@ -66,9 +417,17 @@ var app = {
 			if ($(this).hasClass('add-comment')) {
 				$('#commentsList').hide();
 				$('#addcomment').show();
+				
+				$('.add-invisible').hide();
+				$('.add-visible').show();
+				$('#addcomment').focus();
+				$('body').scrollTop(0);
+				
 			} else {
 				$('#commentsList').show();
 				$('#addcomment').hide();
+				$('.add-invisible').show();
+				$('.add-visible').hide();
 			}
 			
 		});
@@ -76,7 +435,7 @@ var app = {
 		$('#commentForm').submit(function(e) {
 			e.preventDefault();
 			status = validateComment();
-			if (status)
+			if (status == true)
 				app.postComment();
 		})
 		
@@ -106,6 +465,7 @@ var app = {
 				});
 				$('.menu_level1').append('<a href="#" data-cats="' + cats + '">' + item.nameEst + '</a>');
 			});
+			//$('.menu_level1').append('<a href="#" data-cats="' + 17 + '">Shopping</a>');
 			//console.log(allCats);
 			$('.menu_level1').find('a').unbind('click');
 			$('.menu_level1').find('a').click(function(e) {
@@ -113,10 +473,8 @@ var app = {
 				$('.categories').removeClass('active');
 				$('.sidebar').removeClass('active');
 				app.getArticles('category', $(this).data('cats'), 0);
-				if ($('#newsList').hasClass('opened')) {
-					$('#newsList').removeClass('opened');
-					$('#newsItem').removeClass('opened');
-				}
+				
+				app.initNewsListScroll();
 			});
 			
 			app.getArticles('last', false, 0);
@@ -126,29 +484,71 @@ var app = {
 	},
 	
 	getArticles: function(type, search, start) {
-		
+		app.showLoader();
 		newsType = type;
 		newsSearch = search;
 		
-		data = {};
+		specialBack = true;
 		
-		if (type == 'hot') {
-			searchStr = '?categories=58&limit=8&start=' + start;
-		} else if (type == 'last') {
-			searchStr = '?lang=est&limit=20&start=' + start;
-		} else if (type == 'today') {
-			var today = new Date();
-			//today = 
-			searchStr = '?lang=est&limit=20&startDate=05-03-2013&endDate=05-03-2013&start=' + start;
-		} else if (type == 'search') {
-			searchStr = '?lang=est&limit=20&word=' + search + '&start=' + start;
-		} else if (type == 'category') {
-			//console.log(search);
-			searchStr = '?lang=est&limit=20&categories=' + search + '&start=' + start;
+		data = {};
+		switch (type) {
+			case 'hot':
+				searchStr = '?categories=58&limit=8&start=' + start;
+				break;
+			case 'last':
+				searchStr = '?lang=est&limit=20&start=' + start;
+				specialBack = false;
+				break;
+			case 'today':
+				var today = new Date();
+				var dd = today.getDate();
+				var mm = today.getMonth()+1; //January is 0!
+				var yyyy = today.getFullYear();
+				if (dd<10)
+					dd='0'+dd;
+				if (mm<10)
+					mm='0'+mm;
+				today = dd + '-' + mm + '-' + yyyy;
+				searchStr = '?lang=est&limit=20&startDate=' + today + '&endDate=' + today + '&start=' + start;
+				break;
+			case 'top10':
+				var date = new Date();
+				date.setDate(date.getDate() - 7);
+				var dd = date.getDate();
+				var mm = date.getMonth()+1; //January is 0!
+				var yyyy = date.getFullYear();
+				if (dd<10)
+					dd='0'+dd;
+				if (mm<10)
+					mm='0'+mm;
+				week_ago = dd + '-' + mm + '-' + yyyy;
+				searchStr = '?lang=est&limit=10&start=0&orderBy=views&startDate=' + week_ago + '';
+				if (start > 0) {
+					$('.loader').hide();
+					return false;
+				}
+				break;
+			case 'search':
+				searchStr = '?lang=est&limit=20&word=' + search + '&start=' + start;
+				break;
+			case 'category':
+				//console.log(search);
+				searchStr = '?lang=est&limit=20&categories=' + search + '&start=' + start;
+				break;
 		}
+		
+		if (type == 'last')
+			$('.hotnews').show();
+		else
+			$('.hotnews').hide();
 		
 		
 		$.get(app.serverUrl + 'Article/search/' + searchStr, data, function(results) {
+		
+			if ($('#newsList').hasClass('opened')) {
+				$('#newsList').removeClass('opened');
+				$('#newsItem').removeClass('opened');
+			}
 			
 			if (type == 'hot') {
 				app.parseHotNews(results.data);
@@ -158,6 +558,8 @@ var app = {
 				else
 					app.parseNewsList(results.data, false);
 			}
+			
+			$('.loader').hide();
 			
 		}, 'jsonp');
 		
@@ -211,53 +613,65 @@ var app = {
 			app.getNews($(this).attr('rel'));
 		});
 		
-		$(window).unbind('scroll');
-		$(window).scroll(function() {
-		   if($(window).scrollTop() + $(window).height() == $(document).height()) {
-		       //console.log('we are on the bottom, load more');
-		       totalNews = $('.newslist').find('.news').length;
-		       app.getArticles(newsType, newsSearch, totalNews);
-		   }
-		});
-		
 	},
 	
 	getNews: function(id) {
+		app.showLoader();
+		$(window).unbind('scroll');
+		
+		$('.add-invisible').show();
+		$('.add-visible').hide();
+		
 		data = {};
 		app.currentNews = id;
 		$('.postthumb:first').attr('src', '');
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
 			
 			console.log(results);
-			
+
 			$('#gallery').hide();
 			$('#comments').hide();
 			
+			$('.menu_bar').find('.back').unbind('click');
 			$('.menu_bar').find('.back').click(function(e) {
 				e.preventDefault();
 				$('#newsList').removeClass('opened');
 				$('#newsItem').removeClass('opened');
 				$('#newsContent').html('');
 				$('#commentsList').html('');
+				app.initNewsListScroll();
 			});
 			
 			$('#post').find('h2').html(results.data.headline);
 			$('#newsContent').html(results.data.contents);
+			$('#newsShortContent').html(results.data.introduction);
 			
 			$('.postthumb:first').attr('src', results.data.image);
 			$('.postthumb:first').attr('alt', results.data.headline);
 			
+			$('.postthumb:first').removeClass('full-size');
+			
 			$('.postthumb:first').unbind('load');
 			$('.postthumb:first').load(function() {
+				$('.loader').hide();
 				$('#newsList').addClass('opened');
 				$('#newsItem').addClass('opened');
 				//setTimeout(function() {
 				$('body').scrollTop(0);
 				//}, 100);
 				console.log(results.data.image);
-				$('.postthumb:first').parent().attr('href', results.data.image);
-				
-				var myPhotoSwipeMain = $('.postthumb:first').parent().photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
+				$('#newsImage').attr('href', results.data.image);
+				//myPhotoSwipeMain = {};
+				//var myPhotoSwipeMain = $('#newsImage').photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
+				$('#newsImage').unbind('click');
+				$('#newsImage').click(function(e) {
+					e.preventDefault();
+					if($('.postthumb:first').hasClass('full-size')) {
+						$('.postthumb:first').removeClass('full-size');
+					} else {
+						$('.postthumb:first').addClass('full-size');
+					}
+				});
 				
 				if (results.data.pollActive != '0') {
 					totalVote = results.data.timesPollTaken;
@@ -280,7 +694,7 @@ var app = {
 					
 					//console.log(pollActive);
 					
-					$.get('http://projects.efley.ee/buduaar/support.php', data, function(results) {
+					$.get(app.supportUrl, data, function(results) {
 
 						if (localStorage.getItem("poll_" + app.currentNews) || !pollActive) {
 							
@@ -326,7 +740,7 @@ var app = {
 						$('.gallery').html('');
 						$('#gallery').show();
 						$.each(results.data, function(i, image) {
-							$('.gallery').append('<li><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a></li>');
+							$('.gallery').append('<li><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a></li>');
 						});
 						
 						var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
@@ -362,7 +776,7 @@ var app = {
 		data.age = $('#vanus').val();
 		data.comment = $('#comment').val();
 		
-		$.get('http://projects.efley.ee/buduaar/support.php', data, function(results) {
+		$.get(app.supportUrl, data, function(results) {
 			//console.log(results);
 			if (results.status == 'success') {
 				$('#nimi').val('');
@@ -402,7 +816,7 @@ var app = {
 		data.action = 'answerPoll';
 		data.answer = answer;
 	
-		$.get('http://projects.efley.ee/buduaar/support.php', data, function(result) {
+		$.get(app.supportUrl, data, function(result) {
 			if (result.status == 'success') {
 				
 				total = parseInt(total)+1;
@@ -425,3 +839,11 @@ var app = {
 $(document).ready(function() {
 	app.init();
 });
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                                $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                                $(window).scrollLeft()) + "px");
+    return this;
+}

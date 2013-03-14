@@ -58,7 +58,7 @@ body{
 	position: relative;
 }
 
-.newsContainer {
+.newsContainer, .messagesContainer {
 	width: 200%;
 	
 }
@@ -70,7 +70,7 @@ body{
 	position: relative;
 }
 
-.newsContainer .page-wrap{
+.newsContainer .page-wrap, .messagesContainer .page-wrap{
 	width: 50%;
 	margin: 0;
 	float: left;
@@ -103,12 +103,16 @@ body{
 	height: auto;
 }
 
-.postthumb{
+.postthumb {
 	width: 60%;
 	float: left;
 	margin-right: 15px;
 	margin-bottom: 10px;
 	height: auto;
+}
+
+.postthumb.full-size {
+	width: 100%;
 }
 
 .hr{
@@ -124,6 +128,24 @@ body{
 	background-color: #EB94BE;
 	background-image: url("images/background2.jpg");
 	
+}
+
+.loader {
+	display: none;
+	position: absolute;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+}
+.loader img {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -16px;
+    margin-left: -16px;
+    width: 32px;
+    height: 32px;
 }
 
 /* Frontpage */
@@ -152,7 +174,13 @@ body{
 	background-position: 101px top;
 	z-index: 1;
 }
-
+.usual-site {
+	position: absolute;
+	z-index: 999;
+	margin-top: 50px;
+	color: white;
+	display: block;
+}
 
 .intro_btns img {
     float: left;
@@ -164,7 +192,10 @@ body{
   font-size: 27px;
   margin: 30px 0 0 40px;
 }
-
+.intro_btns div strong {
+	font-size: 17px;
+	margin-left: 12px;
+}
 .intro_btns div:after {
   background: url("images/el_sprite.png") no-repeat scroll 0 0 transparent;
   content: "";
@@ -255,13 +286,13 @@ body{
 
 /* Uudised */
 
-.uudised .logo_small{
+#newsPage .logo_small{
 	float: left;
 	margin-top: 2px;
 	max-width: 196px;
 }
 
-.bturg .logo_small{
+#marketPage .logo_small{
 	float: left;
 	margin-top: 2px;
 	max-width: 82px;
@@ -269,11 +300,36 @@ body{
 
 .sidebar_nav {
   float: right;
-  margin-right: 70px;
+  margin-right: 5px;
   margin-top: 10px;
 }
 
+.refresh {
+	float: left;
+	height: 44px;
+	display: block;
+	position: relative;
+	margin-right: 50px;
+}
+
+.refresh span {
+  color: #FFFFFF;
+  display: inline-block;
+  margin: 11px;
+}
+
+.refreshImg{
+	background: url("images/el_sprite.png") no-repeat scroll -302px -27px transparent;
+	height: 44px;
+	width: 57px;
+	right: 0px;
+	top: 0px;
+	content: "";
+	position: absolute;
+}
+
 .categories{
+	float: left;
 	height: 44px;
 	display: block;
 	position: relative;
@@ -294,8 +350,8 @@ body{
 	background: url("images/el_sprite.png") no-repeat scroll -242px 0 transparent;
 	height: 44px;
 	width: 57px;
-	right: -70px;
-	top: -2px;
+	right: 0px;
+	top: 0px;
 	content: "";
 	position: absolute;
 }
@@ -325,11 +381,11 @@ body{
 	float: left;
 }
 
-.bturg .searchbox{
+#marketPage .searchbox{
 	background: #350B1F;
 }
 
-.bturg .menu_bar {
+#marketPage .menu_bar {
 	max-width: 640px;
 	background: #721743;
 	border-top: none;
@@ -340,7 +396,7 @@ body{
     z-index: 1;
 }
 
-.bturg .menu_bar .back span{
+#marketPage .menu_bar .back span{
 	background: url("images/el_sprite.png") no-repeat scroll -50px -169px transparent;
 	width: 52px;
 	height: 45px;
@@ -348,11 +404,11 @@ body{
 	display: inline-block;
 }
 
-.bturg .menu_bar .back span:hover, .bturg .menu_bar .back .active{
+#marketPage .menu_bar .back span:hover, #marketPage .menu_bar .back .active{
 	background-position: -50px -228px;
 }
 
-.bturg .menu_bar .latest {
+#marketPage .menu_bar .latest {
   background: none repeat scroll 0 0 #B93C7A;
   border-bottom: 4px solid #920C4E;
   display: block;
@@ -362,7 +418,7 @@ body{
   text-decoration: none;
 }
 
-.bturg .menu_bar .latest span {
+#marketPage .menu_bar .latest span {
   color: #FFFFFF;
   display: block;
   font-size: 1.6em;
@@ -370,7 +426,7 @@ body{
 }
 
 
-.bturg .menu_bar .topname {
+#marketPage .menu_bar .topname {
   background: none repeat scroll 0 0 #B93C7A;
   border-bottom: 4px solid #DD1276;
   display: block;
@@ -382,12 +438,12 @@ body{
 	position: relative;
 }
 
-.bturg .menu_bar .topname a {
+#marketPage .menu_bar .topname a {
 	float: none;
 	text-decoration: none;
 }
 
-.bturg .menu_bar .topname span {
+#marketPage .menu_bar .topname span {
 	background: none;
 	border: none;
 	color: #FFFFFF;
@@ -398,7 +454,7 @@ body{
 	width: 100%;
 }
 
-.bturg .menu_bar .topname:after{
+#marketPage .menu_bar .topname:after{
 	background: url("images/el_sprite.png") no-repeat scroll -304px -82px transparent;
 	width: 16px;
 	height: 18px;
@@ -409,7 +465,7 @@ body{
 	z-index: 999;
 }
 
-.bturg .bank {
+#marketPage .bank {
 	background: none repeat scroll 0 0 #BF4180;
 	border-bottom: 4px solid #DD1276;
 	display: block;
@@ -420,7 +476,7 @@ body{
 	text-decoration: none;
 }
 
-.bturg .bank span{
+#marketPage .bank span{
 	color: #FFFFFF;
 	display: block;
 	font-size: 1.3em;
@@ -429,7 +485,7 @@ body{
 }
 
 
-.bturg .logout {
+#marketPage .logout {
 	background: none repeat scroll 0 0 #560D31;
 	border-bottom: 4px solid #DD1276;
 	display: block;
@@ -439,7 +495,7 @@ body{
 	width: 12%;
 }
 
-.bturg .logout span{
+#marketPage .logout span{
 	background: url("images/el_sprite.png") no-repeat scroll -340px -73px transparent;
 	width: 38px;
 	height: 35px;
@@ -452,7 +508,7 @@ body{
 
 
 
-.bturg .menu_bar .home span{
+#marketPage .menu_bar .home span{
 	background: url("images/el_sprite.png") no-repeat scroll -111px -169px transparent;
 	width: 52px;
 	height: 45px;
@@ -460,11 +516,11 @@ body{
 	display: inline-block;
 }
 
-.bturg .menu_bar .home span:hover, .bturg .menu_bar .home .active{
+#marketPage .menu_bar .home span:hover, #marketPage .menu_bar .home .active{
 	background-position: -111px -228px;
 }
 
-.bturg .menu_bar .search span{
+#marketPage .menu_bar .search span{
 	background: url("images/el_sprite.png") no-repeat scroll -171px -169px transparent;
 	width: 52px;
 	height: 45px;
@@ -472,7 +528,7 @@ body{
 	display: inline-block;
 }
 
-.bturg .menu_bar .search .active{
+#marketPage .menu_bar .search .active{
 	background-position: -171px -228px;
 }
 
@@ -562,7 +618,7 @@ body{
 	width: 14%;
 }
 
-.bturg .menu_bar .home {
+#marketPage .menu_bar .home {
 	width: 20%;
 }
 
@@ -626,8 +682,10 @@ body{
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
 }
-
-.newssection{
+.newssection {
+	min-height: 1000px;
+}
+.newssection, #messageList {
 	/* margin-top: -56px; */
 	-webkit-transform: translateZ(0);
 	-webkit-transform: translate3d(0, -56px, 0);
@@ -638,7 +696,7 @@ body{
 	transition: all 0.30s;
 }
 
-.newssectionopen{
+.newssectionopen, #messageDetail {
 	padding: 0 10px 10px 10px;
 	/* margin-top: -56px; */
 	-webkit-transform: translateZ(0);
@@ -650,19 +708,19 @@ body{
 	transition: all 0.30s;
 }
 
-.newssection.active, .newssectionopen.active{
+.newssection.active, .newssectionopen.active, #messageDetail.active, #messageList.active {
 	/* margin-top: 0px; */
 	
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
 }
-.newssection.opened, .newssectionopen.opened{
+.newssection.opened, .newssectionopen.opened, #messageDetail.opened, #messageList.opened{
 	/* margin-top: 0px; */
 	
 	-webkit-transform: translate3d(-100%, -56px, 0);
 	-moz-transform: translate3d(-100%, -56px, 0);
 }
-.newssection.opened.active, .newssectionopen.opened.active{
+.newssection.opened.active, .newssectionopen.opened.active, #messageDetail.opened.active, #messageList.opened.active{
 	/* margin-top: 0px; */
 	
 	-webkit-transform: translate3d(-100%, 0, 0);
@@ -934,16 +992,16 @@ body{
 	background: #F0F0F0;
 	margin-bottom: 10px;
 }
-#commentsList h3 {
+.answersList h3 {
 	color: #770000;
 	background-color: #dadada;
 	padding: 10px;
 }
-#commentsList p {
+.answersList p {
 	padding: 10px;
 }
 
-#addcomment {
+.answerForm {
 	display: none;
 	padding: 10px;
 }
@@ -953,7 +1011,7 @@ body{
 
 }
 
-#addcomment .textinput{
+.answerForm .textinput{
 	border: 1px solid #C0C0C0;
 	border-radius: 4px;
 	background: #fff;
@@ -966,7 +1024,7 @@ body{
 	-webkit-appearance: none;
 }
 
-#addcomment .textarea{
+.answerForm .textarea{
 	border: 1px solid #C0C0C0;
 	border-radius: 4px;
 	background: #fff;
@@ -981,7 +1039,7 @@ body{
 	-webkit-appearance: none;
 }
 
-#addcomment .submit{
+.answerForm .submit{
 	background: #A92361;
 	border: 1px solid #5E2533;
     width: 121px;
@@ -1006,6 +1064,22 @@ body{
 	margin-bottom: 10px;
 }
 .comments-tab.active {
+	background: #A92361;
+	color: #FFF;
+}
+
+.messages-tab{
+	background: #CECCCC;
+	color: #490A27;
+	width: 50%;
+	padding: 20px 0 12px 0;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	float: left;
+	margin-bottom: 10px;
+}
+.messages-tab.active {
 	background: #A92361;
 	color: #FFF;
 }
@@ -1135,14 +1209,14 @@ body{
 	background: url("images/el_sprite.png") no-repeat scroll 0px -212px transparent;
 }
 
-.menu_level1 a:before{
+.menu_level1 a:after{
 	position: absolute;
 	content: "";
 	width: 32px;
 	height:32px;
-	left: 30px;
+	right: 20px;
 	top: 25px;
-	background: url("images/el_sprite.png") no-repeat scroll 0px -174px transparent;
+	background: url("images/el_sprite.png") no-repeat scroll 0px 0px transparent;
 }
 
 .menu_level1 a{
@@ -1155,7 +1229,7 @@ body{
 	color: #FFFFFF;
 	display: inline-block;
 	font-size: 24px;
-	padding: 24px 0 0 90px;
+	padding: 24px 0 0 10px;
 	text-decoration: none;
 }
 
@@ -1176,7 +1250,7 @@ body{
 
 /* B-Turg */
 
-.bturg .hr{
+#marketPage .hr{
 	margin-top: 10px;
 }
 
@@ -2232,6 +2306,12 @@ body{
 		background-size: 450px 400px;
 	}
 	
+	.refreshImg{
+		background: url("images/el_sprite@x2.png") no-repeat scroll -302px -27px transparent;
+		background-size: 450px 400px;
+		width: 58px;
+	}
+	
 	.categoriesImg{
 		background: url("images/el_sprite@x2.png") no-repeat scroll -242px 0 transparent;
 		background-size: 450px 400px;
@@ -2253,23 +2333,23 @@ body{
 		background-size: 450px 400px;
 	}
 	
-	.bturg .menu_bar .back span{
+	#marketPage .menu_bar .back span{
 		background: url("images/el_sprite@x2.png") no-repeat scroll -50px -169px transparent;
 		background-size: 450px 400px;
 	}	
 		
-	.bturg .menu_bar .home span{
+	#marketPage .menu_bar .home span{
 		background: url("images/el_sprite@x2.png") no-repeat scroll -111px -169px transparent;
 		background-size: 450px 400px;
 	}
 
-	.bturg .menu_bar .search span{
+	#marketPage .menu_bar .search span{
 		background: url("images/el_sprite@x2.png") no-repeat scroll -171px -169px transparent;
 		background-size: 450px 400px;
 	}
 	
 	
-	.bturg_btns div:after {
+	#marketPage_btns div:after {
 		background: url("images/el_sprite@x2.png") no-repeat scroll 0 -248px transparent;
 		background-size: 450px 400px;
 	}
@@ -2280,7 +2360,7 @@ body{
 	}
 	
 	
-	.bturg .logout span{
+	#marketPage .logout span{
 		background: url("images/el_sprite@x2.png") no-repeat scroll -340px -73px transparent;
 		background-size: 450px 400px;
 	}
@@ -2318,6 +2398,9 @@ body{
 	.newsContainer .page-wrap{
 		width: 48%;
 	}
+	.messagesContainer .page-wrap{
+		width: 48%;
+	}
 	
 }
 @media screen and (max-width: 520px) {
@@ -2332,6 +2415,9 @@ body{
 		
 	}
 	.newsContainer .page-wrap{
+		width: 49%;
+	}
+	.messagesContainer .page-wrap{
 		width: 49%;
 	}
 	.news .meta{
@@ -2458,7 +2544,7 @@ body{
 		margin: 50px 0 0 20px;
 	}
 
-	.bturg .menu_bar .latest span {
+	#marketPage .menu_bar .latest span {
 		font-size: 1.2em;
 		margin-top: 19px;
 	}
@@ -2488,13 +2574,13 @@ body{
 		padding: 10px 10px 0;
 	}
 	
-	.bturg .bank span{
+	#marketPage .bank span{
 
 		font-size: 1.1em;
 		margin-top: 20px;
 	}
 	
-	.bturg .menu_bar .topname span {
+	#marketPage .menu_bar .topname span {
 		font-size: 1.1em;
 		margin-top: 20px;
 		text-align: left;
@@ -2551,7 +2637,7 @@ body{
 		font-size: 18px;
 	}
 	
-	.bturg .menu_bar .home{
+	#marketPage .menu_bar .home{
 		width: 18%;
 	}
 	
@@ -2576,6 +2662,11 @@ body{
 	.intro_btns div span {
 		font-size: 20px;
 		margin: 35px 0 0 10px;
+	}
+	
+	.intro_btns div strong {
+		font-size: 9px;
+		margin-left: 0px;
 	}
 	
 	.loginform .wrap{
@@ -2676,7 +2767,7 @@ body{
 	
 	
 	
-	.bturg .bank span{
+	#marketPage .bank span{
 
 		font-size: 0.9em;
 		margin-top: 22px;

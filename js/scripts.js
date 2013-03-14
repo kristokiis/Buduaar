@@ -6,10 +6,7 @@ jQuery(document).ready(function ($){
 		
 		var eventEnd = (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) ? "touchend" : "click";
 		
-		setTimeout(function(){
-			var pageheight = $(document).height();
-			$('.oveflowscroll').css('height', pageheight);
-		},500);
+		
 		
 		
 		$('.search span').toggle(function(e) {
@@ -22,18 +19,6 @@ jQuery(document).ready(function ($){
 			$(this).removeClass('active');	
 			$('.searchbox').removeClass('active');
 			$('.newssection, .newssectionopen, .barsubmenu, .underbarsubmenu, .toodepage, .account').removeClass('active');
-		});
-		
-		$('.open_bt_login').toggle(function(e) {
-			e.preventDefault();
-			$(this).addClass('active');	
-			$('.bturglogin, #footer').addClass('active');
-			$('body').animate({scrollTop: "200px"}, 200);
-		}, function(e) {
-			e.preventDefault();
-			$(this).removeClass('active');	
-			$('.bturglogin, #footer').removeClass('active');
-			$('body').animate({scrollTop: "0px"}, 200);
 		});
 		
 	
