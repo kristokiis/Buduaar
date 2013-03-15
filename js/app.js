@@ -356,6 +356,7 @@ var app = {
 		       //alert('whaat');
 		   }
 		});	
+		/*
 		setTimeout(function() {
 			if (1 == 2 && !localStorage.getItem("android_denied")) {
 			//if (navigator.userAgent.match(/Android/i)) {
@@ -372,9 +373,11 @@ var app = {
 			}, 5000);
 		}, 1000);
 		
+		
 		$('.android-close').click(function(e) {
 			localStorage.setItem("android_denied", true);
 		});
+		*/
 		
 		$('.menu_bar').find('.back').unbind('click');
 		$('.menu_bar').find('.back').click(function(e) {
@@ -421,23 +424,24 @@ var app = {
 	},
 	
 	initNewsLinks: function() {
-		
+		$('.today').unbind('click');
 		$('.today').click(function(e) {
 			e.preventDefault();
 			app.getArticles('today', false, 0);
 		});
-		
+		$('.top10').unbind('click');
 		$('.top10').click(function(e) {
 			e.preventDefault();
 			app.getArticles('top10', false, 0);
 		});
 		
+		$('#searchForm').unbind('submit');
 		$('#searchForm').submit(function(e) {
 			e.preventDefault();
-			//console.log('ok..');
 			app.getArticles('search', $('#search').val(), 0);
 		});
 		
+		$('.comments-tab').unbind('click');
 		$('.comments-tab').click(function(e) {
 			e.preventDefault();
 			$('.comments-tab').removeClass('active');
@@ -463,6 +467,7 @@ var app = {
 			
 		});
 		
+		$('#commentForm').unbind('submit');
 		$('#commentForm').submit(function(e) {
 			e.preventDefault();
 			status = validateComment();
