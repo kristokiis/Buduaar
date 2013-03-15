@@ -15,6 +15,12 @@ var newsSearch = '';
 
 var loaded = false;
 
+var page_inited = 0;
+
+var pages = ['main', 'news', 'messages'];
+var offlineAlerted = false;
+var offlineTimeout;
+
 var app = {
 
 	currentNews: 0,
@@ -24,28 +30,46 @@ var app = {
 	session: '',
 	
 	init: function() {
-		this.initLogin();
-		this.initNews(true);
+	
+		if (navigator.onLine) {
+
+			this.initLogin();
+			this.initNews(true);
+			
+			$('.logo-link').click(function(e){
+				e.preventDefault();
+				$('body').scrollTop(0);
+				$('#page-wrap').fadeIn('fast');
+				$('#newsPage').hide();
+				$('#marketPage').hide();
+				$('.page-wrap').removeClass('opened');
+			});
+			$('.home').click(function(e){
+				e.preventDefault();
+				$('body').scrollTop(0);
+				$('#page-wrap').fadeIn('fast');
+				$('#newsPage').hide();
+				$('#marketPage').hide();
+				$('.page-wrap').removeClass('opened');
+			});
+			
+			page_inited = page_inited+1;
+			
+			offlineAlerted = false;
+			
+			clearTimeout(offlineTimeout);
 		
-		//this.initProducts();
-		//this.initAccount();
-		
-		$('.logo-link').click(function(e){
-			e.preventDefault();
-			$('body').scrollTop(0);
-			$('#page-wrap').fadeIn('fast');
-			$('#newsPage').hide();
-			$('#marketPage').hide();
-			$('.page-wrap').removeClass('opened');
-		});
-		$('.home').click(function(e){
-			e.preventDefault();
-			$('body').scrollTop(0);
-			$('#page-wrap').fadeIn('fast');
-			$('#newsPage').hide();
-			$('#marketPage').hide();
-			$('.page-wrap').removeClass('opened');
-		});
+		} else {
+			 
+			offlineTimeout = setTimeout(function() {
+				app.init();
+			}, 3000);
+			
+			if (!offlineAlerted) {
+				alert('Ühendus puudub, ühenda seade internetti, et kasutada rakendust');
+				offlineAlerted = true;
+			}
+		}
 		
 	},
 	
@@ -314,6 +338,9 @@ var app = {
 	
 	initNewsListScroll: function() {
 	
+		if (history.pushState)
+			window.history.pushState('news', 'news', "");
+	
 		$(window).unbind('scroll');
 		$(window).scroll(function() {
 		   if($(window).scrollTop() + $(window).height() == $(document).height() && !loaded) {
@@ -354,7 +381,9 @@ var app = {
 			e.preventDefault();
 			if (newsType != 'last') {
 				app.getArticles('last', false, 0);
-			} else {	
+			} else {
+				if (history.pushState)
+					window.history.pushState('main', 'main', "");
 				$('#newsPage').hide();
 				$('#page-wrap').fadeIn('fast');
 				$(window).unbind('scroll');
@@ -421,7 +450,9 @@ var app = {
 				$('.add-invisible').hide();
 				$('.add-visible').show();
 				$('#addcomment').focus();
-				$('body').scrollTop(0);
+				offset = $('#commentForm').offset();
+				
+				$('body').scrollTop(offset.top-70);
 				
 			} else {
 				$('#commentsList').show();
@@ -620,6 +651,8 @@ var app = {
 	},
 	
 	getNews: function(id) {
+		if (history.pushState)
+			window.history.pushState(id, id, "");
 		app.showLoader();
 		$(window).unbind('scroll');
 		
@@ -822,9 +855,9 @@ var app = {
 		data.answer = answer;
 	
 		$.get(app.supportUrl, data, function(result) {
-			if (results.code == '1') {
-				
-				total = parseInt(total)+1;
+			if (result.code == '1' || result.code == '108') {
+				if (result.code == '1')
+					total = parseInt(total)+1;
 				
 				//console.log(results);
 				
@@ -842,6 +875,37 @@ var app = {
 	
 }
 $(document).ready(function() {
+
+	window.addEventListener('popstate', function(event) {
+    	//console.log('Pop: ' + page_inited);
+    	if (page_inited > 0) {
+    		//console.log('Pop2');
+			if(!event.state)
+		  		page = 'main';
+		  	else
+		  		page = event.state;
+		  
+		  	if (!pages[page] && parseInt(page)) {
+				app.getNews(page);
+			} else {
+
+				switch(page) {
+					case 'news':
+						$('#newsPage').fadeIn('fast');
+						$('#page-wrap').hide();
+						$('.page-wrap').removeClass('opened');
+						break;
+					case 'main':
+						$('#page-wrap').fadeIn('fast');
+						$('#marketPage').hide();
+						$('#newsPage').hide();
+						break;
+				}
+			}
+	    }
+	  //updateContent(event.state);
+	});
+
 	app.init();
 });
 jQuery.fn.center = function () {
