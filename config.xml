@@ -3,8 +3,8 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "ee.efley.buduaar"
-        versionCode="10" 
-        version   = "1.0.0">
+        versionCode="11" 
+        version   = "1.0.1">
 
     <!-- versionCode is optional and Android only -->
 
@@ -28,7 +28,7 @@
     <gap:plugin name="ChildBrowser" />
 	<gap:plugin name="Analytics" /> <!-- latest release -->
     
-    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <!-- <feature name="http://api.phonegap.com/1.0/camera"/> -->
 	<feature name="http://api.phonegap.com/1.0/file"/>
 	<feature name="http://api.phonegap.com/1.0/network"/>
     
