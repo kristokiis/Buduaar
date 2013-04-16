@@ -4,16 +4,43 @@
 	<meta charset="utf-8">
 	<title>Buduaar</title>
 	
+	<meta name="HandheldFriendly" content="True">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/icon_at_2x.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/icon-72.png">
+	<link rel="apple-touch-icon" href="assets/icon.png">
+	<link rel="shortcut icon" href="assets/icon.png">
+	<meta name="format-detection" content="telephone=no" />
+	
+	<meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+	<!-- width=device-width causes the iPhone 5 to letterbox the app, so
+	we want to exclude it for iPhone 5 to allow full screen apps -->
+	<meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
+	<!-- provide the splash screens for iPhone 5 and previous -->
+	<link href="assets/splash/ios/Default-568h@2x.png" rel="apple-touch-startup-image" media="(device-height: 568px)">
+	<link href="assets/splash/ios/screen-iphone-portrait-2x.png" rel="apple-touch-startup-image" sizes="640x960" media="(device-height: 480px)">
+
+	
+	<!-- <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"> -->
+	<!-- <script>(function(){var a;if(navigator.platform==="iPad"){a=window.orientation!==90||window.orientation===-90?"/img/startup-tablet-landscape.png":"img/startup-tablet-portrait.png"}else{a=window.devicePixelRatio===2?"/img/startup-retina.png":"/img/startup.png"}document.write('<link rel="apple-touch-startup-image" href="'+a+'"/>')})()</script> -->
+	
+	<!-- <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script> -->
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 	
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/photoswipe.css">
+	<link rel="stylesheet" href="css/add2home.css">
 	
 	<script src="js/jquery.js"></script> 
 	<script src="js/swipe.min.js"></script>
 	<script src="js/flexSlider.min.js"></script>
 	<script src="js/lib/klass.min.js"></script>
 	<script src="js/code.photoswipe-3.0.5.min.js"></script>
+	<script src="js/add2home.js"></script>
 	<!--[if lt IE 9]> 
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
 	<![endif]-->
@@ -40,15 +67,15 @@
 					<a href="#" class="news-link">
 						<div class="dark"><img src="images/web_img.png" width="101" height="98" alt="thumb"/><span>Buduaar.ee</span></div>
 					</a>
-					<a href="#" class="market-link">
-						<div class="pink"><img src="images/turg_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;<strong>(arendamisel)</strong></span></div>
+					<a href="bturg.html" class="market-link">
+						<div class="pink"><img src="images/turg_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;<strong>arendamisel</strong></span></div>
 					</a>
-					<div class="lightpink open_bt_login"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE&nbsp;<strong>(arendamisel)</strong></span></div>
+					<div class="lightpink open_bt_login"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE</span></div>
 				</nav>
 				
 				<section class="loginform bturglogin">
 					<section class="wrap">
-						<form id="loginForm" action="#" autocomplete="off" onsubmit="return validateForm();">
+						<form id="loginForm2" action="#" autocomplete="off">
 							<input type="text" id="username" name="username" class="defaultText textinput" title="Kasutajanimi"><br />
 							<input type="password" id="password" name="password" class="defaultText textinput" title="Parool"><br />
 							<input type="submit" class="submit" value="Logi sisse">
@@ -84,10 +111,10 @@
 			
 				<nav class="menu_bar">
 					<a class="back" href="#"><span></span></a>
-					<div class="topname"><a href="#" onclick="alert('Arendamisel');"><span>Alusta uut</span></a></div>
+					<div class="topname"><a href="#" id="startNewMessage"><span>Alusta uut</span></a></div>
 					<a class="bank" href="#"><span class="">&nbsp;</span></a>
 					<a class="logout" href="#"><span></span></a>
-					<a class="home" href="index.html"><span></span></a>
+					<a class="home" href="#"><span></span></a>
 					
 					<span class="justifyer"></span>
 				</nav>
@@ -111,6 +138,18 @@
 							<p>pealkiri</p>
 						</section>
 					</section>
+					<section class="answerForm" id="newMessageForm" style="display:none;">
+						<section class="wrap">
+							<form id="messageForm2" action="#" autocomplete="off">
+								<input type="text" id="user" name="heading" class="defaultText textinput" title="Kasutajanimi"><br />
+								<div class="auto-search"></div>
+								<input type="text" id="heading" name="heading" class="defaultText textinput" title="Pealkiri"><br />
+								<textarea id="message" name="message" class="defaultText textarea" title="Teade"></textarea><br />
+								<input type="submit" class="submit" value="Saada">
+								<div class="clear"></div>
+							</form> 
+						</section>
+					</section>
 				</div>
 				
 				<div class="page-wrap" id="messageDetail">
@@ -129,11 +168,10 @@
 								<input type="submit" class="submit" value="Saada">
 								<div class="clear"></div>
 							</form> 
-							
-							
 						</section>
 					</section>
 				</div>
+				
 			</div>
 		</div>
 	
@@ -172,7 +210,7 @@
 					<a class="back" href="index.html"><span></span></a>
 					<a class="today" href="#"><span>Tänased</span></a>
 					<a class="top10" href="#"><span>TOP 10</span></a>
-					<a class="home" href="index.html"><span></span></a>
+					<a class="home" href="#"><span></span></a>
 					<a class="search" href="#"><span></span></a>
 				</nav>
 				
@@ -265,8 +303,13 @@
 							
 							
 						</section>
+						
+						
+						
 					</section>
 					
+					<a href="#" class="back-tab back"><span></span>Tagasi Uudistesse</a>
+					<a href="#" class="top-tab"><span></span>Tagasi Ülesse</a>
 					
 					<a href="#" class="comments-tab active">Kommentaarid(<span class="commentsCount"></span>)</a>
 					<a href="#" class="comments-tab add-comment">Lisa kommentaar</a>
@@ -290,7 +333,7 @@
 						<section class="wrap">
 							<form id="commentForm" action="#" autocomplete="off">
 								<input type="text" id="nimi" name="nimi" class="defaultText textinput" title="Nimi:"><br />
-								<input type="text" id="email" name="email" class="defaultText textinput" title="E-mail*:"><br />
+								<input type="text" id="email" name="email" class="defaultText textinput" title="E-mail:"><br />
 								<input type="text" id="vanus" name="vanus" class="defaultText textinput" title="Vanus:"><br />
 								
 								<textarea id="comment" name="comment" class="defaultText textarea" title="Kommentaar"></textarea><br />

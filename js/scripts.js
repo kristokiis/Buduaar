@@ -1,13 +1,8 @@
 jQuery(document).ready(function ($){
 		
-		
-		
 		var eventSt = (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) ? "touchstart" : "click";
 		
 		var eventEnd = (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) ? "touchend" : "click";
-		
-		
-		
 		
 		$('.search span').toggle(function(e) {
 			e.preventDefault();
@@ -95,10 +90,7 @@ jQuery(document).ready(function ($){
 			return false;
 			
 		});
-		
-		
-		
-		
+
 		
 		$(".defaultText").focus(function(srcc){
 			if ($(this).val() == $(this)[0].title){

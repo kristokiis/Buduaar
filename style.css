@@ -58,16 +58,27 @@ body{
 	position: relative;
 }
 
+.pages-wrap {
+	width: 100%;
+}
+
 .newsContainer, .messagesContainer {
 	width: 200%;
 	
 }
+
+
+
 
 #page-wrap, .page-wrap{
 	max-width: 620px;
     padding: 10px;
 	margin: 0 auto;
 	position: relative;
+}
+
+#page-wrap {
+	padding: 0px !important;
 }
 
 .newsContainer .page-wrap, .messagesContainer .page-wrap{
@@ -664,6 +675,7 @@ body{
 
 
 .searchbox {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(39,42,43,1)), color-stop(100%,rgba(84,88,90,1)));
 	background: -webkit-linear-gradient(top, rgba(39,42,43,1) 0%, rgba(84,88,90,1) 100%);
 	background: linear-gradient(to bottom, #272A2B 0%, #54585A 100%) repeat scroll 0 0 transparent;
 	height: 36px;
@@ -684,11 +696,27 @@ body{
 
 
 .searchbox.active{
-
-	
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
 }
+
+.android-message {
+	color:white;
+	font-size:14px;
+	line-height:34px;
+}
+
+.android-message .close {
+	float: right;
+	text-indent: -999em;
+	display: inline-block;
+	height: 32px;
+	width: 32px;
+	margin-top: -3px;
+	background-image: url('css/icons.png');
+	background-position: 0 0;
+}
+
 .newssection {
 	min-height: 1000px;
 }
@@ -938,6 +966,7 @@ body{
 .newsopen p{
 	font-size: 20px;
 	font-weight: normal;
+	margin-bottom: 10px;
 	/*text-align: justify;*/
 }
 
@@ -952,6 +981,11 @@ body{
 	border-bottom: 1px solid #E4E4E4;
 	margin-bottom: 5px;
 }
+
+#post strong {
+	font-weight: bold;
+}
+
 #gallery {
 	border-bottom: 1px solid #E4E4E4;
 }
@@ -1031,6 +1065,26 @@ body{
 	-webkit-appearance: none;
 }
 
+.answerForm .auto-search {
+	top: 114px;
+	width: 94%;
+	background-color: white;
+	position: absolute;
+	opacity: 0.95;
+	border-radius: 3px;
+}
+
+.auto-search a {
+	color: #111;
+	border-bottom: 1px solid;
+	margin-bottom: 10px;
+	text-decoration: none;
+	font-size: 20px;
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
 .answerForm .textarea{
 	border: 1px solid #C0C0C0;
 	border-radius: 4px;
@@ -1059,6 +1113,29 @@ body{
 	-webkit-appearance: none;
 }
 
+.top-tab{
+	background: #721743;
+	color: #FFF;
+	width: 50%;
+	padding: 20px 0 12px 0;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	float: left;
+	margin-bottom: 10px;
+}
+.back-tab {
+	background: #560D31;
+	color: #FFF;
+	width: 50%;
+	padding: 20px 0 12px 0;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	float: left;
+	margin-bottom: 10px;
+}
+
 .comments-tab{
 	background: #CECCCC;
 	color: #490A27;
@@ -1076,7 +1153,7 @@ body{
 }
 
 .messages-tab{
-	background: #CECCCC;
+	background: #A92361;
 	color: #490A27;
 	width: 50%;
 	padding: 20px 0 12px 0;
@@ -1087,7 +1164,7 @@ body{
 	margin-bottom: 10px;
 }
 .messages-tab.active {
-	background: #A92361;
+	background: #CECCCC;
 	color: #FFF;
 }
 
@@ -1132,6 +1209,7 @@ body{
 }
 
 .oveflowscroll{
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(73,73,73,0.95)), color-stop(100%,rgba(36,36,37,0.95)));
 	background: -webkit-linear-gradient(top, rgba(73,73,73,0.95) 0%, rgba(36,36,37,0.95) 100%);
 	background: linear-gradient(to bottom, rgba(73,73,73,0.95) 0%, rgba(36,36,37,0.95) 100%) repeat scroll 0 0 transparent;
 	height: 1200px;
@@ -1188,6 +1266,7 @@ body{
 }
 
 .women2 a.catsback {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(38,36,37,0.95)), color-stop(100%,rgba(12,9,10,0.95)));
 	background: -webkit-linear-gradient(top, rgba(38,36,37,0.95) 0%, rgba(12,9,10,0.95) 100%);
 	background: linear-gradient(to bottom, rgba(38,36,37,0.95) 0%, rgba(12,9,10,0.95) 100%) repeat scroll 0 0 transparent;
 	
@@ -1195,7 +1274,7 @@ body{
 
 .women2 a.active {
 	color: #616161;
-	
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(73,73,73,0.95)), color-stop(100%,rgba(36,36,37,0.95)));
 	background: -webkit-linear-gradient(top, rgba(73,73,73,0.95) 0%, rgba(36,36,37,0.95) 100%);
 	background: linear-gradient(to bottom, rgba(73,73,73,0.95) 0%, rgba(36,36,37,0.95) 100%) repeat scroll 0 0 transparent;
 	
@@ -1230,6 +1309,7 @@ body{
 	height: 56px;
 	width: 100%;
 	display: block;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(73,73,73,0.95)), color-stop(100%,rgba(36,36,37,0.95)));
 	background: -webkit-linear-gradient(top, rgba(73,73,73,0.95) 0%, rgba(36,36,37,0.95) 100%);
 	background: linear-gradient(to bottom, rgba(73,73,73,0.95) 0%, rgba(36,36,37,0.95) 100%) repeat scroll 0 0 transparent;
 	box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2) inset;
@@ -1244,6 +1324,7 @@ body{
 	height: 56px;
 	width: 100%;
 	display: block;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(126,62,91,0.95)), color-stop(100%,rgba(72,23,46,0.95)));
 	background: -webkit-linear-gradient(top, rgba(126,62,91,0.95) 0%, rgba(72,23,46,0.95) 100%);
 	background: linear-gradient(to bottom, rgba(126,62,91,0.95) 0%, rgba(72,23,46,0.95) 100%) repeat scroll 0 0 transparent;
 	box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2) inset;
@@ -2422,10 +2503,13 @@ body{
 		
 	}
 	.newsContainer .page-wrap{
+		margin-left: 2px;
 		width: 49%;
 	}
 	.messagesContainer .page-wrap{
 		width: 49%;
+		padding-left: 3px !important;
+		padding-right: 3px !important;
 	}
 	.news .meta{
 		font-size: 11px;
@@ -2439,7 +2523,7 @@ body{
 	}
 	
 	.intro_btns div:after, .intro_btns .lightpink:after{
-		right: 25px;
+		right: 10px;
 	}
 	
 	.loginform .wrap{
@@ -2661,7 +2745,7 @@ body{
 
 
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 360px) {
 	#page-wrap{
 		min-width: 290px;
 	}
