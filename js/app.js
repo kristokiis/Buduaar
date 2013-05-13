@@ -538,7 +538,7 @@ var app = {
 		$('#newsPage').find('.refresh').unbind('click');
 		$('#newsPage').find('.refresh').click(function(e) {
 			e.preventDefault();
-			app.getArticles('hot', false, 0);
+			//app.getArticles('hot', false, 0);
 			app.getArticles('last', false, 0);
 			
 		})
@@ -675,7 +675,7 @@ var app = {
 		data = {};
 		switch (type) {
 			case 'hot':
-				searchStr = '?categories=58&limit=8&start=' + start;
+				searchStr = '?onlyCategorie=58&limit=8&start=' + start;
 				break;
 			case 'last':
 				searchStr = '?lang=est&limit=20&start=' + start;
@@ -719,7 +719,7 @@ var app = {
 				break;
 		}
 		
-		if (type == 'last')
+		if (type == 'last' || type == 'hot')
 			$('.hotnews').show();
 		else
 			$('.hotnews').hide();
