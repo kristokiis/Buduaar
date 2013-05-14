@@ -675,7 +675,7 @@ var app = {
 		data = {};
 		switch (type) {
 			case 'hot':
-				searchStr = '?onlyCategorie=58&limit=8&start=' + start;
+				searchStr = '?onlyCategorie=58&lang=est&limit=8&start=' + start;
 				break;
 			case 'last':
 				searchStr = '?lang=est&limit=20&start=' + start;
