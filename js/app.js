@@ -674,8 +674,6 @@ var app = {
 		
 		data = {};
 		
-		alert(searchStr);
-		
 		switch (type) {
 			case 'hot':
 				searchStr = '?onlyCategorie=58&lang=est&limit=8&start=' + start;
