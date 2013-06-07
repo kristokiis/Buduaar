@@ -1143,7 +1143,11 @@ var app = {
 			rel = img_element.attr('rel');
 			$.get(app.serverUrl + 'Market/deleteItemImage/' + rel, {}, function(results) {
 				img_element.remove();
-				$('body').scrollTop(0);						
+				$('body').scrollTop(0);	
+				$('.uploaded').hide();
+				setTimeout(function() {
+					$('.uploaded').show();
+				}, 300);					
 			}, 'jsonp');
 			
 		});
@@ -2910,6 +2914,11 @@ function uploadFile(mediaFile) {
 						app.saveStage = 2;
 				} else {
 					$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
+					$('.uploaded').hide();
+					setTimeout(function() {
+						$('.uploaded').show();
+					}, 300);
+					
 					app.initPicRemove();
 				}
 				
