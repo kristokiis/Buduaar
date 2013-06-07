@@ -48,6 +48,10 @@ var app = {
 	
 	currentEditId: false,
 	
+	imageURI: '',
+	
+	saveParams: {},
+	
 	init: function() {
 		//if (1 == 1) {
 		document.addEventListener("online", function() {
@@ -118,7 +122,7 @@ var app = {
 	},
 	
 	showLoader: function(line) {
-		console.log('show IT: ' + line);
+		//console.log('show IT: ' + line);
 		$('.ajax-loader').css('height', $('body').height() + 'px');
 		$('.ajax-loader').find('img').center();
 		$('.ajax-loader').fadeIn();
@@ -138,7 +142,7 @@ var app = {
 			app.triggerBack();
 		});	
 		
-		console.log('backed..');
+		//console.log('backed..');
 		
 	},
 	
@@ -150,7 +154,7 @@ var app = {
 		
 		if($('#marketPage').is(':visible')) {
 			
-			console.log('we got market page!');
+			//console.log('we got market page!');
 			$('#sellerother').html('');
 			
 			if ($('#marketAdd').is(':visible') || $('#marketOrders').is(':visible') || $('#myList').is(':visible')) {
@@ -165,7 +169,7 @@ var app = {
 			
 		} else if($('#messagesPage').is(':visible')) {
 			
-			console.log('we got market page!');
+			//console.log('we got market page!');
 			
 		} else if($('#newsPage').is(':visible')) {
 			$('#newsContent').html('');
@@ -183,7 +187,7 @@ var app = {
 			$('.page-wrap').removeClass('opened');
 			
 		} else {
-			console.log('mkey-mkey');
+			//console.log('mkey-mkey');
 			$('#page-wrap').removeClass('active');
 			$('#page-wrap').show();
 			$('.page-sidebar-wrap').removeClass('active');
@@ -439,7 +443,7 @@ var app = {
 				//http:buduaar.ee/sites/api/User/loggedInUser/?callback=user
 				
 				
-				console.log(results);
+				//console.log(results);
 				$('.logout-link').show();
 			
 				$('.logged-out').hide();
@@ -486,7 +490,7 @@ var app = {
 					localStorage.setItem('budu_username', userData.username);
 					localStorage.setItem('budu_password', userData.password);
 				} else {
-					console.log('whot');
+					//console.log('whot');
 					localStorage.removeItem('budu_username');
 					localStorage.removeItem('budu_password');
 				}
@@ -541,7 +545,7 @@ var app = {
 		
 		$(window).scroll(function() {
 		
-		   console.log('scroll');
+		   //console.log('scroll');
 		
 		   if($('#messagesPage').is(':visible')) {
 			   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
@@ -602,7 +606,7 @@ var app = {
 					//alert('whaat');
 				}
 		   } else {
-			   console.log('different page');
+			   //console.log('different page');
 		   }
 		});		
 		
@@ -711,7 +715,7 @@ var app = {
 			
 			if ($('.subnav' + rel).html()) {
 				
-				console.log('HAS SUB SUB');
+				//console.log('HAS SUB SUB');
 				$('.sub-cat').removeClass('active');
 				$('.subnav' + rel).addClass('active');
 				 
@@ -894,7 +898,7 @@ var app = {
 			
 			*/
 			
-			console.log(search);
+			//console.log(search);
 			
 			$.each(results.data, function(key, val) {
 				if(!parseInt(key) && key != 'price' && key != 'category') {
@@ -903,7 +907,7 @@ var app = {
 					
 					$.each(val.values, function(key2, val2) {
 						/*if(search[key]) {
-							console.log(key + ' - ' + search[key]);
+							//console.log(key + ' - ' + search[key]);
 						}*/
 						options = options + '<option value="' + key2 + '" ' + (search[key] && search[key] == key2 ? ' selected="selected"' : '') + '>' + val2.name + ' (' + val2.count + ')</option>'
 					
@@ -911,8 +915,8 @@ var app = {
 					
 					$('#searchFilters').append('<select id="' + key + '" style="height:50px;margin-bottom:0%;">' + options + '</select><label for="' + key + '" class="itemreturn"><span></span></label>');
 					
-					console.log('Filters: ' + key);
-					console.log(val);
+					//console.log('Filters: ' + key);
+					//console.log(val);
 				}
 				
 				
@@ -939,8 +943,8 @@ var app = {
 		if (id) {
 			
 			$.get(app.serverUrl + 'Market/item/' + id, {}, function(results) {
-				console.log('we got edit!!');
-				console.log(results);
+				//console.log('we got edit!!');
+				//console.log(results);
 				
 				item = results.data.item[0];
 				
@@ -976,7 +980,11 @@ var app = {
 				$('.marketContainer').find('.page-wrap').hide();
 				$('#marketAdd').show();
 				
-				$('.uploaded').append('<a href="#" class="remove-pic" rel="'+item.id+'"><img src="'+item.image+'" /><span></span></a>');
+				$('.uploaded').html('');
+				
+				//$('.uploaded').append('<a href="#" class="remove-pic" rel="'+item.id+'"><img src="'+item.image+'" /><span></span></a>');
+				
+				$('#profilePic').attr('src', item.image);
 				
 				$.get(app.serverUrl + 'Market/itemImages/' + id, data, function(results) {
 					
@@ -1053,7 +1061,7 @@ var app = {
 		});
 		
 		$.each(app.catsTree, function(i, cat) {
-			console.log(cat);
+			//console.log(cat);
 			
 			$('#ad_category').append('<option value="'+cat.id+'">' + cat.name+'</option>');
 			
@@ -1111,7 +1119,7 @@ var app = {
 	getCatFeatures: function(cat_id) {
 		
 		$.get(app.serverUrl + 'Market/categoryFeatures/' + cat_id, {}, function(results) {
-				console.log(results.data);
+				//console.log(results.data);
 				$('.category-features').html('');
 				$.each(results.data, function(i, item) {
 					values = '';
@@ -1198,11 +1206,14 @@ var app = {
 				
 				value = 'desc_option_' + $(this).data('parent') + '[' + $(this).data('value') + ']';
 				
-				console.log(value);
+				//console.log(value);
 				
 				data[value] = $(this).data('value');
 				
 			});
+			
+			
+			app.saveParams = data;
 
 		//}
 		
@@ -1232,72 +1243,68 @@ var app = {
 		
 		data.action = 'addItem';
 		
-		console.log('SAVE:');
-		console.log(data);
-		
-		$.get(app.supportUrl, data, function(results) {
-			
-			if (results.code == '1' || results.code == 1) {
-			
-				app.currentEditId = results.data.item.id;
-			
-				if (step == 1) {
+		//console.log('SAVE:');
+		//console.log(data);
+		if (step == 1) {
+			uploadFile(app.imageURI);
+		} else {
+			$.get(app.supportUrl, data, function(results) {
 				
-					$('.one').removeClass('active');
-					$('.two').addClass('active');
+				if (results.code == '1' || results.code == 1) {
+				
+					app.currentEditId = results.data.item.id;
+				
+					if (step == 1) {
 					
-					$('body').scrollTop(0);
-					$('#itemForm2').show();
-					height1 = $('#itemForm').height();
-					$('#itemForm').css('margin-top', '-' + height1 + 'px');
-					
-				} else if (step == 2) {
-					
-					$('.one').removeClass('active');
-					$('.two').removeClass('active');
-					$('.three').addClass('active');
-					
-					$('body').scrollTop(0);
-					$('#itemForm3').show();
-					
-					height1 = $('#itemForm').height();
-					height2 = $('#itemForm2').height();
-					total_h = height1 + height2;
-					$('#itemForm').css('margin-top', '-' + total_h + 'px');
-					
-				} else if (step == 3) {
-					
-					$('body').scrollTop(0);
-					$('#saveFinish').show();
-					height1 = $('#itemForm').height();
-					height2 = $('#itemForm2').height();
-					height3 = $('#itemForm3').height();
-					total_h = height1 + height2 + height3;
-					$('#itemForm').css('margin-top', '-' + total_h + 'px');
+						$('.one').removeClass('active');
+						$('.two').addClass('active');
+						
+						$('body').scrollTop(0);
+						$('#itemForm2').show();
+						height1 = $('#itemForm').height();
+						$('#itemForm').css('margin-top', '-' + height1 + 'px');
+						app.saveParams = {};
+						
+					} else if (step == 2) {
+						
+						$('.one').removeClass('active');
+						$('.two').removeClass('active');
+						$('.three').addClass('active');
+						
+						$('body').scrollTop(0);
+						$('#itemForm3').show();
+						
+						height1 = $('#itemForm').height();
+						height2 = $('#itemForm2').height();
+						total_h = height1 + height2;
+						$('#itemForm').css('margin-top', '-' + total_h + 'px');
+						
+					} else if (step == 3) {
+						
+						$('body').scrollTop(0);
+						$('#saveFinish').show();
+						height1 = $('#itemForm').height();
+						height2 = $('#itemForm2').height();
+						height3 = $('#itemForm3').height();
+						total_h = height1 + height2 + height3;
+						$('#itemForm').css('margin-top', '-' + total_h + 'px');
+						
+					}
+				} else {
+					if(results.data && results.data.length)
+						alert(results.data);
+					else
+						alert(results.message);
 					
 				}
-			} else {
-				if(results.data && results.data.length)
-					alert(results.data);
-				else
-					alert(results.message);
-				
-			}
 			
-			
-			
-				
-				
-			console.log('SAVING: ');
-			console.log(results);
-		
-		}, 'jsonp');
-			
+			}, 'jsonp');
+		}
 	},
 	
 	getStores: function(data) {
 		data.limit = 100;
-		console.log(data);
+		//console.log(data);
 		app.showLoader(603);
 		$.get(app.serverUrl + 'Market/randomizedStores/', data, function(results) {
 		
@@ -1314,7 +1321,7 @@ var app = {
 				
 				stores[item.id] = item;
 			
-				console.log(item);
+				//console.log(item);
 				$('.market-template').find('.item').attr('data-id', item.id);
 				$('.market-template').find('img').attr('src', item.mediumIcon);
 
@@ -1375,8 +1382,8 @@ var app = {
 				
 				$('.market-header').show();
 				
-				console.log('cur store: ');
-				console.log(curStore);
+				//console.log('cur store: ');
+				//console.log(curStore);
 				
 				app.getMarket(data);
 				
@@ -1421,7 +1428,7 @@ var app = {
 		if (!data.start)
 			data.start = 0;
 		
-		console.log(data);
+		//console.log(data);
 		app.showLoader(723);
 		
 		data.key = which;
@@ -1437,7 +1444,7 @@ var app = {
 				
 				category = '';
 			
-				console.log(item);
+				//console.log(item);
 				$('.order-template').find('.item').attr('data-id', item.id);
 				if(which == 'buyer')
 					orderer = item.sellerUsername;
@@ -1453,7 +1460,7 @@ var app = {
 				orderRow = orderRow + '<td>' + parseFloat(item.totalPrice).toFixed(2) + ' €</td>';
 				orderRow = orderRow + '</tr>';
 				
-				console.log(orderRow);
+				//console.log(orderRow);
 				
 				$('.orders-content').append(orderRow);
 				
@@ -1534,7 +1541,7 @@ var app = {
 		if (!data.start)
 			data.start = 0;
 		
-		console.log(data);
+		//console.log(data);
 		app.showLoader(773);
 		$.get(app.serverUrl + 'Market/userMarketItems/', data, function(results) {
 			
@@ -1545,7 +1552,7 @@ var app = {
 			
 				category = '';
 			
-				console.log(item);
+				//console.log(item);
 				$('.my-item-template').find('.news').attr('data-id', item.id);
 				if (item.active)
 					$('.my-item-template').find('.item-status').html('Aktiivne').css('color', 'green');
@@ -1687,7 +1694,7 @@ var app = {
 							
 							
 						$('#marketPage').css('visibility', 'hidden').css('height', 'auto');
-						console.log($('#marketPage').height());
+						//console.log($('#marketPage').height());
 						$('#marketPage').height($('#marketPage').height()-400);
 						$('#marketPage').css('visibility', 'visible');
 						
@@ -1748,7 +1755,7 @@ var app = {
 			}
 			
 			offer = results.data.item[0];
-			console.log(offer);
+			//console.log(offer);
 			$('.toode_preview').attr('src', offer.image).parent().attr('href', offer.image);
 			
 			
@@ -2245,7 +2252,7 @@ var app = {
 		setTimeout(function(){
 			
 			var pageheight = $(document).height();
-			console.log(pageheight);
+			//console.log(pageheight);
 			$('.oveflowscroll').css('height', pageheight);
 		},500);
 		
@@ -2445,7 +2452,7 @@ var app = {
 				break;
 		}
 		
-		console.log('tüüp:' + type);
+		//console.log('tüüp:' + type);
 		
 		if (type == 'last' || type == 'hot')
 			$('.hotnews').show();
@@ -2528,7 +2535,7 @@ var app = {
 		
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
 			
-			console.log(results);
+			//console.log(results);
 
 			$('#gallery').hide();
 			$('#comments').hide();
@@ -2796,48 +2803,110 @@ function getPhoto() {
 // Upload files to server
 function uploadFile(mediaFile) {
 	//console.log('uploading');
-    var ft = new FileTransfer(),
-        path = mediaFile;
-        
-    $('.loading').show();
-    $('.loader').css('width', 0);
     
-    var options = new FileUploadOptions();
-    options.fileKey="image";
     
-    ft.onprogress = function(progressEvent) {
-	    if (progressEvent.lengthComputable) {
-	      percent = ((progressEvent.loaded * 100) / progressEvent.total);
-	      $('.loader').css('width', percent + '%');
-	    } else {
-	      $('.loader').css('width', '100%');
-	    }
-	};
-    url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
-    ft.upload(path, url,
-        function(result) {
-        	console.log(url);
-			console.log(result.response);
-			alert(result.response);
-			result.response = result.response.replace('123(', '').replace(')' , '');
-			console.log(result.response);
-            response = $.parseJSON(result.response);        
+    if (mediaFile) {
+	    var ft = new FileTransfer();
+	    var path = mediaFile;
+	        
+	    $('.loading').show();
+	    $('.loader').css('width', 0);
+	    
+	    var options = new FileUploadOptions();
+	    options.fileKey="image";
+	    
+	    ft.onprogress = function(progressEvent) {
+		    if (progressEvent.lengthComputable) {
+		      percent = ((progressEvent.loaded * 100) / progressEvent.total);
+		      $('.loader').css('width', percent + '%');
+		    } else {
+		      $('.loader').css('width', '100%');
+		    }
+		};
+		
+		var params = app.saveParams;
+		
+		if (app.saveParams.length) {
+			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
+		} else {
+			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
+		}
+		
+	    
+	    
+	    ft.upload(path, url,
+	        function(result) {
+	        	//console.log(url);
+				//console.log(result.response);
+				//alert(result.response);
+				result.response = result.response.replace('123(', '').replace(')' , '');
+				alert(result.response);
+	            response = $.parseJSON(result.response);  
+	            response = response.data;      
+				//alert(response);
+				
+				if(app.saveParams.length) {
+					if (step == 1) {
+						
+						$('.one').removeClass('active');
+						$('.two').addClass('active');
+						
+						$('body').scrollTop(0);
+						$('#itemForm2').show();
+						height1 = $('#itemForm').height();
+						$('#itemForm').css('margin-top', '-' + height1 + 'px');
+						app.saveParams = {};
+						
+					}
+				} else {
+					$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
+				}
+				
+				
+				$('.loading').hide();
+				
+	        },
+	        function(error) {
+	        	navigator.notification.alert('Error uploading file ' + path + ': ' + error.code, null, 'Uh oh!');
+	            //console.log('Error uploading file ' + path + ': ' + error.code);
+	        }, options
+	    ); 
+	    
+    } else {
+    
+    	//console.log('ID: ' + app.currentEditId);
+    
+    	data = {};
+    	data.id = app.currentEditId;
+    	data = app.saveParams;
+    	data.action = 'addItem';
+	    $.get(app.supportUrl, data, function(results) {
+				
+			if (results.code == '1' || results.code == 1) {
 			
-			$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
-			$('.loading').hide();
+				app.currentEditId = results.data.item.id;
+				$('.one').removeClass('active');
+				$('.two').addClass('active');
+				
+				$('body').scrollTop(0);
+				$('#itemForm2').show();
+				height1 = $('#itemForm').height();
+				$('#itemForm').css('margin-top', '-' + height1 + 'px');
+				app.saveParams = {};
 			
-        },
-        function(error) {
-        	navigator.notification.alert('Error uploading file ' + path + ': ' + error.code, null, 'Uh oh!');
-            //console.log('Error uploading file ' + path + ': ' + error.code);
-        }, options
-    );   
+			}
+		}, 'jsonp');
+    }
+      
 }
 
 function captureSuccess(imageURI) {
-	if (imageURI != null) {
+	app.imageURI = imageURI;
+	if (imageURI != null && !app.saveParams.length) {
 		uploadFile(imageURI);
-      }
+    } else {
+	    $('#profilePic').attr('src', imageURI);
+    }
 }
 
 // Called if something bad happens.
