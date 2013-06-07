@@ -941,6 +941,7 @@ var app = {
 			app.currentEditId = false;
 		
 		app.saveStage = 1;
+		app.imageURI = '';
 		
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
 		
@@ -2839,7 +2840,7 @@ function uploadFile(mediaFile) {
 		var params = app.saveParams;
 		
 		if (app.saveStage == 1) {
-			option.params = params;
+			options.params = params;
 			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		} else {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
