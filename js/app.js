@@ -2802,6 +2802,9 @@ function uploadFile(mediaFile) {
     $('.loading').show();
     $('.loader').css('width', 0);
     
+    var options = new FileUploadOptions();
+    options.fileKey="image";
+    
     ft.onprogress = function(progressEvent) {
 	    if (progressEvent.lengthComputable) {
 	      percent = ((progressEvent.loaded * 100) / progressEvent.total);
@@ -2810,9 +2813,11 @@ function uploadFile(mediaFile) {
 	      $('.loader').css('width', '100%');
 	    }
 	};
-    
-    ft.upload(path, app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123',
+    url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
+    ft.upload(path, url,
         function(result) {
+        	console.log(url);
+			console.log(result.response);
 			alert(result.response);
 			result.response = result.response.replace('123(', '').replace(')' , '');
 			console.log(result.response);
@@ -2825,8 +2830,7 @@ function uploadFile(mediaFile) {
         function(error) {
         	navigator.notification.alert('Error uploading file ' + path + ': ' + error.code, null, 'Uh oh!');
             //console.log('Error uploading file ' + path + ': ' + error.code);
-        },
-        { fileName: 123 + ".jpg" }
+        }, options
     );   
 }
 
