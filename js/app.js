@@ -46,6 +46,8 @@ var app = {
 	catsTree: {},
 	currentProduct: 0,
 	
+	saveStage: 1,
+	
 	currentEditId: false,
 	
 	imageURI: '',
@@ -938,6 +940,8 @@ var app = {
 		else
 			app.currentEditId = false;
 		
+		app.saveStage = 1;
+		
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
 		
 		if (id) {
@@ -989,21 +993,12 @@ var app = {
 				$.get(app.serverUrl + 'Market/itemImages/' + id, data, function(results) {
 					
 					$.each(results.data, function(i, itemImage) {
-						$('.product-thumbs').append('<a class="remove-pic" rel="'+itemImage.id+'" href="#"><img class="toode_thumb" src="'+itemImage.icon+'" alt="logo"/><span></span></a>')
+						$('.uploaded').append('<a class="remove-pic" rel="'+itemImage.id+'" href="#"><img class="toode_thumb" src="'+itemImage.icon+'" alt="logo"/><span></span></a>')
 						//$('.toode_thumb').attr('src', ).parent().attr('href', );
 	
 					});	
 					
-					$('.remove-pic').find('span').unbind('click');
-					$('.remove-pic').find('span').click(function(e) {
-						e.preventDefault();
-						img_element = $(this).paren();
-						rel = img_element.attr('rel');
-						$.get(app.serverUrl + 'Market/deleteItemImage/' + rel, {}, function(results) {
-							img_element.remove();							
-						}, 'jsonp');
-						
-					});
+					app.initPicRemove();
 				
 				}, 'jsonp');
 				
@@ -1013,12 +1008,12 @@ var app = {
 			
 		} 
 		
-		$('.photoupload').find('.takepicture').click(function(e) {
+		$('#marketAdd').find('.takepicture').click(function(e) {
 			e.preventDefault();
 			captureImage();
 		});
 		
-		$('.photoupload').find('.upload').click(function(e) {
+		$('#marketAdd').find('.upload').click(function(e) {
 			e.preventDefault();
 			getPhoto();
 		});
@@ -1114,6 +1109,21 @@ var app = {
 			app.saveItem(3, false);
 			
 		});
+	},
+	
+	initPicRemove: function() {
+		
+		$('.remove-pic').find('span').unbind('click');
+		$('.remove-pic').find('span').click(function(e) {
+			e.preventDefault();
+			img_element = $(this).parent();
+			rel = img_element.attr('rel');
+			$.get(app.serverUrl + 'Market/deleteItemImage/' + rel, {}, function(results) {
+				img_element.remove();							
+			}, 'jsonp');
+			
+		});
+			
 	},
 	
 	getCatFeatures: function(cat_id) {
@@ -1605,15 +1615,17 @@ var app = {
 			$('.refresh-user-item').unbind('click');
 			$('.refresh-user-item').click(function(e) {
 				e.preventDefault();
+				e.stopPropagation();
 				
+				element = $(this);
 				rel = $(this).attr('rel');
 				
 				//e.stopPropagation();
 				$.get(app.serverUrl + 'Market/updateMarketItemExpires/' + rel, data, function(results) {
 					
 					alert(results.data);
-					$(this).hide();
-					return false;	
+					element.hide();
+					//return false;	
 				
 				}, 'jsonp');
 				
@@ -2856,10 +2868,11 @@ function uploadFile(mediaFile) {
 						height1 = $('#itemForm').height();
 						$('#itemForm').css('margin-top', '-' + height1 + 'px');
 						app.saveParams = {};
-						
+						app.saveStage = 2;
 					}
 				} else {
 					$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
+					app.initPicRemove();
 				}
 				
 				
@@ -2893,6 +2906,7 @@ function uploadFile(mediaFile) {
 				height1 = $('#itemForm').height();
 				$('#itemForm').css('margin-top', '-' + height1 + 'px');
 				app.saveParams = {};
+				app.saveStage = 2;
 			
 			}
 		}, 'jsonp');
@@ -2902,7 +2916,7 @@ function uploadFile(mediaFile) {
 
 function captureSuccess(imageURI) {
 	app.imageURI = imageURI;
-	if (imageURI != null && !app.saveParams.length) {
+	if (imageURI != null && app.saveStage != 1) {
 		uploadFile(imageURI);
     } else {
 	    $('#profilePic').attr('src', imageURI);

@@ -2412,11 +2412,23 @@ select {
 .uploaded {
 	margin: 10px 0;
 }
-
+.uploaded a {
+	position: relative;
+}
 .uploaded img{
-	width: 25%;
+	margin: 1px;
+	width: 23%;
 	height: auto;
 	float: left;
+}
+.uploaded span {
+	display: block;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	background: url("images/remove-pic.png");
+	width: 25px;
+	height: 25px;
 }
 
 @-webkit-keyframes infiniteloading {
