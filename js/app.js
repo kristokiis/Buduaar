@@ -2844,7 +2844,7 @@ function uploadFile(mediaFile) {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		}
 		
-	    
+	    alert(app.saveStage);
 	    
 	    ft.upload(path, url,
 	        function(result) {
@@ -2857,8 +2857,7 @@ function uploadFile(mediaFile) {
 	            response = response.data;      
 				//alert(response);
 				
-				if(app.saveParams.length) {
-					if (step == 1) {
+				if(app.saveStage == 1) {
 						
 						$('.one').removeClass('active');
 						$('.two').addClass('active');
@@ -2869,7 +2868,6 @@ function uploadFile(mediaFile) {
 						$('#itemForm').css('margin-top', '-' + height1 + 'px');
 						app.saveParams = {};
 						app.saveStage = 2;
-					}
 				} else {
 					$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
 					app.initPicRemove();
