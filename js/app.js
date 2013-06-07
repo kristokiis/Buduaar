@@ -2838,7 +2838,7 @@ function uploadFile(mediaFile) {
 		
 		var params = app.saveParams;
 		
-		if (app.saveParams.length) {
+		if (app.saveStage == 1) {
 			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		} else {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
