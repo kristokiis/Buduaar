@@ -2913,15 +2913,18 @@ function uploadFile(mediaFile) {
 						app.saveParams = {};
 						app.saveStage = 2;
 				} else {
-					$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
-					$('.uploaded').hide();
+					
+					//$('.uploaded').hide();
 					app.showLoader();
 					setTimeout(function() {
 						$('.ajax-loader').hide();
+						$('.uploaded').hide();
+						$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
 						$('.uploaded').show();
+						app.initPicRemove();
 					}, 1500);
 					
-					app.initPicRemove();
+					
 				}
 				
 				
