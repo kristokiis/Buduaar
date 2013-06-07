@@ -2845,7 +2845,7 @@ function uploadFile(mediaFile) {
 		} else {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		}
-		alert(url);
+		//alert(url);
 	    //alert(app.saveStage);
 	    
 	    ft.upload(path, url,
@@ -2854,7 +2854,7 @@ function uploadFile(mediaFile) {
 				//console.log(result.response);
 				//alert(result.response);
 				result.response = result.response.replace('123(', '').replace(')' , '');
-				alert(result.response);
+				//alert(result.response);
 	            response = $.parseJSON(result.response);  
 	            response = response.data;      
 				//alert(response);
