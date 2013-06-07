@@ -2843,10 +2843,7 @@ function uploadFile(mediaFile) {
 			options.params = params;
 			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		} else {
-			//url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
-			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&callback=123';
-			//data.action = 'addItem';
-			//$.get(app.supportUrl, data, function(results) {
+			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		}
 		alert(url);
 	    //alert(app.saveStage);
@@ -2856,7 +2853,6 @@ function uploadFile(mediaFile) {
 	        	//console.log(url);
 				//console.log(result.response);
 				//alert(result.response);
-				alert(result.response);
 				result.response = result.response.replace('123(', '').replace(')' , '');
 				alert(result.response);
 	            response = $.parseJSON(result.response);  
