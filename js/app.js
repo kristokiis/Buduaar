@@ -2813,7 +2813,7 @@ function uploadFile(mediaFile) {
     
     ft.upload(path, app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123',
         function(result) {
-			console.log(result.response);
+			alert(result.response);
 			result.response = result.response.replace('123(', '').replace(')' , '');
 			console.log(result.response);
             response = $.parseJSON(result.response);        
