@@ -2915,9 +2915,11 @@ function uploadFile(mediaFile) {
 				} else {
 					$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
 					$('.uploaded').hide();
+					app.showLoader();
 					setTimeout(function() {
+						$('.ajax-loader').hide();
 						$('.uploaded').show();
-					}, 300);
+					}, 1500);
 					
 					app.initPicRemove();
 				}
