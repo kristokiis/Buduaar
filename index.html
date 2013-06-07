@@ -21,17 +21,19 @@
 	<!-- provide the splash screens for iPhone 5 and previous -->
 	<link href="assets/splash/ios/Default-568h@2x.png" rel="apple-touch-startup-image" media="(device-height: 568px)">
 	<link href="assets/splash/ios/screen-iphone-portrait-2x.png" rel="apple-touch-startup-image" sizes="640x960" media="(device-height: 480px)">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 	
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/photoswipe.css">
 	
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 	<script src="js/jquery.js"></script> 
 	<script src="js/swipe.min.js"></script>
-	<script src="js/flexSlider.min.js"></script>
 	<script src="js/lib/klass.min.js"></script>
 	<script src="js/code.photoswipe-3.0.5.min.js"></script>
+	<script src="js/imagesLoaded.min.js"></script>
+	<!--[if lt IE 9]> 
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
+	<![endif]-->
 	
 	
 </head>
@@ -41,7 +43,7 @@
 	</div>
 	<div class="pages-container">
 	<div class="pages-wrap">
-		<div id="page-wrap">
+		<div id="page-wrap" style="float:left;">
 			
 			<header>
 				<img class="logo" src="images/logo.png" alt="logo"/>
@@ -55,17 +57,27 @@
 					<a href="#" class="news-link">
 						<div class="dark"><img src="images/web_img.png" width="101" height="98" alt="thumb"/><span>Buduaar.ee</span></div>
 					</a>
-					<a href="bturg.html" class="market-link">
-						<div class="pink"><img src="images/turg_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;<strong>arendamisel</strong></span></div>
+					<a href="#" class="market-link">
+						<div class="pink"><img src="images/turg_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;</span></div>
 					</a>
 					<div class="lightpink open_bt_login"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE</span></div>
+					
+					<a href="#" class="logout-link logout" style="display:none;">
+						<div class="dark"><img src="images/logout.jpg" width="101" height="98" alt="thumb"/><span style="margin-top: 18px;"><span id="u_username" style="margin:0;font-size:12px;">k_kiis</span> <br />LOGI VÄLJA</span></div>
+					</a>
+					
 				</nav>
-				
+				<a href="http://www.buduaar.ee" style="color:white;width:100%;text-align:center;" class="usual-site">Buduaari veebiversiooni näeb SIIT</a>
 				<section class="loginform bturglogin">
 					<section class="wrap">
-						<form id="loginForm2" action="#" autocomplete="off">
+						<form id="loginForm2" class="loginForm2" action="#" autocomplete="off">
 							<input type="text" id="username" name="username" class="defaultText textinput" title="Kasutajanimi"><br />
 							<input type="password" id="password" name="password" class="defaultText textinput" title="Parool"><br />
+							
+							
+							
+							<input type="checkbox" id="rememberMe" value="1" checked /><label for="rememberMe"><span></span>jäta mind meelde</label><br />
+							
 							<input type="submit" class="submit" value="Logi sisse">
 						</form> 
 					</section>
@@ -82,7 +94,603 @@
 			<div class="clear"></div>
 		</div>
 		
-		<div class="page-sidebar-wrap" id="marketPage" style="display:none;">
+		<div class="page-sidebar-wrap" id="marketPage" style="float:left;">
+		
+			<aside class="sidebar">
+				<section class="oveflowscroll" id="marketMenu">
+					<nav class="menu_level1">
+						<a class="women" href="#">Naistele</a>
+						<a href="#">Ilutooted ja tervis</a>
+						<a href="#">TV/Video/Foto</a>
+						<a href="#">Meestele</a>
+						<a href="#">Kodumasinad</a>
+						<a href="#">Lastele</a>
+						<a href="#">Lemmikloomad</a>
+					</nav>
+					<nav class="women2">
+						<a class="catsback" href="#">Tagasi</a>
+						<a class="active" href="#">Naistele</a>
+						<a href="#">Riided</a>
+						<a href="#">Kotid</a>
+						<a href="#">Aksessuaarid</a>
+						<a href="#">Rasedate riided</a>
+						<a href="#">Vintage</a>
+					</nav>
+				</section>
+			</aside>
+			
+			<section class="barsubmenu smi">
+			
+				<nav class="sub_menu_icons">
+					<a href="#" class="star home"><span></span></a>
+					<a href="#" class="messages"><span></span><div class="notification newMessagesCount">0</div></a>
+					<a href="#" class="list"><span></span></a>
+					<a href="#" class="horn"><span></span></a>
+					<a href="#" class="addphoto"><span></span></a>
+					<a href="#" class="cart logout"><span></span></a>
+					<span class="justifyer"></span>
+				</nav>
+				
+			</section>	
+			<section class="barmenu">
+				
+				<nav class="menu_bar logged-out log-header">
+					<form class="loginForm2">
+					<input type="text" class="first" name="username" placeholder="Kasutaja" />
+					<input type="password" name="password" placeholder="Parool" />
+					<input type="submit" value="ok" />
+					</form>
+				</nav>
+				
+				<nav class="menu_bar logged-out">
+					<a class="back" href="#"><span></span></a>
+					<a class="latest refreshMarket" href="#" ><span>Viimati lisatud</span></a>
+					<a class="refresh refreshMarket" href="#"><span></span></a>
+					<a class="search" href="#"><span></span></a>
+					<a class="categories" href="#"><span></span></a>
+					<span class="justifyer"></span>
+				</nav>
+				
+				<nav class="menu_bar logged-in" style="display:none;">
+					<a class="back" href="#"><span></span></a>
+					<div class="topname"><a href="#" id="userUsername"><span></span></a></div>
+					<a class="refresh refreshMarket" href="#"><span></span></a>
+					<a class="search" href="#"><span></span></a>
+					<a class="categories" href="#"><span></span></a>
+					<span class="justifyer"></span>
+				</nav>
+				
+				<section class="searchbox market-search">
+					<form id="searchMarketForm" action="#" autocomplete="off">
+						<input type="text" id="marketSearchStr" style="width:86%;margin-bottom:2%;" name="search" placeholder="Otsi märksõna" class="defaultText textinput" title="">
+						<input type="text" id="marketSearchPriceFrom" style="width:35%;" name="search" placeholder="Hind min" class="defaultText textinput" title="">
+						<input type="text" id="marketSearchPriceTo" style="width:35%;margin-left:2%;margin-bottom:2%;" name="search" placeholder="Hind max" class="defaultText textinput" title="">
+						<br style="clear:both;" />
+						<div id="searchFilters">
+						
+						</div>
+						
+						
+						<input type="submit" style="width:100%;" class="submit" value="Otsi">
+					</form> 
+				</section>
+			</section>
+			
+			<section class="barsubmenu">
+				
+				<nav class="sub_menu">
+					<a href="#" class="get-products">Kuulutused</a>
+					<a href="#" class="get-auctions">Oksjonid</a>
+					<a href="#" class="get-markets usual">Kaubamajad</a>
+					<a href="#" class="get-markets market fashion">Moeturg</a>
+				</nav>
+				
+			</section>	
+			
+			<section class="barsubmenu oth" style="display:none;">
+				
+				<nav class="onetwothree">
+					<a href="#" class="one active"><span class="circle"><span>1</span></span></a>
+					<a href="#" class="divide"><span></span></a>
+					<a href="#" class="two"><span class="circle"><span>2</span></span></a>
+					<a href="#" class="divide"><span></span></a>
+					<a href="#" class="three"><span class="circle"><span>3</span></span></a>
+					<span class="justifyer"></span>
+				</nav>
+				
+			</section>	
+			
+			<section class="barsubmenu market-header" style="font-size:11px;text-align:left;display:none;">
+				
+				<img src="#" class="market-image" width="100" height="100" style="float:left;margin:1%;" />
+				<h3 class="market-title" style="color:#da4b8b;font-size:13px;">Kaubamaja</h3>
+				<p class="market-description" style="font-size:12px;">Lorem impsum adasdasd adsasdasd sdfsdfasdf safsadfsdf sdfasdfsdf sdfsdfsdf</p>
+				
+				<h4 style="color:#da4b8b;font-size:12px;">Kaubamaja info:</h4>
+				<span>Koduleht: </span><strong><a class="market-web" style="color:#da4b8b;" href="#">www.prettywoman.ee</a></strong><br />
+				<span>E-mail: </span><strong><a class="market-mail" style="color:#da4b8b;" href="#">pretty@prettywoman.ee</a></strong><br />
+				<span>Telefon: </span><strong><a class="market-phone" style="color:#da4b8b;" href="#">5078222</a></strong><br />
+				
+				
+				
+				<br style="clear:both;" />
+				
+			</section>	
+			
+			<div class="marketContainer">
+				<div class="page-wrap underbarsubmenu" id="marketList">	
+				
+					<section class="storelist">
+						
+						<section class="row" id="itemsList">
+						</section>
+						
+						<div class="clear"></div>
+						
+						<section class="market-template" style="display:none;">
+							
+							<section class="item" data-id="0">
+								
+								<a href="#">
+									<div class="mask"></div>
+									<img class="thumb" src="images/ajax-loader.gif" alt="" style="min-height:150px;" data-realsrc="test" />
+									<img class="fake-thumb" style="display:none;" src="#" alt="thumb" />
+								</a>
+								<p>
+									<span class="item-description">Harrastus ja vaba aeg</span>
+									<span class="price">32.00€</span>
+								</p>
+								
+							</section>
+							
+						</section>
+						
+					</section>
+					
+					
+					<div class="clear"></div>
+				</div>
+				
+				<div class="page-wrap toodepage" id="marketDetail">	
+		
+					<section class="toode">
+						<a href="#" class="item-image"><img class="toode_preview" src="images/shoe1.png" alt="logo"/></a>
+						
+						<div class="product-thumbs">
+						
+						</div>
+						
+						<div class="clear"></div>
+						
+						<h2>Ilus eest satsidega top. Suurusele S-M (7)</h2>
+						<div class="ad-content">
+							<p><strong>Seisukord</strong>: <span class="is-new">Uus</span></p>
+							<p><strong>Saadavus</strong>: <span class="is-availeble">Kohe olemas</span></p>
+							<p><strong>Kategooria</strong>: <span class="item-cat">Pluusid/Topid</span></p>
+							<div class="desc-options">
+							
+							</div>
+							<!--<p>Kategooria: <span class="item-cat">Pluusid/Topid</span></p>-->
+							<p><strong>Asukoht</strong>: <span class="item-location">Tallinn</span></p>
+							<p><strong>Alles</strong>: <span class="item-quantity">1</span></p>
+							<p><strong>Hind</strong>: <span class="item-price">1</span></p>
+							
+							<div class="auction-info">
+								<p><strong>Pakkumise samm</strong>: <span class="item-bid-step">1</span></p>
+							</div>
+							
+							<section id="accordion">
+								<div>
+									<div class="title">Kuulutuse info</div>
+									<div class="content">
+										<p><strong>Kirjeldus:</strong></p>
+										<p class="item-description-detail"></p>
+									</div>
+								</div>
+			
+								<div>
+									<div class="title active">Müüja info</div>
+									<div class="content active">
+										<p class="item-offerer">valent</p>
+										<p>Teenusepakkuja: <span class="item-offerer-type">Eraisik</span></p>
+										<p><a href="#" class="message-to-user" data-username="" data-id="">Saada kasutajale sõnum</a></p>
+									</div>
+								</div>
+							</section>
+							
+							
+							
+							<section class="addtocart">
+								<section class="itemcount">
+									<a href="#" class="minus">-</a>
+									<span id="orderCount">1</span>
+									<a href="#" class="plus">+</a>
+								</section>
+								
+								<a href="#" class="buy"><span>Broneeri</span></a>
+								
+								<div class="clear"></div>
+								
+								<span class="sellerother">Teised müüja pakkumised</span>
+							</section>
+							
+							<section id="sellerother">
+								
+								
+								
+								
+							</section>
+						
+						</div>
+						
+						<section class="selletother-template" style="display:none;">
+							<div class="other">
+								<img src="images/shoe2.png" alt="other"/>
+								<p>Ägedad ja omapärased retuusid.</p>
+								<p class="price">23 eur</p>
+							</div>
+						</section>
+						
+						<div class="clear"></div>
+					</section>				
+					
+					<div class="clear"></div>
+				</div>
+				
+				<div class="page-wrap toodepage" style="display:none;" id="marketOrders">
+					
+					<section class="storelist">
+						<h2 style="color:white;text-align:center;">Minu tellimused</h2>
+						<a href="#" class="orders-tab order-buy active">Ost</a>
+						<a href="#" class="orders-tab order-sell">Müük</a>
+						<br style="clear:both;" />
+						<div class="list-container">
+							<table>
+								<thead>
+								<tr>
+									<th>Müüja</th>
+									<th>Kuupäev</th>
+									<th>Staatus</th>
+									<th>Kogus</th>
+									<th>Hind</th>
+									<th>Summa</th>
+								</tr>
+								</thead>
+								<tbody class="orders-content">
+									
+								</tbody>
+							</table>
+						</div>
+						<div class="detail-container">
+							<table cellpadding="8" cellspacing="4">
+						        <tbody>
+								        <tr>
+								            <td class="s14">Tellimuse ID:</td>
+								            <td class="s14 pink" id="orderId">12043</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Staatus:</td>
+								            <td class="s14 pink b" id="orderStatus">Tellimus kinnitatud müüja poolt</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Hind:</td>
+								            <td class="s14 pink" id="orderPrice">12€</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Kogus:</td>
+								            <td class="s14 pink"  id="orderQuantity">1</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Tellimuse kättetoimetamise viis:</td>
+								            <td class="s14 pink" id="orderTransport">SmartPOST &nbsp; </td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Paki suurus:</td>
+								            <td class="s12" id="orderSize">M kuni 20cm*36cm*60cm; 3.49€</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">&nbsp;</td>
+								            <td class="s12" id="depositeDescription">SmartPOSTist saadetakse sinu e-mailile kood paki postitamiseks.</td>
+								        </tr>
+								        <tr>
+								            <td colspan="2">&nbsp;</td>
+								        </tr>   
+								        <tr>
+								            <td class="s14">Müüja:</td>
+								            <td class="s14 pink" id="orderSeller">Lauri Lutter - Kasutajanimi jimmycrew</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Saatja e-mail:</td>
+								            <td class="s14 pink" id="orderSellerMail"><a href="mailto:llutter@ut.ee">llutter@ut.ee</a></td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Telefon:</td>
+								            <td class="s14 pink" id="orderSellerPhone"><a href="tel:56220847">56220847</a></td>
+								        </tr>
+								        <tr>
+								            <td colspan="2">&nbsp;</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Ostja:</td>
+								            <td class="s14 pink" id="orderBuyer">Lauri TextText - Kasutajanimi dhinzy</td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Saaja e-mail:</td>
+								            <td class="s14 pink" id="orderBuyerMail"><a href="mailto:lauri@inditel.ee">lauri@inditel.ee</a></td>
+								        </tr>
+								        
+								        <tr>
+								            <td class="s14">Telefon:</td>
+								            <td class="s14 pink" id="orderBuyerPhone"><a href="tel:56220847">56220847</a></td>
+								        </tr>
+								        <tr>
+								            <td class="s14">Selgitus:</td>
+								            <td class="s14 pink" id="orderComments">Test</td>
+								        </tr>
+						            </tbody>
+            				</table>
+						</div>
+					</section>
+					
+					
+				
+				</div>
+				
+				<div class="page-wrap toodepage" style="display:none;" id="myList">
+					
+					<section class="storelist">
+						<h2 style="color:white;text-align:center;">Minu tooted</h2>
+						<div class="list-container">
+						
+						</div>
+					</section>
+					
+					<div class="my-item-template" style="display:none;">
+						<article class="news">
+							<a href="#">
+								<img src="#" width="80" height="85" alt="thumb" style="margin-right:10px;"/>
+								<div class="meta"></div>
+								<div class="text">
+									<h2 style="margin:5px;">3</h2>
+									<p class="item-status">&nbsp;
+									</p>
+									<p style="margin-top: 0px;">
+										<a href="#" class="edit-user-item" rel="">Muuda</a> | 
+										<a href="#" class="refresh-user-item" rel="">Uuenda</a>
+									</p>
+								</div>
+								<span class="price"></span>
+							</a>
+						</article>
+					</div>
+				
+				</div>
+				
+				<div class="page-wrap toodepage" style="display:none;" id="marketAdd">	
+					<form id="itemForm" action="#" autocomplete="off">
+						<section class="lisatoode">
+							<h2>Üldinfo</h2>
+							
+								<input type="text" id="ad_name" name="nimi" class="defaultText textinput" placeholder="Nimi"><br />
+								
+								<div class="pricebox client-type-box">
+									<input type="radio" data-value="0" id="add_private" name="ad_client" value="0" checked/>
+									<label class="label" for="add_private" style="margin-right:7px;"><span></span> Erakuulutus </label>
+									<input type="radio" data-value="1" id="add_business" name="ad_client" value="1"/><label for="add_business"><span></span> Ärikuulutus</label>
+									<br style="clear:both;" />
+								</div>
+								
+								<div class="pricebox">
+									<span>Tüüp</span> 
+									<input type="radio" data-value="kuulutus" id="add_ad" name="ad_type" value="kuulutus" checked/><label for="add_ad"><span></span> Kuulutus</label>
+									<input type="radio" data-value="oksjon" id="add_auction" name="ad_type" value="oksjon"/><label class="label" for="add_auction"><span></span> Oksjon </label>
+									
+								</div>
+								
+								<div class="pricebox add-type-box">
+									<span style="width:33%">Tehing</span> 
+									<input type="radio" id="add_sale" data-value="sale" name="ad_deal_type" value="sale" checked/><label class="label" for="add_sale"><span></span> Müük </label>
+									<input type="radio" id="add_buy" data-value="buy" name="ad_deal_type" value="buy"/><label for="add_buy"><span></span> Ost</label>
+								</div>
+								
+								<select id="ad_condition">
+									<option value="0">Seisukord</option>
+							
+									<option value="new">Uus</option>
+									<option value="littleUser">Vähe kasutatud</option>
+									<option value="used">Kasutatud</option>
+									<option value="antique">Antiik</option>
+									<option value="other">Muu</option>
+								</select>
+								<label for="ad_condition" class="itemreturn"><span></span></label>
+								
+								
+								<h2>Müügiinfo</h2>
+								
+								<section class="add-ad-section">
+									<select id="ad_availability">
+										<option value="0">Saadavus</option>
+								
+										<option value="order">Tellitav</option>
+										<option value="immediatelyAvailable">Kohe olemas</option>
+										<option value="booked">Broneeritud</option>
+										
+									</select>
+									<label for="ad_availability" class="itemreturn"><span></span></label>
+									
+									<span style="width:33%">Hind(€)</span> <input type="text" id="ad_price" name="nimi" class="defaultText textinput" placeholder="Hind"><br />
+									<span style="width:33%">Kogus(tk)</span> <input type="text" id="ad_quantity" name="nimi" class="defaultText textinput" placeholder="Kogus"><br />
+								
+								</section>
+								
+								<section class="add-auction-section">
+									<select id="auction_length">
+										<option value="0">Oksjon kestab</option>
+								
+										<option value="1">1 päeva</option>
+										<option value="2">2 päeva</option>
+										<option value="3">3 päeva</option>
+										
+									</select>
+									<label for="auction_length" class="itemreturn"><span></span></label>
+									
+									<input type="number" id="auction_price" name="nimi" class="defaultText textinput" placeholder="Alghind"><br />
+									<input type="number" id="auction_step" name="nimi" class="defaultText textinput" placeholder="Pakkumise samm"><br />
+								
+								</section>
+								
+								<h2>Kategooria</h2>
+								
+								<select id="ad_category">
+									
+									
+								</select>
+								<label for="ad_category" class="itemreturn"><span></span></label>
+								
+								<section class="category-features">
+								
+								
+								</section>
+								
+								<h2>Kirjeldus</h2>
+								
+								<textarea id="add_description" class="defaultText textinput" placeholder="Kirjeldus"></textarea>
+								
+								<textarea id="add_additional" class="defaultText textinput" placeholder="Lisainfo"></textarea>
+								
+							<div class="clear"></div>
+							<input type="submit" class="submit" id="addStep2" value="Edasi »">
+							<div class="clear"></div>
+						</section>
+
+						<div class="clear"></div>
+					
+					</form> 
+					<form id="itemForm2" action="#" autocomplete="off" style="display:none;">
+						
+						<section class="photoupload lisatoode">
+								<h2>Pilte saab laadida ainult rakenduses</h2>
+								<div class="only-app" style="display:none;">
+									<section class="upload">
+										<span></span><br />Lae telefonist
+									</section>
+									<section class="takepicture">
+										<span></span><br />Pildista ja lae
+									</section>
+									
+									<div class="clear"></div>
+									
+									<section class="loading">
+										<section class="loader"></section>
+									</section>
+								
+								</div>
+								<section class="uploaded">
+									
+										
+									
+								</section>
+								
+								
+								<div class="clear"></div>
+						
+						<div class="clear"></div>
+						<br /><br />
+						<input type="submit" class="submit" id="addStep2" value="Edasi »">
+						<div class="clear"></div>
+						</section>
+						<!--
+						
+						-->
+						<div class="clear"></div>
+					
+					</form> 
+					<form id="itemForm3" action="#" autocomplete="off" style="display:none;">
+						
+						<section class="lisatoode">	
+							<h2>Kättesaamine</h2>
+							
+							<select id="ad_location">
+								<option value="0">Asukoht</option>
+								<option value="harjumaa">Harjumaa</option>
+								<option value="tallinn">Tallinn
+								</option><option value="hiiumaa">Hiiumaa
+								</option><option value="idavirumaa">Ida-Virumaa
+								</option><option value="jogevamaa">Jõgevamaa
+								</option><option value="jarvamaa">Järvamaa
+								</option><option value="laanemaa">Läänemaa
+								</option><option value="laanevirumaa">Lääne-Virumaa
+								</option><option value="polvamaa">Põlvamaa
+								</option><option value="parnumaa">Pärnumaa
+								</option><option value="parnu">Pärnu
+								</option><option value="raplamaa">Raplamaa
+								</option><option value="saaremaa">Saaremaa
+								</option><option value="kuressaare">Kuressaare
+								</option><option value="tartumaa">Tartumaa
+								</option><option value="tartu">Tartu
+								</option><option value="valga">Valga
+								</option><option value="valgamaa">Valgamaa
+								</option><option value="viljandimaa">Viljandimaa
+								</option><option value="viljandi">Viljandi
+								</option><option value="vorumaa">Võrumaa
+								</option><option value="voru">Võru
+								</option><option value="valismaa">Välismaa
+								</option>
+								
+							</select>
+							<label for="ad_location" class="itemreturn"><span></span></label>
+							
+							<input type="text" id="ad_deliveryTimeInDays" name="deliveryTimeInDays" class="defaultText textinput" placeholder="Paki tarneaeg päevades"><br />
+							
+							<section class="eestipost">
+								<input type="checkbox" id="eestipost" data-value="post24" name="post" value="post24" checked/><label for="eestipost"><span></span> <br /><img src="images/eestipost.png" alt="uploaded photo"/> </label>
+									
+							</section>
+							<section class="smartpost">
+								<input type="checkbox" id="smartpost" data-value="smartpost" name="post" value="smartpost" /><label for="smartpost"><span></span> <br /><img src="images/smartpost.png" alt="uploaded photo"/> </label>
+							</section>
+							
+							<section class="other">
+								<input type="checkbox" id="inAgreement" data-value="inAgreement" name="post" value="inAgreement" checked/><label for="eestipost"><span></span> <br />Saatmine kokkuleppel </label>	
+							</section>
+							
+						
+							<div class="clear"></div>
+							<br /><br />
+							<input type="submit" class="submit" id="addStep3" value="Salvesta »">
+							<div class="clear"></div>
+						</section>
+						
+						<div class="clear"></div>
+					
+					</form> 
+					
+					<section class="photoupload lisatoode" style="display:none;" id="saveFinish">
+						<h3 style="color:green;">Toode lisatud!</3h>
+					</section>
+					
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		<div class="page-sidebar-wrap" id="messagesPage" style="display:none;">
+		
+			<section class="barsubmenu smi">
+			
+				<nav class="sub_menu_icons">
+					<a href="#" class="star home"><span></span></a>
+					<a href="#" class="messages"><span></span><div class="notification newMessagesCount">0</div></a>
+					<a href="#" class="list"><span></span></a>
+					<a href="#" class="horn"><span></span></a>
+					<a href="#" class="addphoto"><span></span></a>
+					<a href="#" class="cart logout"><span></span></a>
+					<span class="justifyer"></span>
+				</nav>
+				
+			</section>	
+			<!--
 			<div class="page-wrap">
 	
 				<header>
@@ -94,15 +702,16 @@
 				</header>
 	
 			</div>
-			
+			-->
 			<section class="barmenu">
 			
 				<nav class="menu_bar">
 					<a class="back" href="#"><span></span></a>
 					<div class="topname"><a href="#" id="startNewMessage"><span>Alusta uut</span></a></div>
-					<a class="bank" href="#"><span class="">&nbsp;</span></a>
+					<!-- <a class="bank" href="#"><span class="">&nbsp;</span></a> 
 					<a class="logout" href="#"><span></span></a>
-					<a class="home" href="#"><span></span></a>
+					<a class="home" href="#"><span></span></a> -->
+					<a class="refresh refreshMessages" href="#"><span></span></a>
 					
 					<span class="justifyer"></span>
 				</nav>
@@ -195,7 +804,7 @@
 			<section class="barmenu">
 			
 				<nav class="menu_bar">
-					<a class="back" href="index.html"><span></span></a>
+					<a class="back" href="#"><span></span></a>
 					<a class="today" href="#"><span>Tänased</span></a>
 					<a class="top10" href="#"><span>TOP 10</span></a>
 					<a class="home" href="#"><span></span></a>
@@ -207,7 +816,7 @@
 						<input type="text" id="search" name="search" class="defaultText textinput" title="">
 						<input type="submit" class="submit" value="Otsi">
 					</form> 
-					
+					<p class="android-message" style="display:none;">Lae alla androidi rakendus <a href="https://play.google.com/store/apps/details?id=ee.efley.buduaar" style="color:white;">siit</a> <a href="#" class="close">x</a></p>
 				</section>
 			</section>	
 			<div class="newsContainer">
@@ -268,9 +877,17 @@
 					
 					<section class="meta">12.10.2012    Staarid ja elu</section>
 					
+					
+					
+					
+					
 					<section class="newsopen">
 						
 						<article id="post">
+							<div class="reccomend-container">
+							
+							</div>
+						
 							<h2>Moepromootor Mari Martin: Eesti naine ei julge sageli väärilist palka küsida</h2>
 							<a class="add-invisible" href="#" id="newsImage"><img class="postthumb" src="#" alt="thumb"/></a>
 							<p class="add-invisible" id="newsContent"><p>
@@ -348,7 +965,7 @@
 	</div>
 	
 	<script src="js/scripts.js"></script> 
-	<script src="js/app.js"></script>
+	<script src="js/app.js?12"></script>
 	<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-1288764-14']);
@@ -359,5 +976,28 @@
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
 	</script>
+	
+	<script type="text/javascript" charset="utf-8">
+		// Wait for Cordova to load
+		document.addEventListener("deviceready", onDeviceReady, false);
+		var gaPlugin;
+		var pictureSource;
+		var destinationType;
+		function onDeviceReady() {
+		   	pictureSource = navigator.camera.PictureSourceType;
+		   	destinationType = navigator.camera.DestinationType;
+		   	
+		   	app.init();
+		   	$('.only-app').show();
+		   	 	
+		}	
+		
+		/*$(document).ready(function() {
+
+			app.init();
+		});*/	
+		
+	</script>
+	
 </body>
 </html>
