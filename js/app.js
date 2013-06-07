@@ -2810,9 +2810,10 @@ function uploadFile(mediaFile) {
 	      $('.loader').css('width', '100%');
 	    }
 	};
-    
-    ft.upload(path, app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123',
+    url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
+    ft.upload(path, url,
         function(result) {
+        	console.log(url);
 			console.log(result.response);
 			result.response = result.response.replace('123(', '').replace(')' , '');
 			console.log(result.response);
