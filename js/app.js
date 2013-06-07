@@ -953,6 +953,8 @@ var app = {
 				
 				item = results.data.item[0];
 				
+				//console.log(item);
+				
 				$('#ad_name').val(item.name);
 				$('#add_description').val(item.description);
 				$('#add_additional').val();
@@ -980,7 +982,7 @@ var app = {
 				
 				$('#ad_category').val(item.category);
 				
-				app.getCatFeatures(item.category);
+				app.getCatFeatures(item.category, results.data.descriptionOptions);
 				
 				$('.marketContainer').find('.page-wrap').hide();
 				$('#marketAdd').show();
@@ -1009,14 +1011,34 @@ var app = {
 			
 		} 
 		
+		$('#marketAdd').find('.takepicture').unbind('click');
 		$('#marketAdd').find('.takepicture').click(function(e) {
 			e.preventDefault();
-			captureImage();
+			if ($(this).hasClas('.step2-capture'))
+				if($('.uploaded').find('img').lenght == 4) {
+					alert('Maksimum piltide arv on 4, kustuta, et laadida juurde');
+				} else {
+					captureImage();
+				}
+			} else {
+				captureImage();
+			}
+			
 		});
 		
+		$('#marketAdd').find('.upload').unbind('click');
 		$('#marketAdd').find('.upload').click(function(e) {
 			e.preventDefault();
-			getPhoto();
+			if ($(this).hasClas('.step2-capture'))
+				if($('.uploaded').find('img').lenght == 4) {
+					alert('Maksimum piltide arv on 4, kustuta, et laadida juurde');
+				} else {
+					getPhoto();
+				}
+			} else {
+				getPhoto();
+			}
+			
 		});
 		
 		
@@ -1087,7 +1109,7 @@ var app = {
 		$('#ad_category').unbind('change');
 		$('#ad_category').change(function() {
 			cat_id = $(this).val();
-			app.getCatFeatures(cat_id);
+			app.getCatFeatures(cat_id, false);
 		});
 		
 		$('#itemForm').unbind('submit');
@@ -1120,18 +1142,22 @@ var app = {
 			img_element = $(this).parent();
 			rel = img_element.attr('rel');
 			$.get(app.serverUrl + 'Market/deleteItemImage/' + rel, {}, function(results) {
-				img_element.remove();							
+				img_element.remove();
+				$('body').scrollTop(0);						
 			}, 'jsonp');
 			
 		});
 			
 	},
 	
-	getCatFeatures: function(cat_id) {
+	getCatFeatures: function(cat_id, user_cats) {
 		
 		$.get(app.serverUrl + 'Market/categoryFeatures/' + cat_id, {}, function(results) {
 				//console.log(results.data);
 				$('.category-features').html('');
+				
+				//console.log(user_cats);
+				
 				$.each(results.data, function(i, item) {
 					values = '';
 					fieldType = 'radio';
@@ -1148,9 +1174,19 @@ var app = {
 						$('.category-features').append('<select id="select_'+i+'"><option>'+item.nameEst+'</option>' + values + '</select><label for="select_'+i+'" class="itemreturn"><span></span></label><br style="clear:both;" />');
 						
 					} else {
-					
+						special_str = '';
 						$.each(item.values, function(j, value) {
-							values = values + '<input type="' + fieldType + '" data-parent="' + i + '" data-value="' + j + '" id="check_'+j+'" name="check_'+i+'" value="' + j + '" /><label style="margin:5px;" for="check_'+j+'"><span></span> '+value.valueEst+'</label>';
+							if(user_cats[i]) {
+								//console.log('got it, lets dig deeper');
+								$.each(user_cats[i].values, function(k,l) {
+									if (l == value.valueEst) {
+										special_str = ' checked="checked"';
+									} else {
+										special_str = '';
+									}
+								});
+							}
+							values = values + '<input ' + special_str + ' type="' + fieldType + '" data-parent="' + i + '" data-value="' + j + '" id="check_'+j+'" name="check_'+i+'" value="' + j + '" /><label style="margin:5px;" for="check_'+j+'"><span></span> '+value.valueEst+'</label>';
 						});
 						
 						
@@ -2838,7 +2874,7 @@ function uploadFile(mediaFile) {
 		};
 		
 		var params = app.saveParams;
-		
+		 
 		if (app.saveStage == 1) {
 			options.params = params;
 			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';

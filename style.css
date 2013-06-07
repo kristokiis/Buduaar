@@ -2325,6 +2325,9 @@ select {
 	position: relative;
 	float: left;
 }
+#marketAdd select {
+	margin-bottom: 0px;
+}
 
 .itemreturn{
 	background: #B93B79;
