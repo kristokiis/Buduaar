@@ -2895,6 +2895,8 @@ function uploadFile(mediaFile) {
 	            response = response.data;      
 				//alert(response);
 				
+				console.log(response);
+				
 				if(app.saveStage == 1) {
 						
 						$('.one').removeClass('active');
