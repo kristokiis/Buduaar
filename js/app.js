@@ -2818,6 +2818,7 @@ function uploadFile(mediaFile) {
         function(result) {
         	console.log(url);
 			console.log(result.response);
+			alert(result.response);
 			result.response = result.response.replace('123(', '').replace(')' , '');
 			console.log(result.response);
             response = $.parseJSON(result.response);        
