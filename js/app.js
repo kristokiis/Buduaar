@@ -2802,6 +2802,9 @@ function uploadFile(mediaFile) {
     $('.loading').show();
     $('.loader').css('width', 0);
     
+    var options = new FileUploadOptions();
+    options.fileKey="image";
+    
     ft.onprogress = function(progressEvent) {
 	    if (progressEvent.lengthComputable) {
 	      percent = ((progressEvent.loaded * 100) / progressEvent.total);
@@ -2826,8 +2829,7 @@ function uploadFile(mediaFile) {
         function(error) {
         	navigator.notification.alert('Error uploading file ' + path + ': ' + error.code, null, 'Uh oh!');
             //console.log('Error uploading file ' + path + ': ' + error.code);
-        },
-        { fileName: 123 + ".jpg" }
+        }, options
     );   
 }
 
