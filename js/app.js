@@ -1014,7 +1014,7 @@ var app = {
 		$('#marketAdd').find('.takepicture').unbind('click');
 		$('#marketAdd').find('.takepicture').click(function(e) {
 			e.preventDefault();
-			if ($(this).hasClas('.step2-capture'))
+			if ($(this).hasClas('.step2-capture')) {
 				if($('.uploaded').find('img').lenght == 4) {
 					alert('Maksimum piltide arv on 4, kustuta, et laadida juurde');
 				} else {
@@ -1029,7 +1029,7 @@ var app = {
 		$('#marketAdd').find('.upload').unbind('click');
 		$('#marketAdd').find('.upload').click(function(e) {
 			e.preventDefault();
-			if ($(this).hasClas('.step2-capture'))
+			if ($(this).hasClas('.step2-capture')) {
 				if($('.uploaded').find('img').lenght == 4) {
 					alert('Maksimum piltide arv on 4, kustuta, et laadida juurde');
 				} else {
