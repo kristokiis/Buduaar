@@ -2820,9 +2820,9 @@ function uploadFile(mediaFile) {
 			console.log(result.response);
 			alert(result.response);
 			result.response = result.response.replace('123(', '').replace(')' , '');
-			console.log(result.response);
-            response = $.parseJSON(result.response);        
-			
+			alert(result.response);
+            		response = $.parseJSON(result.response);        
+			alert(response);
 			$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
 			$('.loading').hide();
 			
