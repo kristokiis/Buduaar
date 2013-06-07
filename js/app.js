@@ -2823,7 +2823,7 @@ function uploadFile(mediaFile) {
 	    var path = mediaFile;
 	        
 	    $('.loading').show();
-	    $('.loader').css('width', 0);
+	    $('.loader').css('width', '0');
 	    
 	    var options = new FileUploadOptions();
 	    options.fileKey="image";
@@ -2845,8 +2845,8 @@ function uploadFile(mediaFile) {
 		} else {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		}
-		
-	    alert(app.saveStage);
+		alert(url);
+	    //alert(app.saveStage);
 	    
 	    ft.upload(path, url,
 	        function(result) {
@@ -2854,7 +2854,7 @@ function uploadFile(mediaFile) {
 				//console.log(result.response);
 				//alert(result.response);
 				result.response = result.response.replace('123(', '').replace(')' , '');
-				alert(result.response);
+				//alert(result.response);
 	            response = $.parseJSON(result.response);  
 	            response = response.data;      
 				//alert(response);
