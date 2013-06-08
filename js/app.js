@@ -552,16 +552,22 @@ var app = {
 		   if($('#messagesPage').is(':visible')) {
 			   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
 			   	   loaded = true;
-			       totalNews = $('.messagesList').find('.wrap').length;
+			   	   
+			   	   if(!$('#messageList').hasClass('opened') && !$('#newMessageForm').is(':visible')) {
+			   	   
+				       totalNews = $('.messagesList').find('.wrap').length;
+				       
+				       if ($('.messages-tab.active').hasClass('send'))
+				       		app.initMessagesPage(totalNews, 1);
+				       else
+				       		app.initMessagesPage(totalNews, 0);
+				       
+				       setTimeout(function() {
+					       loaded = false;
+				       }, 1000);
 			       
-			       if ($('.messages-tab.active').hasClass('send'))
-			       		app.initMessagesPage(totalNews, 1);
-			       else
-			       		app.initMessagesPage(totalNews, 0);
+			       }
 			       
-			       setTimeout(function() {
-				       loaded = false;
-			       }, 1000);
 			       //alert('whaat');
 			   }
 		   } else if($('#marketPage').is(':visible')) {
@@ -571,24 +577,28 @@ var app = {
 			   	   
 			   	   //alert('scrolled bottom');
 			   	   
-			       totalItems = $('#marketList').find('.item').length;
+			   	   if(!$('#marketList').hasClass('opened') && $('#marketList').is(':visible')) {
+			   	   
+				       totalItems = $('#marketList').find('.item').length;
+				       
+				       app.showLoader();
+				       
+				       data.start = totalItems;
+				       data.limit = 10;
+				       
+				       if (app.storeMode) {
+				       		//data.limit = 100;
+				       		//data.start = 0;
+				       		//app.getStores(data);
+				       } else {
+				       		app.getMarket(data);
+				       }
+				       setTimeout(function() {
+					       loaded = false;
+				       }, 1000);
+				       //alert('whaat');
 			       
-			       app.showLoader();
-			       
-			       data.start = totalItems;
-			       data.limit = 10;
-			       
-			       if (app.storeMode) {
-			       		//data.limit = 100;
-			       		//data.start = 0;
-			       		//app.getStores(data);
-			       } else {
-			       		app.getMarket(data);
 			       }
-			       setTimeout(function() {
-				       loaded = false;
-			       }, 1000);
-			       //alert('whaat');
 			   }
 		   } else if ($('#newsPage').is(':visible')) {
 			   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
@@ -1605,7 +1615,7 @@ var app = {
 			
 				//console.log(item);
 				$('.my-item-template').find('.news').attr('data-id', item.id);
-				if (item.active)
+				if (item.active && item.active == 1)
 					$('.my-item-template').find('.item-status').html('Aktiivne').css('color', 'green');
 				else
 					$('.my-item-template').find('.item-status').html('Mitte aktiivne').css('color', 'red');
@@ -1815,9 +1825,7 @@ var app = {
 			$('.toode').find('h2').html(offer.name);
 			$('.item-cat').html(offer.categoryLang);
 			
-			
 			$('.is-availeble').html(offer.availabilityLang);
-			
 			
 			$('.is-new').html(offer.conditionLang);
 			
@@ -1835,13 +1843,15 @@ var app = {
 			
 			$.each(results.data.descriptionOptions, function(i, option) {
 				
-				$('.desc-options').append('<p>' + capitaliseFirstLetter(option.name) + ': ' + option.values.join(', ') + '</p>');
+				$('.desc-options').append('<p><strong>' + capitaliseFirstLetter(option.name) + '</strong>: ' + option.values.join(', ') + '</p>');
 				
 			});
 			
 			//console.log(results.data.item);
 			
 			if(offer.itemType == 'ad') {
+				
+				$('.item-bid-step').parent().hide();
 				
 				$('.buy').find('span').html('Broneeri');
 				
@@ -1865,6 +1875,9 @@ var app = {
 				});
 			
 			} else {
+				
+				$('.item-bid-step').parent().show();
+			
 				$('.buy').find('span').html('Paku');
 				
 				$('.auction-info').show();
@@ -1894,6 +1907,27 @@ var app = {
 				});
 				
 				//$('#orderCount').html(offer.price);
+			}
+			$('#sale_label').unbind('click');
+			$('#sale_label').click(function(e) {
+				e.preventDefault();
+				$('.availability-section').show();
+			});	
+			
+			$('#buy_label').unbind('click');
+			$('#buy_label').click(function(e) {
+				e.preventDefault();
+				$('.availability-section').hide();
+			});		
+			
+			if(offer.isNotBuyable && offer.isNotBuyable == 1) {
+				$('.itemcount').hide();
+				$('.buy').hide();
+				$('.not-buy-info').show();
+			} else {
+				$('.itemcount').show();
+				$('.buy').show();
+				$('.not-buy-info').hide();
 			}
 			
 			$('.buy').unbind('click');

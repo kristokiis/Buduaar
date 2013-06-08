@@ -25,16 +25,12 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/photoswipe.css">
 	
-	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	<script src="phonegap.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/jquery.js"></script> 
 	<script src="js/swipe.min.js"></script>
 	<script src="js/lib/klass.min.js"></script>
 	<script src="js/code.photoswipe-3.0.5.min.js"></script>
-	<script src="js/imagesLoaded.min.js"></script>
-	<!--[if lt IE 9]> 
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
-	<![endif]-->
-	
+	<script src="js/imagesLoaded.min.js"></script>	
 	
 </head>
 <body class="frontpage uudised">
@@ -55,10 +51,10 @@
 				 
 				<nav class="intro_btns">
 					<a href="#" class="news-link">
-						<div class="dark"><img src="images/web_img.png" width="101" height="98" alt="thumb"/><span>Buduaar.ee</span></div>
+						<div class="dark"><img src="images/news_img.png" width="101" height="98" alt="thumb"/><span>BUDUAAR.EE</span></div>
 					</a>
 					<a href="#" class="market-link">
-						<div class="pink"><img src="images/turg_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;</span></div>
+						<div class="pink"><img src="images/web_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;</span></div>
 					</a>
 					<div class="lightpink open_bt_login"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE</span></div>
 					
@@ -310,6 +306,10 @@
 								<a href="#" class="buy"><span>Broneeri</span></a>
 								
 								<div class="clear"></div>
+								<span class="sellerother not-buy-info" style="display:none;">Ostmiseks võta müüjaga ühendust</span>
+								
+								
+								<div class="clear"></div>
 								
 								<span class="sellerother">Teised müüja pakkumised</span>
 							</section>
@@ -384,10 +384,10 @@
 								            <td class="s14">Tellimuse kättetoimetamise viis:</td>
 								            <td class="s14 pink" id="orderTransport">SmartPOST &nbsp; </td>
 								        </tr>
-								        <tr>
+								        <!-- <tr>
 								            <td class="s14">Paki suurus:</td>
 								            <td class="s12" id="orderSize">M kuni 20cm*36cm*60cm; 3.49€</td>
-								        </tr>
+								        </tr> -->
 								        <tr>
 								            <td class="s14">&nbsp;</td>
 								            <td class="s12" id="depositeDescription">SmartPOSTist saadetakse sinu e-mailile kood paki postitamiseks.</td>
@@ -439,7 +439,7 @@
 				<div class="page-wrap toodepage" style="display:none;" id="myList">
 					
 					<section class="storelist">
-						<h2 style="color:white;text-align:center;">Minu tooted</h2>
+						<h2 style="color:white;text-align:center;">Minu kuulutused</h2>
 						<div class="list-container">
 						
 						</div>
@@ -489,8 +489,8 @@
 								
 								<div class="pricebox add-type-box">
 									<span style="width:33%">Tehing</span> 
-									<input type="radio" id="add_sale" data-value="sale" name="ad_deal_type" value="sale" checked/><label class="label" for="add_sale"><span></span> Müük </label>
-									<input type="radio" id="add_buy" data-value="buy" name="ad_deal_type" value="buy"/><label for="add_buy"><span></span> Ost</label>
+									<input type="radio" id="add_sale" data-value="sale" name="ad_deal_type" value="sale" checked/><label class="label" id="sale_label" for="add_sale"><span></span> Müük </label>
+									<input type="radio" id="add_buy" data-value="buy" name="ad_deal_type" value="buy"/><label for="add_buy" id="buy_label"><span></span> Ost</label>
 								</div>
 								
 								<select id="ad_condition">
@@ -508,16 +508,17 @@
 								<h2>Müügiinfo</h2>
 								
 								<section class="add-ad-section">
-									<select id="ad_availability">
-										<option value="0">Saadavus</option>
-								
-										<option value="order">Tellitav</option>
-										<option value="immediatelyAvailable">Kohe olemas</option>
-										<option value="booked">Broneeritud</option>
-										
-									</select>
-									<label for="ad_availability" class="itemreturn"><span></span></label>
+									<div class="availability-section">
+										<select id="ad_availability">
+											<option value="0">Saadavus</option>
 									
+											<option value="order">Tellitav</option>
+											<option value="immediatelyAvailable">Kohe olemas</option>
+											<option value="booked">Broneeritud</option>
+											
+										</select>
+										<label for="ad_availability" class="itemreturn"><span></span></label>
+									</div>
 									<span style="width:33%">Hind(€)</span> <input type="text" id="ad_price" name="nimi" class="defaultText textinput" placeholder="Hind"><br />
 									<span style="width:33%">Kogus(tk)</span> <input type="text" id="ad_quantity" name="nimi" class="defaultText textinput" placeholder="Kogus"><br />
 								
@@ -574,7 +575,7 @@
 									</section>
 								
 								</div>
-								<p style="text-align:center;">
+								<p style="text-align:center;width:100%;">
 									<img src="#" id="profilePic" style="max-height:200px;" />
 								</p>
 							<div class="clear"></div>
@@ -985,16 +986,6 @@
 	
 	<script src="js/scripts.js"></script> 
 	<script src="js/app.js?12"></script>
-	<script type="text/javascript">
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-1288764-14']);
-	  _gaq.push(['_trackPageview']);
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	</script>
 	
 	<script type="text/javascript" charset="utf-8">
 		// Wait for Cordova to load
@@ -1008,14 +999,22 @@
 		   	
 		   	app.init();
 		   	$('.only-app').show();
+		   	var int = 0; 
+			var deviceOS  = device.platform;
+			var deviceOSVersion = device.version;
+			int = parseInt(deviceOSVersion);
+			if (int<4 && deviceOS == 'Android') {
+				$('.intro_btns div').css('font-family', 'Arial');
+			}
+			
 		   	 	
 		}	
-		
+		/*
 		$(document).ready(function() {
 
 			app.init();
 		});	
-		
+		*/
 	</script>
 	
 </body>
