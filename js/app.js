@@ -444,6 +444,8 @@ var app = {
 			if (results.code == '1') {
 				//http:buduaar.ee/sites/api/User/loggedInUser/?callback=user
 				
+				$('.message-to-user').parent().show();
+				$('.login-to-use').hide();
 				
 				//console.log(results);
 				$('.logout-link').show();
@@ -460,6 +462,9 @@ var app = {
 				
 				$('.logout').unbind('click');
 				$('.logout').click(function(e) {
+				
+					$('.message-to-user').parent().hide();
+					$('.login-to-use').show();
 				
 					$('.open_bt_login').find('img').attr('src', 'images/login_img.png');
 				
@@ -551,10 +556,10 @@ var app = {
 		
 		   if($('#messagesPage').is(':visible')) {
 			   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
-			   	   loaded = true;
+			   	   
 			   	   
 			   	   if(!$('#messageList').hasClass('opened') && !$('#newMessageForm').is(':visible')) {
-			   	   
+			   	   	   loaded = true;
 				       totalNews = $('.messagesList').find('.wrap').length;
 				       
 				       if ($('.messages-tab.active').hasClass('send'))
@@ -573,12 +578,14 @@ var app = {
 		   } else if($('#marketPage').is(':visible')) {
 		   	   
 			   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
-			   	   loaded = true;
+			   	   
 			   	   
 			   	   //alert('scrolled bottom');
 			   	   
-			   	   if(!$('#marketList').hasClass('opened') && $('#marketList').is(':visible')) {
+			   	   console.log($('#marketList').hasClass('opened') + ' ja ' + $('#marketList').is(':visible'));
 			   	   
+			   	   if(!$('#marketList').hasClass('opened') && $('#marketList').is(':visible')) {
+			   	   	   loaded = true;
 				       totalItems = $('#marketList').find('.item').length;
 				       
 				       app.showLoader();
@@ -1843,7 +1850,7 @@ var app = {
 			
 			$.each(results.data.descriptionOptions, function(i, option) {
 				
-				$('.desc-options').append('<p><strong>' + capitaliseFirstLetter(option.name) + '</strong>: ' + option.values.join(', ') + '</p>');
+				$('.desc-options').append('<p><strong style="text-transform:capitalize;">' + option.name + '</strong>: ' + option.values.join(', ') + '</p>');
 				
 			});
 			
@@ -1881,7 +1888,7 @@ var app = {
 				$('.buy').find('span').html('Paku');
 				
 				$('.auction-info').show();
-				$('.item-bid-step').html(offed.bidStep);
+				$('.item-bid-step').html(offer.bidStep);
 				
 				$('#orderCount').html(parseFloat(offer.price) + parseFloat(offer.bidStep));
 				

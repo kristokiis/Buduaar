@@ -289,7 +289,8 @@
 									<div class="content active">
 										<p class="item-offerer">valent</p>
 										<p>Teenusepakkuja: <span class="item-offerer-type">Eraisik</span></p>
-										<p><a href="#" class="message-to-user" data-username="" data-id="">Saada kasutajale sõnum</a></p>
+										<p class="login-to-use">Logi sisse, et saata sõnum</p>
+										<p style="display:none;"><a href="#" class="message-to-user" data-username="" data-id="">Saada kasutajale sõnum</a></p>
 									</div>
 								</div>
 							</section>
@@ -986,6 +987,7 @@
 	
 	<script src="js/scripts.js"></script> 
 	<script src="js/app.js?12"></script>
+	<script src="js/spring_vs2.js"></script>
 	
 	<script type="text/javascript" charset="utf-8">
 		// Wait for Cordova to load
@@ -1007,11 +1009,17 @@
 				$('.intro_btns div').css('font-family', 'Arial');
 			}
 			
-		   	 	
 		}	
+		
+		var sp_e0 = { 
+			"s":"buduaar",
+			"cp":"mobiil",
+			"url":document.location.href
+		}
+		spring.c(sp_e0);
+		
 		/*
 		$(document).ready(function() {
-
 			app.init();
 		});	
 		*/
