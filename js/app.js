@@ -53,8 +53,12 @@ var app = {
 	imageURI: '',
 	
 	saveParams: {},
+	oldAndroid: false,
 	
 	init: function() {
+	
+		app.oldAndroidStuff();
+	
 		//if (1 == 1) {
 		document.addEventListener("online", function() {
 			
@@ -120,6 +124,22 @@ var app = {
 			offlineAlerted = false;
 			
 			clearTimeout(offlineTimeout);
+		
+	},
+	
+	oldAndroidStuff: function() {
+		
+		var ua = navigator.userAgent;
+		if( ua.indexOf("Android") >= 0 ) {
+			var androidversion = parseFloat(ua.slice(ua.indexOf("Android")+8)); 
+			//alert(androidversion);
+			if (androidversion <= 2.3) {
+				$('.intro_btns div').css('font-family', 'Arial');
+				$('#marketList').find('.storelist').addClass('wider');
+				$('body').removeClass('normal-activity');
+				$('body').addClass('paranormal-activity');
+			}
+		}
 		
 	},
 	
@@ -960,11 +980,26 @@ var app = {
 		app.saveStage = 1;
 		app.imageURI = '';
 		
+		$('.one').unbind('click');
+		$('.one').click(function(e) {
+			e.preventDefault();
+		});
+		
+		$('.two').unbind('click');
+		$('.two').click(function(e) {
+			e.preventDefault();
+		});
+		
+		$('.three').unbind('click');
+		$('.three').click(function(e) {
+			e.preventDefault();
+		});
+		
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
 		
 		if (id) {
 			
-			$.get(app.serverUrl + 'Market/item/' + id, {}, function(results) {
+			$.get(app.serverUrl + 'Market/userMarketItem/' + id, {}, function(results) {
 				//console.log('we got edit!!');
 				//console.log(results);
 				
@@ -1430,11 +1465,34 @@ var app = {
 				
 				var curStore = stores[data.store];
 				
+				console.log(curStore);
+				
 				$('.market-header').find('.market-image').attr('src', curStore.mediumIcon);
 				$('.market-header').find('.market-title').html(curStore.name);
 				$('.market-header').find('.market-description').html(curStore.description);
 				$('.market-header').find('.market-mail').attr('href', 'mailto:' + curStore.email).html(curStore.email);
 				$('.market-header').find('.market-phone').attr('href', 'tel:' + curStore.contactPhoneNumber).html(curStore.contactPhoneNumber);
+				$('.market-header').find('.market-message-to-owner').attr('data-username', curStore.owner);
+				
+				$('.market-message-to-owner').unbind('click');
+				$('.market-message-to-owner').click(function(e) {
+					e.preventDefault();
+				
+					$('#messageForm2').find('#user').val($(this).data('username'));
+					
+					$('.page-sidebar-wrap').hide().removeClass('active');
+					$('#messagesPage').show();
+					setTimeout(function() {
+						$('body').scrollTop(0);
+						$('#page-wrap').addClass('active');
+						$('#messagesPage').addClass('active');
+						setTimeout(function() {
+							$('body').addClass('bturg');
+							$('#startNewMessage').click();
+						}, 300);
+					}, 200);
+				});
+				
 				if (curStore.website)
 					$('.market-header').find('.market-web').attr('href', 'http://' + curStore.website).html(curStore.website).show().prev().show();
 				else
@@ -1614,7 +1672,7 @@ var app = {
 		$.get(app.serverUrl + 'Market/userMarketItems/', data, function(results) {
 			
 			if (!data.start)
-				$('#myList').find('.list-container').html('');
+				$('#myList').find('.list-container').html('').show();
 		
 			$.each(results.data, function(i, item) {
 			
@@ -1652,7 +1710,7 @@ var app = {
 				$('.marketContainer').find('.page-wrap').hide();
 				$('#marketDetail').show();
 				$('#marketList').show();
-				app.getProduct($(this).data('id'));
+				app.getProduct($(this).data('id'), false);
 			});
 			
 			$('.edit-user-item').unbind('click');
@@ -1786,7 +1844,7 @@ var app = {
 			$('.item').click(function(e) {
 				e.preventDefault();
 				//app.showLoader();
-				app.getProduct($(this).data('id'));
+				app.getProduct($(this).data('id'), false);
 				
 				app.productCat = $(this).find('.item-description').html();
 				
@@ -1807,14 +1865,22 @@ var app = {
 		}, 'jsonp');	
 	},
 	
-	getProduct: function(id) {
+	getProduct: function(id, isUser) {
 		
 		$('body').scrollTop(0);
-	
-		$.get(app.serverUrl + 'Market/item/' + id, {}, function(results) {
+		
+		//console.log(isUser);
+		
+		if(isUser)
+			method = 'userMarketItem';
+		else
+			method = 'item';
+		
+		$.get(app.serverUrl + 'Market/' + method + '/' + id, {}, function(results) {
 		
 			if(!results.data.item.length) {
 				$('.toode').find('h2').html('Kuulutus pole aktiivne');
+				$('.toode').find('.product-thumbs').hide();
 				$('.toode').find('.ad-content').hide();
 				$('.toode').find('.toode_preview').hide();
 				$('.marketContainer').find('.page-wrap').addClass('opened');
@@ -1822,6 +1888,7 @@ var app = {
 			} else {
 				$('.toode').find('.ad-content').show();
 				$('.toode').find('.toode_preview').show();
+				$('.toode').find('.product-thumbs').show();
 			}
 			
 			offer = results.data.item[0];
@@ -1840,7 +1907,11 @@ var app = {
 			
 			$('.item-description-detail').html(offer.description);
 			$('.item-location').html(offer.locationLang);
-			$('.item-price').html(parseFloat(offer.price) + '€');
+			if(offer.price)
+				$('.item-price').html(parseFloat(offer.price) + '€');
+			else
+				$('.item-price').html('0.00 €');
+				
 			$('.item-quantity').html(offer.amount);
 			
 			$('.item-offerer').html(offer.username);
@@ -1849,8 +1920,12 @@ var app = {
 			$('.product-thumbs').html('');
 			
 			$.each(results.data.descriptionOptions, function(i, option) {
-				
-				$('.desc-options').append('<p><strong style="text-transform:capitalize;">' + option.name + '</strong>: ' + option.values.join(', ') + '</p>');
+				//console.log(option);
+				//armap = option.values.map();
+				var arr = $.map(option.values, function (value, key) { return value; });
+				//console.log(arr);
+				if(option.values)
+					$('.desc-options').append('<p><strong style="text-transform:capitalize;">' + option.name + '</strong>: ' + arr.join(', ') + '</p>');
 				
 			});
 			
@@ -1889,9 +1964,10 @@ var app = {
 				
 				$('.auction-info').show();
 				$('.item-bid-step').html(offer.bidStep);
-				
-				$('#orderCount').html(parseFloat(offer.price) + parseFloat(offer.bidStep));
-				
+				if(offer.price)
+					$('#orderCount').html(parseFloat(offer.price) + parseFloat(offer.bidStep));
+				else
+					$('#orderCount').html(0 + parseFloat(offer.bidStep));
 				$('.minus').unbind('click');
 				$('.minus').bind('click', function(e){
 					e.preventDefault();
