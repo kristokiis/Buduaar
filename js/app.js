@@ -138,6 +138,8 @@ var app = {
 				$('#marketList').find('.storelist').addClass('wider');
 				$('body').removeClass('normal-activity');
 				$('body').addClass('paranormal-activity');
+			} else if (androidversion <= 4.1) {
+				$('.intro_btns div').css('font-family', 'Arial');
 			}
 		}
 		

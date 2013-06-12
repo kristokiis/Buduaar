@@ -25,12 +25,16 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/photoswipe.css">
 	
-	<script src="phonegap.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 	<script src="js/jquery.js"></script> 
 	<script src="js/swipe.min.js"></script>
 	<script src="js/lib/klass.min.js"></script>
 	<script src="js/code.photoswipe-3.0.5.min.js"></script>
-	<script src="js/imagesLoaded.min.js"></script>	
+	<script src="js/imagesLoaded.min.js"></script>
+	<!--[if lt IE 9]> 
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
+	<![endif]-->
+	
 	
 </head>
 <body class="frontpage uudised normal-activity">
@@ -63,7 +67,7 @@
 					</a>
 					
 				</nav>
-				<!--<a href="http://www.buduaar.ee" style="color:white;width:100%;text-align:center;" class="usual-site">Buduaari veebiversiooni näeb SIIT</a>-->
+				<a href="http://www.buduaar.ee" style="color:white;width:100%;text-align:center;" class="usual-site">Buduaari veebiversiooni näeb SIIT</a>
 				<section class="loginform bturglogin">
 					<section class="wrap">
 						<form id="loginForm2" class="loginForm2" action="#" autocomplete="off">
@@ -200,12 +204,13 @@
 				
 				<img src="#" class="market-image" width="100" height="100" style="float:left;margin:1%;" />
 				<h3 class="market-title" style="color:#da4b8b;font-size:13px;">Kaubamaja</h3>
-				<p class="market-description" style="font-size:12px;"></p>
+				<p class="market-description" style="font-size:12px;">Lorem impsum adasdasd adsasdasd sdfsdfasdf safsadfsdf sdfasdfsdf sdfsdfsdf</p>
 				
 				<h4 style="color:#da4b8b;font-size:12px;">&nbsp;</h4>
-				<span>Koduleht: </span><strong><a class="market-web" style="color:#da4b8b;" href="#"></a></strong><br />
-				<span>E-mail: </span><strong><a class="market-mail" style="color:#da4b8b;" href="#"></a></strong><br />
-				<span>Telefon: </span><strong><a class="market-phone" style="color:#da4b8b;" href="#"></a></strong><br />
+				<span>Koduleht: </span><strong><a class="market-web" style="color:#da4b8b;" href="#">www.prettywoman.ee</a></strong><br />
+				<span>E-mail: </span><strong><a class="market-mail" style="color:#da4b8b;" href="#">pretty@prettywoman.ee</a></strong><br />
+				<span>Telefon: </span><strong><a class="market-phone" style="color:#da4b8b;" href="#">5078222</a></strong><br />
+				<!--<span>Saada: </span><strong><a class="market-message-to-owner" style="color:#da4b8b;" href="#">Sõnum omanikule</a></strong><br />-->
 				
 				
 				
@@ -309,8 +314,8 @@
 								<div class="clear"></div>
 								<span class="sellerother not-buy-info" style="display:none;">Ostmiseks võta müüjaga ühendust</span>
 								
-								
 								<div class="clear"></div>
+								
 								
 								<span class="sellerother">Teised müüja pakkumised</span>
 							</section>
@@ -560,7 +565,7 @@
 								
 								<textarea id="add_additional" class="defaultText textinput" placeholder="Lisainfo"></textarea>
 								
-								<h2>Lisa või muuda toote pilti</h2>
+								<h2>Pilti saab laadida ainult rakenduses</h2>
 								<div class="only-app" style="display:none;">
 									<section class="upload">
 										<span></span><br />Lae telefonist
@@ -590,12 +595,12 @@
 					<form id="itemForm2" action="#" autocomplete="off" style="display:none;">
 						
 						<section class="photoupload lisatoode">
-								<h2>Lisa pilte (max 4)</h2>
+								<h2>Pilte saab laadida ainult rakenduses</h2>
 								<div class="only-app" style="display:none;">
-									<section class="upload step2-capture">
+									<section class="upload">
 										<span></span><br />Lae telefonist
 									</section>
-									<section class="takepicture step2-capture">
+									<section class="takepicture">
 										<span></span><br />Pildista ja lae
 									</section>
 									
@@ -663,15 +668,15 @@
 							
 							<input type="text" id="ad_deliveryTimeInDays" name="deliveryTimeInDays" class="defaultText textinput" placeholder="Paki tarneaeg päevades"><br />
 							
-							<section class="eestipost" style="display:none;">
+							<section class="eestipost">
 								<input type="checkbox" id="eestipost" data-value="post24" name="post" value="post24" checked/><label for="eestipost"><span></span> <br /><img src="images/eestipost.png" alt="uploaded photo"/> </label>
 									
 							</section>
-							<section class="smartpost" style="display:none;">
+							<section class="smartpost">
 								<input type="checkbox" id="smartpost" data-value="smartpost" name="post" value="smartpost" /><label for="smartpost"><span></span> <br /><img src="images/smartpost.png" alt="uploaded photo"/> </label>
 							</section>
 							
-							<section class="other" style="display:none;">
+							<section class="other">
 								<input type="checkbox" id="inAgreement" data-value="inAgreement" name="post" value="inAgreement" checked/><label for="eestipost"><span></span> <br />Saatmine kokkuleppel </label>	
 							</section>
 							
@@ -837,7 +842,7 @@
 						<input type="text" id="search" name="search" class="defaultText textinput" title="">
 						<input type="submit" class="submit" value="Otsi">
 					</form> 
-					<!--<p class="android-message" style="display:none;">Lae alla androidi rakendus <a href="https://play.google.com/store/apps/details?id=ee.efley.buduaar" style="color:white;">siit</a> <a href="#" class="close">x</a></p>-->
+					<p class="android-message" style="display:none;">Lae alla androidi rakendus <a href="https://play.google.com/store/apps/details?id=ee.efley.buduaar" style="color:white;">siit</a> <a href="#" class="close">x</a></p>
 				</section>
 			</section>	
 			<div class="newsContainer">
@@ -989,9 +994,20 @@
 	<script src="js/app.js?12"></script>
 	<script src="js/spring_vs2.js"></script>
 	
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-1288764-14']);
+	  _gaq.push(['_trackPageview']);
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+	
 	<script type="text/javascript" charset="utf-8">
 		// Wait for Cordova to load
-		document.addEventListener("deviceready", onDeviceReady, false);
+		/*document.addEventListener("deviceready", onDeviceReady, false);
 		var gaPlugin;
 		var pictureSource;
 		var destinationType;
@@ -1001,15 +1017,12 @@
 		   	
 		   	app.init();
 		   	$('.only-app').show();
-		   	/*var int = 0; 
-			var deviceOS  = device.platform;
-			var deviceOSVersion = device.version;
-			int = parseInt(deviceOSVersion);
-			if (int<4 && deviceOS == 'Android') {
-				
-			}*/
-			
+		   	 	
 		}	
+		*/
+		$(document).ready(function() {
+			app.init();
+		});	
 		
 		var sp_e0 = { 
 			"s":"buduaar",
@@ -1018,11 +1031,6 @@
 		}
 		spring.c(sp_e0);
 		
-		/*
-		$(document).ready(function() {
-			app.init();
-		});	
-		*/
 	</script>
 	
 </body>

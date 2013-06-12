@@ -15,6 +15,11 @@ jQuery(document).ready(function ($){
 				$('.newssection, .newssectionopen, .barsubmenu, .underbarsubmenu, .toodepage, .account, .page-wrap').removeClass('active');
 			
 			} else {
+			
+				$('.menu_level1').removeClass('active');
+				//$(this).parent().removeClass('active');
+				$('.sidebar').removeClass('active');
+				$('.categories').removeClass('active');
 				
 				$(this).addClass('active');	
 				$('.searchbox').addClass('active');
