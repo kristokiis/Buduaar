@@ -941,7 +941,7 @@ var app = {
 					
 					});
 					
-					$('#searchFilters').append('<select id="' + key + '" style="height:50px;margin-bottom:0%;">' + options + '</select><label for="' + key + '" class="itemreturn"><span></span></label>');
+					$('#searchFilters').append('<div class="select-container"><select id="' + key + '" style="height:50px;margin-bottom:0%;">' + options + '</select><label for="' + key + '" class="itemreturn"><span></span></label></div>');
 					
 					//console.log('Filters: ' + key);
 					//console.log(val);
@@ -1290,7 +1290,7 @@ var app = {
 							values = values + '<option value="'+j+'">'+value.valueEst+'</option>';
 						});
 						
-						$('.category-features').append('<select id="select_'+i+'"><option>'+item.nameEst+'</option>' + values + '</select><label for="select_'+i+'" class="itemreturn"><span></span></label><br style="clear:both;" />');
+						$('.category-features').append('<div class="select-container"><select id="select_'+i+'"><option>'+item.nameEst+'</option>' + values + '</select><label for="select_'+i+'" class="itemreturn"><span></span></label></div>');
 						
 					} else {
 						special_str = '';
