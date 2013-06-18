@@ -2454,6 +2454,31 @@ select.no-apperance {
 	height: 25px;
 }
 
+.save-button {
+	margin-top: 2px;
+	font-size: 20px;
+	text-decoration: none;
+	color: white;
+	float: right;
+	margin-right: 10px;
+	padding-top: 7px;
+	text-align: center;
+	width: 46%;
+	background: #b93b79;
+	height: 38px;
+	display: inline-block;
+}
+
+.save-button span {
+	margin-right: 7px;
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	background: url("images/save-disc.png");
+	background-size: 100% 100% !important;
+
+}
+
 @-webkit-keyframes infiniteloading {
   0%    { background-position: 0 0; }
   100%  { background-position: -46px 0; }
@@ -2476,8 +2501,7 @@ select.no-apperance {
 
 
 .eestipost, .smartpost{
-	width: 50%;
-	text-align: center;
+	width: 100%;
 	float: left;
 	padding: 10px 0;
 	font-weight: bold;

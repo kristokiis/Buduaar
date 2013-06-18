@@ -927,19 +927,6 @@ var app = {
 		$.get(app.serverUrl + 'Market/searchFilters/', data, function(results) {
 		
 			$('#searchFilters').html('');
-			/*
-			
-			<select id="availability" style="height:50px;margin-bottom:0%;">
-							<option value="0">Saadavus</option>
-							
-							<option value="1">Vähe kasutatud (51194)</option>
-							
-						</select>
-						<label for="availability" class="itemreturn"><span></span></label>
-			
-			*/
-			
-			//console.log(search);
 			
 			$.each(results.data, function(key, val) {
 				if(!parseInt(key) && key != 'price' && key != 'category') {
@@ -962,12 +949,7 @@ var app = {
 				
 				
 			});
-			
-				/*
-				* toDo - 20min
-				* horizontal, vertical
-				*/
-			
+
 		}, 'jsonp');
 		
 	},
@@ -981,6 +963,50 @@ var app = {
 		
 		app.saveStage = 1;
 		app.imageURI = '';
+		
+		$('#auction_length').html('<option value="0">Oksjon kestab</option>');
+		for (var i=0; i<31; i++) {
+			console.log(i);
+			$('#auction_length').append('<option value="' + i + '">' + i + ' päeva</option>');
+		}
+		
+		$('#back1').unbind('click');
+		$('#back1').click(function(e) {
+			e.preventDefault();
+			$('#marketOrders').hide();
+			$('#marketAdd').hide();
+			
+			setTimeout(function() {
+				$('#page-wrap').addClass('active');
+				$('#marketPage').addClass('active');
+			}, 200);
+				$('.oth').hide();
+			if ($('#myList').is(':visible')) {
+				$('#marketList').show();
+				$('#marketDetail').show();
+				$('#myList').hide();
+			} else {
+				$('.marketContainer').find('.page-wrap').hide();
+				$('#myList').fadeIn('fast');
+				app.getUserMarket();
+			}
+		});
+		
+		$('#back2').unbind('click');
+		$('#back2').click(function(e) {
+			e.preventDefault();
+			$('#itemForm2').hide();
+			$('#itemForm').css('margin-top', '-' + 0 + 'px');
+		});
+		
+		$('#back3').unbind('click');
+		$('#back3').click(function(e) {
+			e.preventDefault();
+			$('#itemForm3').hide();
+			height1 = $('#itemForm').height();
+			total_h = height1;
+			$('#itemForm').css('margin-top', '-' + total_h + 'px');
+		});
 		
 		$('.one').unbind('click');
 		$('.one').click(function(e) {
@@ -1112,7 +1138,8 @@ var app = {
 		$('#add_auction').click(function() {
 			$('.add-auction-section').show();
 			$('.add-ad-section').hide();
-			$('.add-type-box').show();
+			$('.add-type-box').hide();
+			
 		});
 		
 		$('#add_ad').unbind('click');
@@ -1130,6 +1157,21 @@ var app = {
 		$('#add_buy').unbind('click');
 		$('#add_buy').click(function() {
 			$('#ad_availability').hide();
+		});
+		
+		
+		/*
+		* POST STUFF!!
+		*/
+		
+		$('.transport-check').unbind('click');
+		$('.transport-check').click(function(e) {
+			if($(this).attr('id') == 'smartpost') {
+				$('#smartSizes').toggle();
+			}
+			if($(this).attr('id') == 'eestipost') {
+				$('#postSizes').toggle();
+			}
 		});
 		
 		$.each(app.catsTree, function(i, cat) {
@@ -1186,6 +1228,25 @@ var app = {
 			app.saveItem(3, false);
 			
 		});
+		
+		$('#saveStep1').unbind('click');
+		$('#saveStep1').click(function(e) {
+			e.preventDefault();
+			app.saveItem(1, true);
+		});
+		
+		$('#saveStep2').unbind('click');
+		$('#saveStep2').click(function(e) {
+			e.preventDefault();
+			app.saveItem(2, true);
+		});
+		
+		$('#saveStep3').unbind('click');
+		$('#saveStep3').click(function(e) {
+			e.preventDefault();
+			app.saveItem(3, true);
+		});
+		
 	},
 	
 	initPicRemove: function() {
@@ -1260,8 +1321,10 @@ var app = {
 		
 	},
 	
-	saveItem: function(step, id) {
-
+	saveItem: function(step, isSave) {
+		
+		console.log('siin: ' + isSave);
+		
 		data = {};
 		
 		if(app.currentEditId)
@@ -1338,11 +1401,27 @@ var app = {
 			
 			data.postingMethods = [];
 			
-			/*$('input[name="post"]:checked').each(function(i,item) {
-				data.postingMethods.push($(item).data('value'));
-			});*/
-			/*data.smartPostPacketSize = 
-			data.post24PacketSize = */
+			$('input[name="post"]:checked').each(function(i,item) {
+			
+				value = 'postingMethods[' + $(this).data('value') + ']';
+				
+				//console.log(value);
+				
+				data[value] = $(this).data('value');
+			
+				//data.postingMethods.push($(item).data('value'));
+			});
+			
+			data.smartPostPacketSize = $('#smartPostPacketSize').val();
+			data.post24PacketSize = $('#post24PackageSize').val();
+			
+			data.country = $('#addCountry').val();
+			data.county = $('#addCounty').val();
+			data.city = $('#addCity').val();
+			data.street = $('#addStreet').val();
+			data.houseNumber = $('#addHouse').val();
+			data.apartmentNumber = $('#addApartment').val();
+			data.postalIndex = $('#addIndex').val();
 			
 		}
 		
@@ -1351,49 +1430,54 @@ var app = {
 		//console.log('SAVE:');
 		//console.log(data);
 		if (step == 1) {
-			uploadFile(app.imageURI);
+			uploadFile(app.imageURI, isSave);
 		} else {
 			$.get(app.supportUrl, data, function(results) {
 				
 				if (results.code == '1' || results.code == 1) {
 				
 					app.currentEditId = results.data.item.id;
-				
-					if (step == 1) {
 					
-						$('.one').removeClass('active');
-						$('.two').addClass('active');
+					if (!isSave) {
+					
+						if (step == 1) {
 						
-						$('body').scrollTop(0);
-						$('#itemForm2').show();
-						height1 = $('#itemForm').height();
-						$('#itemForm').css('margin-top', '-' + height1 + 'px');
-						app.saveParams = {};
-						
-					} else if (step == 2) {
-						
-						$('.one').removeClass('active');
-						$('.two').removeClass('active');
-						$('.three').addClass('active');
-						
-						$('body').scrollTop(0);
-						$('#itemForm3').show();
-						
-						height1 = $('#itemForm').height();
-						height2 = $('#itemForm2').height();
-						total_h = height1 + height2;
-						$('#itemForm').css('margin-top', '-' + total_h + 'px');
-						
-					} else if (step == 3) {
-						
-						$('body').scrollTop(0);
-						$('#saveFinish').show();
-						height1 = $('#itemForm').height();
-						height2 = $('#itemForm2').height();
-						height3 = $('#itemForm3').height();
-						total_h = height1 + height2 + height3;
-						$('#itemForm').css('margin-top', '-' + total_h + 'px');
-						
+							$('.one').removeClass('active');
+							$('.two').addClass('active');
+							
+							$('body').scrollTop(0);
+							$('#itemForm2').show();
+							height1 = $('#itemForm').height();
+							$('#itemForm').css('margin-top', '-' + height1 + 'px');
+							app.saveParams = {};
+							
+						} else if (step == 2) {
+							
+							$('.one').removeClass('active');
+							$('.two').removeClass('active');
+							$('.three').addClass('active');
+							
+							$('body').scrollTop(0);
+							$('#itemForm3').show();
+							
+							height1 = $('#itemForm').height();
+							height2 = $('#itemForm2').height();
+							total_h = height1 + height2;
+							$('#itemForm').css('margin-top', '-' + total_h + 'px');
+							
+						} else if (step == 3) {
+							
+							$('body').scrollTop(0);
+							$('#saveFinish').show();
+							height1 = $('#itemForm').height();
+							height2 = $('#itemForm2').height();
+							height3 = $('#itemForm3').height();
+							total_h = height1 + height2 + height3;
+							$('#itemForm').css('margin-top', '-' + total_h + 'px');
+							
+						}
+					} else {
+						alert('Salvestatud!');
 					}
 				} else {
 					if(results.data && results.data.length)
@@ -2735,6 +2819,8 @@ var app = {
 			$('.postthumb:first').attr('src', results.data.image);
 			$('.postthumb:first').attr('alt', results.data.headline);
 			
+			newsItem = results.data;
+			
 			$('.postthumb:first').removeClass('full-size');
 			
 			$('.postthumb:first').unbind('load');
@@ -2823,13 +2909,27 @@ var app = {
 				$.get(app.serverUrl + 'Article/gallery/' + id + '?limit=1000', data, function(results) {
 					
 					if(results.data.length) {
+					
+						if (newsItem.isDescriptionGallery) {
+							$('#specialGallery').show();
+							$('#gallery').hide();
+							$.each(results.data, function(i, image) {
+								$('.special-gal').append('<p><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a><h3 style="font-weight:bold;">'+image.names+'</h3>'+image.description+'<p>');
+							});
+							
+							var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
+						} else {
+							$('#specialGallery').hide();
+							$('#gallery').show();
+							$.each(results.data, function(i, image) {
+								$('.gallery').append('<li><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a></li>');
+							});
+							
+							var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
+						}
+					
 						$('.gallery').html('');
-						$('#gallery').show();
-						$.each(results.data, function(i, image) {
-							$('.gallery').append('<li><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a></li>');
-						});
 						
-						var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
 						
 						
 						hasGallery = true;
@@ -2973,7 +3073,7 @@ function getPhoto() {
 }
 
 // Upload files to server
-function uploadFile(mediaFile) {
+function uploadFile(mediaFile, isSave) {
 	//console.log('uploading');
     
     
@@ -3021,7 +3121,7 @@ function uploadFile(mediaFile) {
 				console.log(response);
 				
 				if(app.saveStage == 1) {
-						
+					if(!isSave) {
 						$('.one').removeClass('active');
 						$('.two').addClass('active');
 						
@@ -3031,6 +3131,9 @@ function uploadFile(mediaFile) {
 						$('#itemForm').css('margin-top', '-' + height1 + 'px');
 						app.saveParams = {};
 						app.saveStage = 2;
+					} else {
+						alert('Salvestatud!');
+					}
 				} else {
 					
 					//$('.uploaded').hide();
@@ -3067,17 +3170,20 @@ function uploadFile(mediaFile) {
 	    $.get(app.supportUrl, data, function(results) {
 				
 			if (results.code == '1' || results.code == 1) {
-			
-				app.currentEditId = results.data.item.id;
-				$('.one').removeClass('active');
-				$('.two').addClass('active');
-				
-				$('body').scrollTop(0);
-				$('#itemForm2').show();
-				height1 = $('#itemForm').height();
-				$('#itemForm').css('margin-top', '-' + height1 + 'px');
-				app.saveParams = {};
-				app.saveStage = 2;
+				if(!isSave) {
+					app.currentEditId = results.data.item.id;
+					$('.one').removeClass('active');
+					$('.two').addClass('active');
+					
+					$('body').scrollTop(0);
+					$('#itemForm2').show();
+					height1 = $('#itemForm').height();
+					$('#itemForm').css('margin-top', '-' + height1 + 'px');
+					app.saveParams = {};
+					app.saveStage = 2;
+				} else {
+					alert('Salvestatud');
+				}
 			
 			}
 		}, 'jsonp');
@@ -3088,7 +3194,7 @@ function uploadFile(mediaFile) {
 function captureSuccess(imageURI) {
 	app.imageURI = imageURI;
 	if (imageURI != null && app.saveStage != 1) {
-		uploadFile(imageURI);
+		uploadFile(imageURI, false);
     } else {
 	    $('#profilePic').attr('src', imageURI);
     }

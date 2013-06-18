@@ -19,8 +19,7 @@
 	we want to exclude it for iPhone 5 to allow full screen apps -->
 	<meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
 	<!-- provide the splash screens for iPhone 5 and previous -->
-	<link href="assets/splash/ios/Default-568h@2x.png" rel="apple-touch-startup-image" media="(device-height: 568px)">
-	<link href="assets/splash/ios/screen-iphone-portrait-2x.png" rel="apple-touch-startup-image" sizes="640x960" media="(device-height: 480px)">
+
 	
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/photoswipe.css">
@@ -31,9 +30,6 @@
 	<script src="js/lib/klass.min.js"></script>
 	<script src="js/code.photoswipe-3.0.5.min.js"></script>
 	<script src="js/imagesLoaded.min.js"></script>
-	<!--[if lt IE 9]> 
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
-	<![endif]-->
 	
 	
 </head>
@@ -67,7 +63,7 @@
 					</a>
 					
 				</nav>
-				<a href="http://www.buduaar.ee" style="color:white;width:100%;text-align:center;" class="usual-site">Buduaari veebiversiooni näeb SIIT</a>
+				
 				<section class="loginform bturglogin">
 					<section class="wrap">
 						<form id="loginForm2" class="loginForm2" action="#" autocomplete="off">
@@ -565,7 +561,7 @@
 								
 								<textarea id="add_additional" class="defaultText textinput" placeholder="Lisainfo"></textarea>
 								
-								<h2>Pilti saab laadida ainult rakenduses</h2>
+								<h2>Pildi laadimine</h2>
 								<div class="only-app" style="display:none;">
 									<section class="upload">
 										<span></span><br />Lae telefonist
@@ -585,7 +581,11 @@
 									<img src="#" id="profilePic" style="max-height:200px;" />
 								</p>
 							<div class="clear"></div>
+							<input type="submit" class="submit" id="back1" value="Tagasi" style="float:left;margin-right:8%">
+							<a href="#" class="save-button" id="saveStep1"><span></span>Salvesta</a>
+							<br style="clear:both;" />
 							<input type="submit" class="submit" id="addStep2" value="Edasi »">
+							
 							<div class="clear"></div>
 						</section>
 
@@ -595,7 +595,7 @@
 					<form id="itemForm2" action="#" autocomplete="off" style="display:none;">
 						
 						<section class="photoupload lisatoode">
-								<h2>Pilte saab laadida ainult rakenduses</h2>
+								<h2>Piltide lisamine(max 4)</h2>
 								<div class="only-app" style="display:none;">
 									<section class="upload">
 										<span></span><br />Lae telefonist
@@ -622,6 +622,9 @@
 						
 						<div class="clear"></div>
 						<br /><br />
+						<input type="submit" class="submit" id="back2" value="Tagasi" style="float:left;margin-right:8%">
+						<a href="#" class="save-button" id="saveStep2"><span></span>Salvesta</a>
+						<br style="clear:both;" />
 						<input type="submit" class="submit" id="addStep2" value="Edasi »">
 						<div class="clear"></div>
 						</section>
@@ -666,23 +669,75 @@
 							</select>
 							<label for="ad_location" class="itemreturn"><span></span></label>
 							
-							<input type="text" id="ad_deliveryTimeInDays" name="deliveryTimeInDays" class="defaultText textinput" placeholder="Paki tarneaeg päevades"><br />
+							<span>Paki tarneaeg päevades</span> 
+							<input type="text" id="ad_deliveryTimeInDays" name="deliveryTimeInDays" class="defaultText textinput" value="3"><br />
 							
 							<section class="eestipost">
-								<input type="checkbox" id="eestipost" data-value="post24" name="post" value="post24" checked/><label for="eestipost"><span></span> <br /><img src="images/eestipost.png" alt="uploaded photo"/> </label>
+								<input type="checkbox" class="transport-check" id="eestipost" data-value="post24" name="post" value="post24" /><label for="eestipost" style="color:black;"><span></span> Saada pakk POST24-ga </label>
 									
 							</section>
+							
+							
+							<div id="postSizes" style="display:none;">
+								<span>Post24 paki suurus</span> 
+								<br />
+								<select id="post24PackageSize" name="post24PackageSize">
+									<option value="1">S kuni 8cm*38cm*64cm; Pakiautomaati 2.59€ Postkontorisse 3.1€</option>
+									<option value="2">M kuni 19cm*38cm*64cm; Pakiautomaati 3.15€ Postkontorisse 3.6€</option>
+									<option value="3">L kuni 41cm*38cm*64cm; Pakiautomaati 3.75€ Postkontorisse 4.25€</option>
+								</select>
+								<label for="post24PackageSize" class="itemreturn"><span></span></label>
+								
+								<br />
+								<span>Riik*</span> 
+								<input type="text" id="addCountry" name="addCounty" class="defaultText textinput" value=""><br />
+								<span>Maakond*</span> 
+								<input type="text" id="addCounty" name="addCounty" class="defaultText textinput" value=""><br />
+								<span>Linn*</span> 
+								<input type="text" id="addCity" name="addCity" class="defaultText textinput" value=""><br />
+								<span>Tänav</span> 
+								<input type="text" id="addStreet" name="addStreet" class="defaultText textinput" value=""><br />
+								<span>Maja number</span> 
+								<input type="text" id="addHouse" name="addHouse" class="defaultText textinput" value=""><br />
+								<span>Korteri number</span> 
+								<input type="text" id="addApartment" name="addApartment" class="defaultText textinput" value=""><br />
+								<span>Postiindeks*</span> 
+								<input type="text" id="addIndex" name="addIndex" class="defaultText textinput" value=""><br />
+								
+							</div>
+							
+							<br class="clear" />
+							
 							<section class="smartpost">
-								<input type="checkbox" id="smartpost" data-value="smartpost" name="post" value="smartpost" /><label for="smartpost"><span></span> <br /><img src="images/smartpost.png" alt="uploaded photo"/> </label>
+								<input type="checkbox" class="transport-check" id="smartpost" data-value="smartpost" name="post" value="smartpost" /><label for="smartpost" style="color:black;"><span></span> Saada pakk SmartPOSTiga </label>
 							</section>
 							
-							<section class="other">
-								<input type="checkbox" id="inAgreement" data-value="inAgreement" name="post" value="inAgreement" checked/><label for="eestipost"><span></span> <br />Saatmine kokkuleppel </label>	
+							
+							
+							<div id="smartSizes" style="display:none;">
+								<span>SmartPosti paki suurus</span> 
+								<br />
+								<select id="smartPostPacketSize" name="smartPostPacketSize">
+				                    <option value="1">S kuni 12cm*36cm*60cm; 2.79€</option>
+				                    <option value="2">M kuni 20cm*36cm*60cm; 3.49€</option>
+				                    <option value="3">L kuni 38cm*36cm*60cm; 4.39€</option>
+				                    <option value="4">XL kuni 60cm*36cm*60cm; 5.79€</option>
+				                </select>
+        						<label for="smartPostPacketSize" class="itemreturn"><span></span></label>
+							
+							</div>
+							
+							<br class="clear" />
+							<section class="eestipost">
+								<input type="checkbox" class="transport-check" id="inAgreement" data-value="inAgreement" name="post" value="inAgreement" /><label for="inAgreement" style="color:black;"><span></span> Saatmine kokkuleppel </label>	
 							</section>
 							
 						
 							<div class="clear"></div>
 							<br /><br />
+							<input type="submit" class="submit" id="back3" value="Tagasi" style="float:left;margin-right:8%">
+							<a href="#" class="save-button" id="saveStep3"><span></span>Salvesta</a>
+							<br style="clear:both;" />
 							<input type="submit" class="submit" id="addStep3" value="Salvesta »">
 							<div class="clear"></div>
 						</section>
@@ -930,6 +985,13 @@
 							</div>
 						</section>
 						
+						<section id="specialGallery" class="add-invisible">
+							<h3>Galerii</h3>
+							<div class="special-gal">
+								
+							</div>
+						</section>
+						
 						<section id="comments" class="add-invisible">
 							
 							
@@ -994,20 +1056,9 @@
 	<script src="js/app.js?12"></script>
 	<script src="js/spring_vs2.js"></script>
 	
-	<script type="text/javascript">
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-1288764-14']);
-	  _gaq.push(['_trackPageview']);
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	</script>
-	
 	<script type="text/javascript" charset="utf-8">
 		// Wait for Cordova to load
-		/*document.addEventListener("deviceready", onDeviceReady, false);
+		document.addEventListener("deviceready", onDeviceReady, false);
 		var gaPlugin;
 		var pictureSource;
 		var destinationType;
@@ -1019,10 +1070,10 @@
 		   	$('.only-app').show();
 		   	 	
 		}	
-		*/
-		$(document).ready(function() {
+		
+		/*$(document).ready(function() {
 			app.init();
-		});	
+		});	*/
 		
 		var sp_e0 = { 
 			"s":"buduaar",
