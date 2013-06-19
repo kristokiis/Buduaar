@@ -60,6 +60,7 @@ jQuery(document).ready(function ($){
 				allPanels2.removeClass('active');
 				$(this).addClass('active');
 				$(this).next().addClass('active');
+				$('body').scrollTop(500);
 			}
 			
 			return false;

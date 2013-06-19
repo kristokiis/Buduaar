@@ -2447,21 +2447,21 @@ select.no-apperance {
 }
 .uploaded a {
 	position: relative;
+	margin: 1%;
+	width: 48%;
+	float:left;
 }
 .uploaded img{
-	margin: 1px;
-	width: 49%;
-	height: auto;
-	float: left;
+	width: 100%;
 }
 .uploaded span {
 	display: block;
 	position: absolute;
 	top: 2px;
 	right: 2px;
-	background: url("images/remove-pic.png");
-	width: 25px;
-	height: 25px;
+	background: url("images/remove-pic.png?1");
+	width: 35px;
+	height: 35px;
 }
 
 .save-button {
@@ -3318,7 +3318,8 @@ only screen and (max-width: 760px),
 	/*
 	Label the data
 	*/
-	.list-container td:nth-of-type(1):before { content: "Müüja/Ostja"; }
+	.list-container .buyer td:nth-of-type(1):before { content: "Müüja"; }
+	.list-container .seller td:nth-of-type(1):before { content: "Ostja"; }
 	.list-container td:nth-of-type(2):before { content: "Kuupäev"; }
 	.list-container td:nth-of-type(3):before { content: "Staatus"; }
 	.list-container td:nth-of-type(4):before { content: "Kogus"; }
