@@ -1019,7 +1019,7 @@ var app = {
 			$('#auction_length').append('<option value="' + i + '">' + i + ' päeva</option>');
 		}
 		
-		$('#profilePic').attr('src', 'http://images.buduaar.ee//Market/defaultMediumIcon.jpg');
+		$('#profilePic').attr('src', '#');
 		
 		$('#back1').unbind('click');
 		$('#back1').click(function(e) {
