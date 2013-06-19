@@ -558,7 +558,10 @@ var app = {
 					cur_date = new Date();
 					birth_date = new Date(user.birthday);
 					//console.log(cur_date + ' jaja ' + birth_date);
-					$('#vanus').val(getAge(birth_date, cur_date));
+					var vanus = getAge(birth_date, cur_date);
+					if(parseInt(vanus) < 100 && parseInt(vanus) > 1)
+						$('#vanus').val(vanus);
+						
 				}, 'jsonp');
 				
 				$('.open_bt_login').find('span').html('TEATED');
@@ -1074,6 +1077,8 @@ var app = {
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
 		
 		if (id) {
+		
+			$('.no-pic-text').hide();
 			
 			$.get(app.serverUrl + 'Market/userMarketItem/' + id, {}, function(results) {
 				//console.log('we got edit!!');
@@ -1137,7 +1142,9 @@ var app = {
 				
 			}, 'jsonp');
 			
-		} 
+		} else {
+			$('.no-pic-text').show();
+		}
 		
 		$('#marketAdd').find('.takepicture').unbind('click');
 		$('#marketAdd').find('.takepicture').click(function(e) {

@@ -2762,7 +2762,7 @@ select.no-apperance {
 	}
 
 	#marketPage .menu_bar .search span, #messagesPage .menu_bar .search span{
-		background: url("images/el_sprite@x2.png") no-repeat scroll -171px -169px transparent;
+		background: url("images/el_sprite@x2.png") no-repeat scroll -171px -175px transparent;
 		background-size: 450px 400px;
 	}
 	
