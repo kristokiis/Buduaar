@@ -173,9 +173,7 @@ var app = {
 	},
 	
 	triggerBack: function() {
-		//if we are in detail view..
-		
-		
+		//if we are in detail view..	
 		$(window).scrollTop(0);
 		
 		if($('#marketPage').is(':visible')) {
