@@ -55,6 +55,8 @@ var app = {
 	saveParams: {},
 	oldAndroid: false,
 	
+	isMarketSearch: false,
+	
 	init: function() {
 	
 		app.oldAndroidStuff();
@@ -177,6 +179,20 @@ var app = {
 		$(window).scrollTop(0);
 		
 		if($('#marketPage').is(':visible')) {
+		
+			if(app.isMarketSearch) {
+				data = {};
+				data.start = 0;
+				data.limit = 10;
+				app.isMarketSearch = false;
+				
+				$('#marketSearchStr').val('');
+				$('#marketSearchPriceFrom').val('');
+				$('#marketSearchPriceTo').val('');
+				
+				app.getMarket(data);
+				return false;
+			}
 			
 			//console.log('we got market page!');
 			$('#sellerother').html('');
@@ -268,6 +284,7 @@ var app = {
 			}, 200);
 			
 			app.hideSearch();
+			app.hideCategories();
 			data = {};
 			
 		});
@@ -300,6 +317,7 @@ var app = {
 			}
 			app.initMarketAdd(false);
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('.add-new').unbind('click');
@@ -307,6 +325,7 @@ var app = {
 			e.preventDefault();
 			app.initMarketAdd(false);
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		
@@ -319,6 +338,7 @@ var app = {
 			$('#marketDetail').show();
 			$('#marketList').show();
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('.sub_menu_icons').find('.list').unbind('click');
@@ -347,6 +367,7 @@ var app = {
 				app.getUserOrders('buyer');
 			}
 			app.hideSearch();
+			app.hideCategories();
 			
 		});
 		
@@ -376,6 +397,8 @@ var app = {
 				app.getUserMarket();
 			}
 			app.hideSearch();
+			app.hideCategories();
+			console.log('what..');
 		});
 	
 		$('.news-link').unbind('click');
@@ -412,6 +435,7 @@ var app = {
 			});
 			
 			app.hideSearch();
+			app.hideCategories();
 			
 		});
 		
@@ -858,6 +882,7 @@ var app = {
 			app.getMarket(data);
 			app.storeMode = false;
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('.refreshMarket').unbind('click');
@@ -869,6 +894,7 @@ var app = {
 			app.getMarket(data);
 			app.storeMode = false;
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('.get-auctions').unbind('click');
@@ -884,6 +910,7 @@ var app = {
 			app.getMarket(data);
 			app.storeMode = false;
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('.get-markets').unbind('click');
@@ -900,6 +927,7 @@ var app = {
 			app.storeMode = true;
 			app.getStores(data);
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('.get-products').unbind('click');
@@ -911,6 +939,7 @@ var app = {
 			app.storeMode = false;
 			app.getMarket(data);
 			app.hideSearch();
+			app.hideCategories();
 		});
 		
 		$('#searchMarketForm').submit(function(e) {
@@ -944,10 +973,14 @@ var app = {
 			search.availability = $('#dealtype').val();
 			
 			app.hideSearch();
+			app.hideCategories();
 			
 			data.searchString = $('#marketSearchStr').val();
 			
 			app.getMarket(data);
+			
+			app.isMarketSearch = true;
+			
 		});
 		
 		app.getMarket(data);
@@ -967,6 +1000,13 @@ var app = {
 		}, 300);	
 		$('.searchbox').removeClass('active');
 		$('.newssection, .newssectionopen, .barsubmenu, .underbarsubmenu, .toodepage, .account, .page-wrap').removeClass('active');
+			
+	},
+	
+	hideCategories: function() {
+		
+		$('.categories').removeClass('active');	
+		$('.sidebar').removeClass('active');
 			
 	},
 	
@@ -1076,6 +1116,7 @@ var app = {
 		});
 		
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
+		$('#marketAdd').find('select').val('');
 		
 		if (id) {
 		
@@ -1118,6 +1159,8 @@ var app = {
 				
 				app.getCatFeatures(item.category, results.data.descriptionOptions);
 				
+				$('.category-features').show();
+				
 				$('.marketContainer').find('.page-wrap').hide();
 				$('#marketAdd').show();
 				
@@ -1139,12 +1182,22 @@ var app = {
 				
 				}, 'jsonp');
 				
+				$('input[name="post"]').removeAttr('checked');
+				$('#postSizes').hide();
+				$('#smartSizes').hide();
+				
 				//$('.uploaded').append();
 				
 			}, 'jsonp');
 			
 		} else {
 			$('.no-pic-text').show();
+			$('.category-features').html('');
+			
+			
+			$('input[name="post"]').attr('checked', 'checked');
+			$('#postSizes').show();
+			$('#smartSizes').show();
 		}
 		
 		$('#marketAdd').find('.takepicture').unbind('click');
@@ -2280,6 +2333,12 @@ var app = {
 				
 				$('#sellerother').html('');
 				
+				if (results.data.length > 0) {
+					$('.sellerother:last').show();
+				} else {
+					$('.sellerother:last').hide();
+				}
+				
 				$.each(results.data, function(i, sub_offer) {
 					if(sub_offer.id != offer.id) {
 						$('.selletother-template').find('.other').attr('data-id', sub_offer.id);
@@ -2474,6 +2533,7 @@ var app = {
 	initMessage: function(id, sent) {
 	
 		app.showLoader(1227);
+		$('body').scrollTop(0);
 		
 		id = id;
 		
@@ -2486,8 +2546,6 @@ var app = {
 		
 		$.get(app.serverUrl + 'User/message/' + id, data, function(results) {
 			$('.ajax-loader').hide();
-			
-			
 			
 			$('#messageDetail').find('h3').html(results.data.username + ' ' + results.data.datetime);
 			$('#messageDetail').find('strong').html(results.data.headline);
@@ -2509,7 +2567,13 @@ var app = {
 			}, 'jsonp');
 			
 			$('.messagesContainer').find('.page-wrap').addClass('opened');
-		
+			
+			if (results.data.username == 'Buduaar.ee') {
+				$('#messageForm').hide();
+			} else {
+				$('#messageForm').show();
+			}
+			
 			$('#messageForm').unbind('submit');
 			$('#messageForm').submit(function(e) {
 				e.preventDefault();

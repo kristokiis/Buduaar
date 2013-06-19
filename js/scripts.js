@@ -54,14 +54,23 @@ jQuery(document).ready(function ($){
 		
 		$('#accordion .title').bind(eventEnd, function() {
 			
-			
-			if($(this).next().height() == '0') { 
-				allPanels.removeClass('active');
-				allPanels2.removeClass('active');
-				$(this).addClass('active');
-				$(this).next().addClass('active');
+			//console.log($(this).hasClass('active'));
+			//if($(this).next().height() == '0') { 
+				if ($(this).hasClass('active')) {
+					console.log('do this shit');
+					allPanels.addClass('active');
+					allPanels2.addClass('active');
+					$(this).removeClass('active');
+					$(this).next().removeClass('active');
+				} else {
+					allPanels.removeClass('active');
+					allPanels2.removeClass('active');
+					$(this).addClass('active');
+					$(this).next().addClass('active');
+				}
+				
 				$('body').scrollTop(500);
-			}
+			//}
 			
 			return false;
 		});

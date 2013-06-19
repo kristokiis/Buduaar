@@ -2000,6 +2000,7 @@ body{
 	display: inline-block;
 	text-align: center;
 	position: relative;
+	text-decoration: none;
 }
 
 .sub_menu_icons a span{
