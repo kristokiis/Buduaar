@@ -638,7 +638,7 @@ var app = {
 			   	   	   loaded = true;
 				       totalItems = $('#marketList').find('.item').length;
 				       
-				       app.showLoader();
+				       
 				       
 				       data.start = totalItems;
 				       data.limit = 10;
@@ -648,6 +648,7 @@ var app = {
 				       		//data.start = 0;
 				       		//app.getStores(data);
 				       } else {
+				       		app.showLoader();
 				       		app.getMarket(data);
 				       }
 				       setTimeout(function() {
@@ -1554,6 +1555,7 @@ var app = {
 		data.limit = 100;
 		//console.log(data);
 		app.showLoader(603);
+		//console.log('showin loader..');
 		
 		$('.marketContainer').find('.page-wrap').hide();
 		$('.marketContainer').find('#marketList').show();
