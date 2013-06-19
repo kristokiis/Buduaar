@@ -3209,10 +3209,21 @@ function uploadFile(mediaFile, isSave) {
 					setTimeout(function() {
 						$('.ajax-loader').hide();
 						$('.uploaded').hide();
-						$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');
-						$('.uploaded').show();
-						app.initPicRemove();
-					}, 1500);
+						/*$('.uploaded').append('<a href="#" class="remove-pic" rel="'+response.id+'"><img src="'+response.icon+'" /><span></span></a>');*/
+						$.get(app.serverUrl + 'Market/itemImages/' + app.currentEditId, data, function(results) {
+							$('.uploaded').html('');
+							$.each(results.data, function(i, itemImage) {
+								$('.uploaded').append('<a class="remove-pic" rel="'+itemImage.id+'" href="#"><img class="toode_thumb" src="'+itemImage.icon+'" alt="logo"/><br style="clear:both;" /><span></span></a>')
+								//$('.toode_thumb').attr('src', ).parent().attr('href', );
+			
+							});	
+							$('.uploaded').show();
+							app.initPicRemove();
+						
+						}, 'jsonp');
+						
+						//app.initPicRemove();
+					}, 500);
 					
 					
 				}
