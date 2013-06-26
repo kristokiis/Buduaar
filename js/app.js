@@ -1620,9 +1620,11 @@ var app = {
 					
 				} else {
 					if(results.data && results.data.length)
-						alert(results.data);
+						navigator.notification.alert(results.data, 'Teade', 'Ok!');
+						//alert(results.data);
 					else
-						alert(results.message);
+						navigator.notification.alert(results.message, 'Teade', 'Ok!');
+						//alert(results.message);
 					
 				}
 			
@@ -1984,8 +1986,8 @@ var app = {
 				
 				//e.stopPropagation();
 				$.get(app.serverUrl + 'Market/updateMarketItemExpires/' + rel, data, function(results) {
-					
-					alert(results.data);
+					navigator.notification.alert(results.data, 'Teade', 'Ok!');
+					//alert(results.data);
 					element.hide();
 					//return false;	
 				
@@ -2286,8 +2288,8 @@ var app = {
 					$.get(app.supportUrl, data, function(results) {
 					
 						$('.item-quantity').html(oldQuantity - quantity);
-				
-						alert(results.data);
+						navigator.notification.alert(results.data, 'Teade', 'Ok!');
+						//alert(results.data);
 						itemQuantity = itemQuantity-quantity;
 					
 						// http:/api.buduaar.ee/Market/makeAuctionBid/[$i d]/[$amount]/
@@ -2298,8 +2300,9 @@ var app = {
 						$.get(app.serverUrl + 'Market/makeAuctionBid/' + id + '/' + quantity, data, function(results) {
 						
 							$('.item-quantity').html(oldQuantity - quantity);
-					
-							alert(results.data);
+							
+							navigator.notification.alert(results.data, 'Teade', 'Ok!');
+							//alert(results.data);
 							itemQuantity = itemQuantity-quantity;
 							
 						}, 'jsonp');
@@ -3257,7 +3260,7 @@ function getPhoto() {
 function uploadFile(mediaFile, isSave) {
 	//console.log('uploading');
     
-    if(!isSave) {
+    if(!isSave && app.saveStage == 1) {
 		$('.one').removeClass('active');
 		$('.two').addClass('active');
 		
@@ -3306,7 +3309,7 @@ function uploadFile(mediaFile, isSave) {
 				//console.log(result.response);
 				//alert(result.response);
 				result.response = result.response.replace('123(', '').replace(')' , '');
-				//alert(result.response);
+				alert(result.response);
 	            response = $.parseJSON(result.response);  
 	                 
 				//alert(response);
@@ -3319,13 +3322,16 @@ function uploadFile(mediaFile, isSave) {
 				
 						app.currentEditId = response.data.item.id;
 	
-						alert('Salvestatud!');
+						//alert('Salvestatud!');
+						navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
 						
 					} else {
 						if(response.data && response.data.length)
-							alert(response.data);
+							navigator.notification.alert(response.data, 'Teade', 'Ok!');
+							//alert(response.data);
 						else
-							alert(response.message);
+							navigator.notification.alert(response.message, 'Teade', 'Ok!');
+							//alert(response.message);
 						
 					}
 					
@@ -3360,7 +3366,7 @@ function uploadFile(mediaFile, isSave) {
 				
 	        },
 	        function(error) {
-	        	navigator.notification.alert('Error uploading file ' + path + ': ' + error.code, null, 'Uh oh!');
+	        	navigator.notification.alert('Viga faili laadimisel', 'Teade', 'Ok!');
 	            //console.log('Error uploading file ' + path + ': ' + error.code);
 	        }, options
 	    ); 
