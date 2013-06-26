@@ -1474,6 +1474,7 @@ var app = {
 				height1 = $('#itemForm').height();
 				$('#itemForm').css('margin-top', '-' + height1 + 'px');
 				app.saveParams = {};
+				return false;
 				
 			} else if (step == 2) {
 				
@@ -1488,19 +1489,10 @@ var app = {
 				height2 = $('#itemForm2').height();
 				total_h = height1 + height2;
 				$('#itemForm').css('margin-top', '-' + total_h + 'px');
-				
-			} else if (step == 3) {
-				
-				$('body').scrollTop(0);
-				$('#saveFinish').show();
-				height1 = $('#itemForm').height();
-				height2 = $('#itemForm2').height();
-				height3 = $('#itemForm3').height();
-				total_h = height1 + height2 + height3;
-				$('#itemForm').css('margin-top', '-' + total_h + 'px');
+				return false;
 				
 			}
-			return false;
+			
 		}
 		
 		if(app.currentEditId)
@@ -1616,7 +1608,21 @@ var app = {
 				
 					app.currentEditId = results.data.item.id;
 
-					alert('Salvestatud!');
+					
+					if (step == 3) {
+				
+						$('body').scrollTop(0);
+						$('#saveFinish').show();
+						height1 = $('#itemForm').height();
+						height2 = $('#itemForm2').height();
+						height3 = $('#itemForm3').height();
+						total_h = height1 + height2 + height3;
+						$('#itemForm').css('margin-top', '-' + total_h + 'px');
+						
+					} else {
+						navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+						//alert();
+					}
 					
 				} else {
 					if(results.data && results.data.length)
