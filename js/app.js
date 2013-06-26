@@ -175,24 +175,36 @@ var app = {
 	triggerBack: function() {
 		//if we are in detail view..	
 		$(window).scrollTop(0);
+		if ($('.ps-toolbar-close').length) {
+			$('.ps-toolbar-close').click();
+			return false;
+		}
+		
 		
 		if($('#marketPage').is(':visible')) {
-		
+			
+			console.log($('.page-wrap.opened').length);
+			
 			if(app.isMarketSearch) {
-				data = {};
-				data.start = 0;
-				data.limit = 10;
-				app.isMarketSearch = false;
+			
 				
-				$('#marketSearchStr').val('');
-				$('#marketSearchPriceFrom').val('');
-				$('#marketSearchPriceTo').val('');
+					data = {};
+					data.start = 0;
+					data.limit = 10;
+					app.isMarketSearch = false;
+					
+					$('#marketSearchStr').val('');
+					$('#marketSearchPriceFrom').val('');
+					$('#marketSearchPriceTo').val('');
+					
+					app.getMarket(data);
+					return false;
 				
-				app.getMarket(data);
-				return false;
+			
+				
 			}
 			
-			//console.log('we got market page!');
+			console.log('we got market page!');
 			$('#sellerother').html('');
 			
 			if ($('#marketAdd').is(':visible') || $('#marketOrders').is(':visible') || $('#myList').is(':visible')) {
@@ -417,7 +429,7 @@ var app = {
 			}, 200);
 			
 			app.initNewsListScroll();
-			var slider = new Swipe(document.getElementById('slider') , {'auto': 2000} );
+			var slider = new Swipe(document.getElementById('slider') , {'auto': 4000} );
 			$('#slider').find('.next').click(function(e) {
 				e.preventDefault();
 				slider.next();
@@ -1113,6 +1125,22 @@ var app = {
 			e.preventDefault();
 		});
 		
+		console.log($('#itemForm'));
+		
+		$('#itemForm').unbind('submit');
+		$('#itemForm').submit(function(e) {
+			e.preventDefault();
+			//alert('wdf..');
+		});
+		$('#itemForm2').unbind('submit');
+		$('#itemForm2').submit(function(e) {
+			e.preventDefault();
+		});
+		$('#itemForm3').unbind('submit');
+		$('#itemForm3').submit(function(e) {
+			e.preventDefault();
+		});
+		
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
 		$('#marketAdd').find('select').val('');
 		
@@ -1435,6 +1463,45 @@ var app = {
 		console.log('siin: ' + isSave);
 		
 		data = {};
+		if (!isSave) {
+			if (step == 1) {
+							
+				$('.one').removeClass('active');
+				$('.two').addClass('active');
+				
+				$('body').scrollTop(0);
+				$('#itemForm2').show();
+				height1 = $('#itemForm').height();
+				$('#itemForm').css('margin-top', '-' + height1 + 'px');
+				app.saveParams = {};
+				
+			} else if (step == 2) {
+				
+				$('.one').removeClass('active');
+				$('.two').removeClass('active');
+				$('.three').addClass('active');
+				
+				$('body').scrollTop(0);
+				$('#itemForm3').show();
+				
+				height1 = $('#itemForm').height();
+				height2 = $('#itemForm2').height();
+				total_h = height1 + height2;
+				$('#itemForm').css('margin-top', '-' + total_h + 'px');
+				
+			} else if (step == 3) {
+				
+				$('body').scrollTop(0);
+				$('#saveFinish').show();
+				height1 = $('#itemForm').height();
+				height2 = $('#itemForm2').height();
+				height3 = $('#itemForm3').height();
+				total_h = height1 + height2 + height3;
+				$('#itemForm').css('margin-top', '-' + total_h + 'px');
+				
+			}
+			return false;
+		}
 		
 		if(app.currentEditId)
 			data.id = app.currentEditId;		
@@ -1548,48 +1615,9 @@ var app = {
 				if (results.code == '1' || results.code == 1) {
 				
 					app.currentEditId = results.data.item.id;
+
+					alert('Salvestatud!');
 					
-					if (!isSave) {
-					
-						if (step == 1) {
-						
-							$('.one').removeClass('active');
-							$('.two').addClass('active');
-							
-							$('body').scrollTop(0);
-							$('#itemForm2').show();
-							height1 = $('#itemForm').height();
-							$('#itemForm').css('margin-top', '-' + height1 + 'px');
-							app.saveParams = {};
-							
-						} else if (step == 2) {
-							
-							$('.one').removeClass('active');
-							$('.two').removeClass('active');
-							$('.three').addClass('active');
-							
-							$('body').scrollTop(0);
-							$('#itemForm3').show();
-							
-							height1 = $('#itemForm').height();
-							height2 = $('#itemForm2').height();
-							total_h = height1 + height2;
-							$('#itemForm').css('margin-top', '-' + total_h + 'px');
-							
-						} else if (step == 3) {
-							
-							$('body').scrollTop(0);
-							$('#saveFinish').show();
-							height1 = $('#itemForm').height();
-							height2 = $('#itemForm2').height();
-							height3 = $('#itemForm3').height();
-							total_h = height1 + height2 + height3;
-							$('#itemForm').css('margin-top', '-' + total_h + 'px');
-							
-						}
-					} else {
-						alert('Salvestatud!');
-					}
 				} else {
 					if(results.data && results.data.length)
 						alert(results.data);
@@ -1718,18 +1746,26 @@ var app = {
 				
 				$('.menu_bar').find('.back').unbind('click');
 				$('.menu_bar').find('.back').click(function(e) {
-					$('.market-header').hide();
 					e.preventDefault();
-					data = {};
-					data.limit = 10;
-					data.start = 0;
-					app.getStores(data);
-					//app.getMarket(data);
-					//$('#sellerother').html('');
-					//console.log('ok');
-					//$('.marketContainer').find('.page-wrap').removeClass('opened');
-					app.initMainBack();
-					app.storeMode = true;
+					if($('.page-wrap.opened').length) {
+						//alert('opened!!');
+						$('.page-wrap').removeClass('opened');
+						//return false;
+					} else {
+						$('.market-header').hide();
+						
+						data = {};
+						data.limit = 10;
+						data.start = 0;
+						app.getStores(data);
+						//app.getMarket(data);
+						//$('#sellerother').html('');
+						//console.log('ok');
+						//$('.marketContainer').find('.page-wrap').removeClass('opened');
+						app.initMainBack();
+						app.storeMode = true;
+					}
+					
 				});
 				
 			});
@@ -2107,6 +2143,9 @@ var app = {
 			
 			offer = results.data.item[0];
 			//console.log(offer);
+			
+			$('.images-container').html('<a href="'+offer.image+'" class="item-image"><img class="toode_preview" src="'+offer.image+'" alt="logo"/></a><div class="product-thumbs"></div>');
+			
 			$('.toode_preview').attr('src', offer.image).parent().attr('href', offer.image);
 			
 			
@@ -2316,8 +2355,8 @@ var app = {
 					//$('.toode_thumb').attr('src', ).parent().attr('href', );
 
 				});
-				
-				var myPhotoSwipe2 = $(".item-image").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });	
+				var myPhotoSwipe2 = {};
+				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });	
 				
 			}, 'jsonp');
 		
@@ -3044,19 +3083,26 @@ var app = {
 					});
 					
 				}, 'jsonp');
+				
+				$('#specialGallery').hide();
+				$('#gallery').hide();
 
 				$.get(app.serverUrl + 'Article/gallery/' + id + '?limit=1000', data, function(results) {
 					
 					if(results.data.length) {
-					
-						if (newsItem.isDescriptionGallery) {
+						
+						$('.gallery').html('');
+						
+						
+						
+						if (newsItem.isDescriptionGallery && newsItem.isDescriptionGallery == 1) {
 							$('#specialGallery').show();
 							$('#gallery').hide();
 							$.each(results.data, function(i, image) {
-								$('.special-gal').append('<p><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a><h3 style="font-weight:bold;">'+image.names+'</h3>'+image.description+'<p>');
+								$('.special-gal').append('<p><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a><h3 style="font-weight:bold;">'+image.names+'</h3>'+image.description+'</p><br style="clear:both;" />');
 							});
 							
-							var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
+							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
 						} else {
 							$('#specialGallery').hide();
 							$('#gallery').show();
@@ -3066,10 +3112,6 @@ var app = {
 							
 							var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
 						}
-					
-						$('.gallery').html('');
-						
-						
 						
 						hasGallery = true;
 					} else {
@@ -3215,6 +3257,18 @@ function getPhoto() {
 function uploadFile(mediaFile, isSave) {
 	//console.log('uploading');
     
+    if(!isSave) {
+		$('.one').removeClass('active');
+		$('.two').addClass('active');
+		
+		$('body').scrollTop(0);
+		$('#itemForm2').show();
+		height1 = $('#itemForm').height();
+		$('#itemForm').css('margin-top', '-' + height1 + 'px');
+		app.saveParams = {};
+		app.saveStage = 2;
+		return false;
+	}
     
     if (mediaFile) {
 	    var ft = new FileTransfer();
@@ -3254,25 +3308,27 @@ function uploadFile(mediaFile, isSave) {
 				result.response = result.response.replace('123(', '').replace(')' , '');
 				//alert(result.response);
 	            response = $.parseJSON(result.response);  
-	            response = response.data;      
+	                 
 				//alert(response);
 				
-				console.log(response);
+				//console.log(response);
 				
 				if(app.saveStage == 1) {
-					if(!isSave) {
-						$('.one').removeClass('active');
-						$('.two').addClass('active');
-						
-						$('body').scrollTop(0);
-						$('#itemForm2').show();
-						height1 = $('#itemForm').height();
-						$('#itemForm').css('margin-top', '-' + height1 + 'px');
-						app.saveParams = {};
-						app.saveStage = 2;
-					} else {
+					
+					if (response.code == '1' || response.code == 1) {
+				
+						app.currentEditId = response.data.item.id;
+	
 						alert('Salvestatud!');
+						
+					} else {
+						if(response.data && response.data.length)
+							alert(response.data);
+						else
+							alert(response.message);
+						
 					}
+					
 				} else {
 					
 					//$('.uploaded').hide();

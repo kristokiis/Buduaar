@@ -251,9 +251,7 @@
 				<div class="page-wrap toodepage" id="marketDetail">	
 		
 					<section class="toode">
-						<a href="#" class="item-image"><img class="toode_preview" src="images/shoe1.png" alt="logo"/></a>
-						
-						<div class="product-thumbs">
+						<div class="images-container">
 						
 						</div>
 						
@@ -472,7 +470,7 @@
 					<form id="itemForm" action="#" autocomplete="off">
 						<section class="lisatoode">
 							<h2>Üldinfo</h2>
-							
+								<span>Nimi</span>
 								<input type="text" id="ad_name" name="nimi" class="defaultText textinput" placeholder="Nimi"><br />
 								
 								<div class="pricebox client-type-box">
@@ -494,10 +492,9 @@
 									<input type="radio" id="add_sale" data-value="sale" name="ad_deal_type" value="sale" checked/><label class="label" id="sale_label" for="add_sale"><span></span> Müük </label>
 									<input type="radio" id="add_buy" data-value="buy" name="ad_deal_type" value="buy"/><label for="add_buy" id="buy_label"><span></span> Ost</label>
 								</div>
+								<span>Seisukord</span>
 								<div class="select-container">
 								<select id="ad_condition">
-									<option value="0">Seisukord</option>
-							
 									<option value="new">Uus</option>
 									<option value="littleUsed">Vähe kasutatud</option>
 									<option value="used">Kasutatud</option>
@@ -511,10 +508,9 @@
 								
 								<section class="add-ad-section">
 									<div class="availability-section">
+										<span>Saadavus</span>
 										<div class="select-container">
 										<select id="ad_availability">
-											<option value="0">Saadavus</option>
-									
 											<option value="order">Tellitav</option>
 											<option value="immediatelyAvailable">Kohe olemas</option>
 											<option value="booked">Broneeritud</option>

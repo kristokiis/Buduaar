@@ -2532,7 +2532,7 @@ select.no-apperance {
 
 
 
-.lisatoode .submit{
+.lisatoode .submit, .lisatoode button {
 	background: #B93B79;
 	border: none;
     width: 42%;
