@@ -31,6 +31,8 @@ var first = true;
 
 var search = {};
 
+var offline = false;
+
 var app = {
 
 	marketCats: {},
@@ -58,13 +60,26 @@ var app = {
 	isMarketSearch: false,
 	
 	init: function() {
-	
+		
+		console.log('app init!');
+		
 		app.oldAndroidStuff();
 	
-		//if (1 == 1) {
-		document.addEventListener("online", function() {
-			
-		}, false);
+		if (offline == true) {
+			document.addEventListener("online", function() {
+				offline = false;
+				app.init();
+				return false;
+			}, false);
+		}
+		networkState = navigator.connection.type;
+		
+		if (networkState == Connection.NONE){
+			alert('Interneti ühendus puudub');
+			offline = true;
+			app.init();
+			return false;
+		}
 		
 		window.addEventListener('popstate', function(e) {
 			if(!first) {
@@ -89,8 +104,6 @@ var app = {
 		//if (navigator.onLine) {
 
 			this.initLogin();
-			this.initNews(true);
-			this.initMarket();
 			
 			this.initScrolls();
 			
@@ -254,6 +267,9 @@ var app = {
 	
 		$('.market-link').unbind('click');
 		$('.market-link').click(function(e) {
+		
+			app.initMarket();
+			
 			window.history.pushState('stuff', 'stuff', '');
 			window.history.pushState('stuff', 'stuff', '');
 			
@@ -413,7 +429,8 @@ var app = {
 	
 		$('.news-link').unbind('click');
 		$('.news-link').click(function(e) {
-		
+			app.initNews(true);
+			
 			window.history.pushState('stuff', 'stuff', '');
 			window.history.pushState('stuff', 'stuff', '');
 		
@@ -1869,8 +1886,10 @@ var app = {
 				
 				if ($(this).hasClass('order-buy')) {
 					app.getUserOrders('buyer');
+					$('.seller-buyer').html('Müüja');
 				} else {
 					app.getUserOrders('seller');
+					$('.seller-buyer').html('Ostja');
 				}
 			});
 			
@@ -2150,7 +2169,7 @@ var app = {
 			}
 			
 			offer = results.data.item[0];
-			//console.log(offer);
+			console.log(offer);
 			
 			$('.images-container').html('<a href="'+offer.image+'" class="item-image"><img class="toode_preview" src="'+offer.image+'" alt="logo"/></a><div class="product-thumbs"></div>');
 			
@@ -2983,7 +3002,7 @@ var app = {
 			$('#gallery').hide();
 			$('#comments').hide();
 			
-			$('.reccomend-container').html('<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fbuduaar.ee%2FArticle%2Farticle%2F' + id + '&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=recommend&amp;height=35&amp;appId=161092774064906" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:310px; height:35px;" allowTransparency="true"></iframe>');
+			/*$('.reccomend-container').html('<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fbuduaar.ee%2FArticle%2Farticle%2F' + id + '&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=recommend&amp;height=35&amp;appId=161092774064906" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:310px; height:35px;" allowTransparency="true"></iframe>');*/
 			
 			//$('#fbShare').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=buduaar.ee/Article/article/' + results.data.id);
 			
