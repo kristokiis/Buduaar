@@ -1563,10 +1563,10 @@ var app = {
 			data.condition = $('#ad_condition').val();
 			data.availability = $('#ad_availability').val();
 			
-			if(data.adType == 'auction') {
+			if(data.adType == 'oksjon') {
 				data.price = $('#auction_price').val();
 				data.Length = $('#auction_length').val();
-				data.bidStep = $('#ad_price').val();
+				data.bidStep = $('#auction_step').val();
 				
 			} else {
 				data.price = $('#ad_price').val();
@@ -1756,11 +1756,7 @@ var app = {
 				var curStore = stores[data.store];
 				
 				console.log(curStore);
-				
-				
-				
-				
-				
+
 				$('.market-header').find('.market-image').attr('src', curStore.mediumIcon);
 				$('.market-header').find('.market-title').html(curStore.name);
 				$('.market-header').find('.market-description').html(curStore.description);
@@ -3366,6 +3362,8 @@ function uploadFile(mediaFile, isSave) {
 		return false;
 	}
     
+    alert(app.saveStage);
+    
     if (mediaFile) {
 	    var ft = new FileTransfer();
 	    var path = mediaFile;
@@ -3408,6 +3406,8 @@ function uploadFile(mediaFile, isSave) {
 				//alert(response);
 				
 				//console.log(response);
+				
+				alert('ok..');
 				
 				if(app.saveStage == 1) {
 					
