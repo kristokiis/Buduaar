@@ -1663,7 +1663,7 @@ var app = {
 						
 					} else {
 						if (appMode) {
-							navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+							navigator.notification.alert('Salvestatud!', {}, 'Teade', 'Ok');
 						} else {
 							alert('Salvestatud');
 						}
@@ -1673,14 +1673,14 @@ var app = {
 				} else {
 					if(results.data && results.data.length) {
 						if (appMode) {
-							navigator.notification.alert(results.data, 'Teade', 'Ok!');
+							navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 						} else {
 							alert(results.data);
 						}
 						//alert(results.data);
 					} else {
 						if (appMode) {
-							navigator.notification.alert(results.message, 'Teade', 'Ok!');
+							navigator.notification.alert(results.message, {}, 'Teade', 'Ok');
 						} else {
 							alert(results.message);
 						}
@@ -2061,7 +2061,7 @@ var app = {
 				//e.stopPropagation();
 				$.get(app.serverUrl + 'Market/updateMarketItemExpires/' + rel, data, function(results) {
 					if (appMode) {
-						navigator.notification.alert(results.data, 'Teade', 'Ok!');
+						navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 					} else {
 						alert(results.data);
 					}
@@ -2372,7 +2372,7 @@ var app = {
 					
 						$('.item-quantity').html(oldQuantity - quantity);
 						if (appMode) {
-							navigator.notification.alert(results.data, 'Teade', 'Ok!');
+							navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 						} else {
 							alert(results.data);
 						}
@@ -2388,7 +2388,7 @@ var app = {
 						
 							$('.item-quantity').html(oldQuantity - quantity);
 							if (appMode) {
-								navigator.notification.alert(results.data, 'Teade', 'Ok!');
+								navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 							} else {
 								alert(results.data);
 							}
@@ -3365,7 +3365,7 @@ function uploadFile(mediaFile, isSave) {
 		return false;
 	}
     
-    alert(app.saveStage);
+    //alert(app.saveStage);
     
     if (mediaFile) {
 	    var ft = new FileTransfer();
@@ -3410,7 +3410,7 @@ function uploadFile(mediaFile, isSave) {
 				
 				//console.log(response);
 				
-				alert('ok..');
+				//alert('ok..');
 				
 				if(app.saveStage == 1) {
 					
@@ -3423,7 +3423,7 @@ function uploadFile(mediaFile, isSave) {
 						
 						//alert('Salvestatud!');
 						if (appMode) {
-							navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+							navigator.notification.alert('Salvestatud!', {}, 'Teade', 'Ok');
 						} else {
 							alert('Salvestatud');
 						}
@@ -3431,14 +3431,14 @@ function uploadFile(mediaFile, isSave) {
 					} else {
 						if(response.data && response.data.length) {
 							if (appMode) {
-								navigator.notification.alert(response.data, 'Teade', 'Ok!');
+								navigator.notification.alert(response.data, {}, 'Teade', 'Ok');
 							} else {
 								alert(response.data);
 							}
 							//alert(response.data);
 						} else {
 							if (appMode) {
-								navigator.notification.alert(response.message, 'Teade', 'Ok!');
+								navigator.notification.alert(response.message, {}, 'Teade', 'Ok');
 							} else {
 								alert(response.message);
 							}
@@ -3447,7 +3447,7 @@ function uploadFile(mediaFile, isSave) {
 					}
 					
 				} else {
-					
+					//alert(app.currentEditId);
 					//$('.uploaded').hide();
 					app.showLoader();
 					setTimeout(function() {
@@ -3478,7 +3478,7 @@ function uploadFile(mediaFile, isSave) {
 	        },
 	        function(error) {
 	        	if (appMode) {
-	        		navigator.notification.alert('Viga faili laadimisel', 'Teade', 'Ok!');
+	        		navigator.notification.alert('Viga faili laadimisel', {}, 'Teade', 'Ok');
 	        	} else {
 		        	alert('Viga faili laadimisel');
 	        	}
@@ -3498,6 +3498,7 @@ function uploadFile(mediaFile, isSave) {
 				
 			if (results.code == '1' || results.code == 1) {
 				if(!isSave) {
+					//console.log
 					app.currentEditId = results.data.item.id;
 					$('.one').removeClass('active');
 					$('.two').addClass('active');
@@ -3509,14 +3510,29 @@ function uploadFile(mediaFile, isSave) {
 					app.saveParams = {};
 					app.saveStage = 2;
 				} else {
-					alert('Salvestatud');
+					if (appMode) {
+						navigator.notification.alert('Salvestatud', {}, 'Teade', 'Ok');
+					} else {
+						alert('Salvestatud');
+					}
+					app.currentEditId = results.data.item.id;
+					//alert('Salvestatud');
 				}
 			
 			} else {
-				if(results.data && results.data.length)
-					alert(results.data);
-				else
-					alert(results.message);
+				if (results.data && results.data.length) {
+					if (appMode) {
+						navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
+					} else {
+						alert(results.data);
+					}
+				} else {
+					if (appMode) {
+						navigator.notification.alert(results.message, {}, 'Teade', 'Ok');
+					} else {
+						alert(results.message);
+					}
+				}
 			}
 		}, 'jsonp');
     }
@@ -3524,7 +3540,7 @@ function uploadFile(mediaFile, isSave) {
 }
 
 function captureSuccess(imageURI) {
-	alert('success: ' + app.saveStage);
+	//alert('success: ' + app.saveStage);
 	app.imageURI = imageURI;
 	if (imageURI != null && app.saveStage != 1) {
 		uploadFile(imageURI, false);
