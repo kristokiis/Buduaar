@@ -417,7 +417,7 @@ var app = {
 			} else {
 				$('.marketContainer').find('.page-wrap').hide();
 				$('#myList').fadeIn('fast');
-				app.getUserMarket();
+				app.getUserMarket(false);
 			}
 			app.hideSearch();
 			app.hideCategories();
@@ -888,6 +888,8 @@ var app = {
 		data = {};
 		data.limit = 10;
 		
+		$('.oth').hide();
+		
 		$('.to-main-new').unbind('click');
 		$('.to-main-new').click(function(e) {
 			data = {};
@@ -1074,8 +1076,8 @@ var app = {
 		app.saveStage = 1;
 		app.imageURI = '';
 		
-		$('#auction_length').html('<option value="0">Oksjon kestab</option>');
-		for (var i=0; i<31; i++) {
+		$('#auction_length').html('');
+		for (var i=1; i<31; i++) {
 			$('#auction_length').append('<option value="' + i + '">' + i + ' päeva</option>');
 		}
 		
@@ -1099,7 +1101,7 @@ var app = {
 			} else {
 				$('.marketContainer').find('.page-wrap').hide();
 				$('#myList').fadeIn('fast');
-				app.getUserMarket();
+				app.getUserMarket(false);
 			}
 		});
 		
@@ -1150,6 +1152,8 @@ var app = {
 		
 		$('#marketAdd').find('input:not(input[type="submit"])').val('');
 		$('#marketAdd').find('select').val('');
+		$('#marketAdd').find('textarea').val('');
+		$('.uploaded').html('');
 		
 		if (id) {
 		
@@ -1170,15 +1174,25 @@ var app = {
 				$('#ad_condition').val(item.condition);
 				$('#ad_availability').val(item.availability);
 				
-				if(item.adType == 'auction') {
-					$('#auction_price').val(item.price);
-					$('#auction_length').val(item.bidStep);
-					$('#ad_price').val();
+				if(item.adType == 'oksjon') {
+					
+					data.price = $('#auction_price').val(item.price);
+					data.length = $('#auction_length').val(item.length);
+					data.bidStep = $('#auction_step').val(item.bidStep);
+					
+					$('.add-auction-section').show();
+					$('.add-ad-section').hide();
+					$('.add-type-box').hide();
 					
 				} else {
 					$('#ad_price').val(item.price);
 					$('#ad_quantity').val(item.amount);
 					$('#ad_quantity').val();
+					
+					$('.add-auction-section').hide();
+					$('.add-ad-section').show();
+					$('.add-type-box').show();
+
 				}
 				
 				$('#ad_location').val(item.location);
@@ -1471,6 +1485,7 @@ var app = {
 				
 				$('body').scrollTop(0);
 				$('#itemForm2').show();
+				
 				height1 = $('#itemForm').height();
 				$('#itemForm').css('margin-top', '-' + height1 + 'px');
 				app.saveStage = 2;
@@ -1911,19 +1926,18 @@ var app = {
 		
 	},
 	
-	getUserMarket: function(data) {
+	getUserMarket: function(start) {
 		
 		$('.market-header').hide();
 		
-		if(!data)
-			data = {};
+		data = {};
 		
 		app.storeMode = false;
 		data.session = app.session;
 		
-		data.limit = 10;
+		data.limit = 25;
 		
-		if (!data.start)
+		if (!start)
 			data.start = 0;
 		
 		app.showLoader(773);
@@ -3426,6 +3440,7 @@ function captureSuccess(imageURI) {
 	if (imageURI != null && app.saveStage != 1) {
 		uploadFile(imageURI, false);
     } else {
+    	$('.no-pic-text').hide();
 	    $('#profilePic').attr('src', imageURI);
     }
 }
