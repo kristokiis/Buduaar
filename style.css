@@ -1641,6 +1641,11 @@ body{
 	padding-top: 0px;
 }
 
+.item-price {
+	color: #920c4e;
+	font-size: 30px;
+}
+
 .sub_menu {
     overflow: hidden;
 }
