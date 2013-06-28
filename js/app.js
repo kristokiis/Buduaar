@@ -1558,17 +1558,18 @@ var app = {
 			
 			data.businessClient = $('input[name="ad_client"]:checked').data('value');
 			data.adType = $('input[name="ad_type"]:checked').data('value');
-			data.dealType = $('input[name="ad_deal_type"]:checked').data('value');
+			
 			
 			data.condition = $('#ad_condition').val();
 			data.availability = $('#ad_availability').val();
 			
 			if(data.adType == 'oksjon') {
 				data.price = $('#auction_price').val();
-				data.Length = $('#auction_length').val();
+				data.length = $('#auction_length').val();
 				data.bidStep = $('#auction_step').val();
 				
 			} else {
+				data.dealType = $('input[name="ad_deal_type"]:checked').data('value');
 				data.price = $('#ad_price').val();
 				data.amount = $('#ad_quantity').val();
 				data.amountLeft = $('#ad_quantity').val();
@@ -3521,6 +3522,7 @@ function uploadFile(mediaFile, isSave) {
 }
 
 function captureSuccess(imageURI) {
+	alert('success: ' + app.saveStage);
 	app.imageURI = imageURI;
 	if (imageURI != null && app.saveStage != 1) {
 		uploadFile(imageURI, false);
