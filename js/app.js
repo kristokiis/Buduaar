@@ -63,7 +63,6 @@ var app = {
 	
 	init: function() {
 		
-		//console.log('app init!');
 		
 		app.oldAndroidStuff();
 	
@@ -96,14 +95,10 @@ var app = {
 					app.triggerBack();
 				} else {
 					e.preventDefault();
-					//$('.back').click();
-					//console.log('clicked back');
 					app.triggerBack();
 				}
 				
 			}
-			//alert('got back button..');
-			//console.log(event);
 			first = false;
 			//
 		});
@@ -168,7 +163,7 @@ var app = {
 	},
 	
 	showLoader: function(line) {
-		//console.log('show IT: ' + line);
+		
 		$('.ajax-loader').css('height', $('body').height() + 'px');
 		$('.ajax-loader').find('img').center();
 		$('.ajax-loader').fadeIn();
@@ -187,8 +182,7 @@ var app = {
 			e.preventDefault();
 			app.triggerBack();
 		});	
-		
-		//console.log('backed..');
+	
 		
 	},
 	
@@ -208,7 +202,6 @@ var app = {
 		
 		if($('#marketPage').is(':visible')) {
 			
-			console.log($('.page-wrap.opened').length);
 			
 			if(app.isMarketSearch) {
 			
@@ -226,7 +219,7 @@ var app = {
 
 			}
 			
-			console.log('we got market page!');
+			
 			$('#sellerother').html('');
 			
 			if ($('#marketAdd').is(':visible') || $('#marketOrders').is(':visible') || $('#myList').is(':visible')) {
@@ -241,14 +234,11 @@ var app = {
 			
 		} else if($('#messagesPage').is(':visible')) {
 			
-			//console.log('we got market page!');
 			
 		} else if($('#newsPage').is(':visible')) {
 			$('#newsContent').html('');
 			$('#commentsList').html('');
 			app.initNewsListScroll();
-			
-			//console.log('we got news page!');
 			
 		}
 		
@@ -259,7 +249,7 @@ var app = {
 			$('.page-wrap').removeClass('opened');
 			
 		} else {
-			//console.log('mkey-mkey');
+			
 			$('#page-wrap').removeClass('active');
 			$('#page-wrap').show();
 			$('.page-sidebar-wrap').removeClass('active');
@@ -431,7 +421,7 @@ var app = {
 			}
 			app.hideSearch();
 			app.hideCategories();
-			console.log('what..');
+			
 		});
 	
 		$('.news-link').unbind('click');
@@ -552,7 +542,6 @@ var app = {
 				$('.message-to-user').parent().show();
 				$('.login-to-use').hide();
 				
-				//console.log(results);
 				$('.logout-link').show();
 			
 				$('.logged-out').hide();
@@ -602,7 +591,7 @@ var app = {
 					localStorage.setItem('budu_username', userData.username);
 					localStorage.setItem('budu_password', userData.password);
 				} else {
-					//console.log('whot');
+					
 					localStorage.removeItem('budu_username');
 					localStorage.removeItem('budu_password');
 				}
@@ -615,7 +604,7 @@ var app = {
 					$('#email').val(user.email);
 					cur_date = new Date();
 					birth_date = new Date(user.birthday);
-					//console.log(cur_date + ' jaja ' + birth_date);
+					
 					var vanus = getAge(birth_date, cur_date);
 					if(parseInt(vanus) < 100 && parseInt(vanus) > 1)
 						$('#vanus').val(vanus);
@@ -660,7 +649,6 @@ var app = {
 		
 		$(window).scroll(function() {
 		
-		   //console.log('scroll');
 		   if (loaded == false) {
 			   if ($('#messagesPage').is(':visible')) {
 				   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
@@ -687,10 +675,6 @@ var app = {
 			   	   
 				   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
 				   	   
-				   	   
-				   	   //alert('scrolled bottom');
-				   	   
-				   	   console.log($('#marketList').hasClass('opened') + ' ja ' + $('#marketList').is(':visible'));
 				   	   
 				   	   if(!$('#marketList').hasClass('opened') && $('#marketList').is(':visible')) {
 				   	   	   loaded = true;
@@ -733,8 +717,6 @@ var app = {
 						
 						//alert('whaat');
 					}
-			   } else {
-				   //console.log('different page');
 			   }
 		   }
 		});		
@@ -765,7 +747,6 @@ var app = {
 		
 		$.each(app.marketCats, function(i, cat) {
 			
-			//console.log(cat);
 			if(cat.level == 0) {
 			
 				$('#marketMenu').find('.menu_level1').append('<a class="main-cat" rel="' + cat.id + '"  href="#">' + cat.name + '<span></span></a>');
@@ -788,7 +769,7 @@ var app = {
 		});
 		
 		$.each(level3s, function(key, val) {
-			//console.log(val);
+			
 			if (level2s[val.parentId]) {
 				if(!level2s[val.parentId].children)
 					level2s[val.parentId].children = {};
@@ -844,7 +825,6 @@ var app = {
 			
 			if ($('.subnav' + rel).html()) {
 				
-				//console.log('HAS SUB SUB');
 				$('.sub-cat').removeClass('active');
 				$('.subnav' + rel).addClass('active');
 				 
@@ -1065,17 +1045,14 @@ var app = {
 					options = '<option value="0">' + val.name + '</option>';
 					
 					$.each(val.values, function(key2, val2) {
-						/*if(search[key]) {
-							//console.log(key + ' - ' + search[key]);
-						}*/
+						
 						options = options + '<option value="' + key2 + '" ' + (search[key] && search[key] == key2 ? ' selected="selected"' : '') + '>' + val2.name + ' (' + val2.count + ')</option>'
 					
 					});
 					
 					$('#searchFilters').append('<div class="select-container"><select id="' + key + '" style="height:50px;margin-bottom:0%;">' + options + '</select><label for="' + key + '" class="itemreturn"><span></span></label></div>');
 					
-					//console.log('Filters: ' + key);
-					//console.log(val);
+					
 				}
 				
 				
@@ -1099,7 +1076,6 @@ var app = {
 		
 		$('#auction_length').html('<option value="0">Oksjon kestab</option>');
 		for (var i=0; i<31; i++) {
-			console.log(i);
 			$('#auction_length').append('<option value="' + i + '">' + i + ' päeva</option>');
 		}
 		
@@ -1158,8 +1134,6 @@ var app = {
 			e.preventDefault();
 		});
 		
-		console.log($('#itemForm'));
-		
 		$('#itemForm').unbind('submit');
 		$('#itemForm').submit(function(e) {
 			e.preventDefault();
@@ -1182,12 +1156,9 @@ var app = {
 			$('.no-pic-text').hide();
 			
 			$.get(app.serverUrl + 'Market/userMarketItem/' + id, {}, function(results) {
-				//console.log('we got edit!!');
-				//console.log(results);
 				
 				item = results.data.item[0];
 				
-				//console.log(item);
 				
 				$('#ad_name').val(item.name);
 				$('#add_description').val(item.description);
@@ -1343,8 +1314,7 @@ var app = {
 		});
 		
 		$.each(app.catsTree, function(i, cat) {
-			//console.log(cat);
-			
+						
 			$('#ad_category').append('<option value="'+cat.id+'">' + cat.name+'</option>');
 			
 			if(cat.children) {
@@ -1376,22 +1346,22 @@ var app = {
 			app.getCatFeatures(cat_id, false);
 		});
 		
-		$('#itemForm').unbind('submit');
-		$('#itemForm').submit(function(e) {
+		$('#addStep1').unbind('click');
+		$('#addStep1').click(function(e) {
 			e.preventDefault();
 			app.saveItem(1, false);
 			
 		});
 		
-		$('#itemForm2').unbind('submit');
-		$('#itemForm2').submit(function(e) {
+		$('#addStep2').unbind('click');
+		$('#addStep2').click(function(e) {
 			e.preventDefault();
 			app.saveItem(2, false);
 			
 		});
 		
-		$('#itemForm3').unbind('submit');
-		$('#itemForm3').submit(function(e) {
+		$('#addStep3').unbind('click');
+		$('#addStep3').click(function(e) {
 			e.preventDefault();
 			app.saveItem(3, false);
 			
@@ -1441,13 +1411,9 @@ var app = {
 	
 	getCatFeatures: function(cat_id, user_cats) {
 		app.showLoader();
-		console.log('here1');
 		
 		$.get(app.serverUrl + 'Market/categoryFeatures/' + cat_id, {}, function(results) {
-				//console.log(results.data);
 				$('.category-features').html('');
-				
-				//console.log(user_cats);
 				
 				$.each(results.data, function(i, item) {
 					values = '';
@@ -1468,7 +1434,7 @@ var app = {
 						special_str = '';
 						$.each(item.values, function(j, value) {
 							if(user_cats[i]) {
-								//console.log('got it, lets dig deeper');
+								
 								$.each(user_cats[i].values, function(k,l) {
 									if (l == value.valueEst) {
 										special_str = ' checked="checked"';
@@ -1488,9 +1454,6 @@ var app = {
 					}
 					
 				});
-				
-				console.log('here2');
-				
 				$('.ajax-loader').hide();
 				
 			}, 'jsonp');	
@@ -1498,8 +1461,6 @@ var app = {
 	},
 	
 	saveItem: function(step, isSave) {
-		
-		console.log('siin: ' + isSave);
 		
 		data = {};
 		if (!isSave) {
@@ -1586,8 +1547,6 @@ var app = {
 				
 				value = 'desc_option_' + $(this).data('parent') + '[' + $(this).data('value') + ']';
 				
-				//console.log(value);
-				
 				data[value] = $(this).data('value');
 				
 			});
@@ -1617,8 +1576,6 @@ var app = {
 			
 				value = 'postingMethods[' + $(this).data('value') + ']';
 				
-				//console.log(value);
-				
 				data[value] = $(this).data('value');
 			
 				//data.postingMethods.push($(item).data('value'));
@@ -1638,9 +1595,6 @@ var app = {
 		}
 		
 		data.action = 'addItem';
-		
-		//console.log('SAVE:');
-		//console.log(data);
 		if (step == 1) {
 			uploadFile(app.imageURI, isSave);
 		} else {
@@ -1694,9 +1648,7 @@ var app = {
 	
 	getStores: function(data) {
 		data.limit = 100;
-		//console.log(data);
 		app.showLoader(603);
-		//console.log('showin loader..');
 		
 		$('.marketContainer').find('.page-wrap').hide();
 		$('.marketContainer').find('#marketList').show();
@@ -1717,7 +1669,6 @@ var app = {
 				
 				stores[item.id] = item;
 			
-				//console.log(item);
 				$('.market-template').find('.item').attr('data-id', item.id);
 				$('.market-template').find('img').attr('src', item.mediumIcon);
 
@@ -1757,8 +1708,6 @@ var app = {
 				data.store = $(this).data('id');
 				
 				var curStore = stores[data.store];
-				
-				console.log(curStore);
 
 				$('.market-header').find('.market-image').attr('src', curStore.mediumIcon);
 				$('.market-header').find('.market-title').html(curStore.name);
@@ -1808,9 +1757,6 @@ var app = {
 				
 				$('.market-header').show();
 				
-				//console.log('cur store: ');
-				//console.log(curStore);
-				
 				app.getMarket(data);
 				
 				$('.menu_bar').find('.back').unbind('click');
@@ -1827,10 +1773,6 @@ var app = {
 						data.limit = 10;
 						data.start = 0;
 						app.getStores(data);
-						//app.getMarket(data);
-						//$('#sellerother').html('');
-						//console.log('ok');
-						//$('.marketContainer').find('.page-wrap').removeClass('opened');
 						app.initMainBack();
 						app.storeMode = true;
 					}
@@ -1862,7 +1804,6 @@ var app = {
 		if (!data.start)
 			data.start = 0;
 		
-		//console.log(data);
 		app.showLoader(723);
 		
 		data.key = which;
@@ -1884,8 +1825,6 @@ var app = {
 			$.each(results.data, function(i, item) {
 				
 				category = '';
-			
-				//console.log(item);
 				$('.order-template').find('.item').attr('data-id', item.id);
 				if(which == 'buyer')
 					orderer = item.sellerUsername;
@@ -1900,8 +1839,6 @@ var app = {
 				orderRow = orderRow + '<td>' + parseFloat(item.price).toFixed(2) + ' €</td>';
 				orderRow = orderRow + '<td>' + parseFloat(item.totalPrice).toFixed(2) + ' €</td>';
 				orderRow = orderRow + '</tr>';
-				
-				//console.log(orderRow);
 				
 				$('.orders-content').append(orderRow);
 				
@@ -1989,7 +1926,6 @@ var app = {
 		if (!data.start)
 			data.start = 0;
 		
-		//console.log(data);
 		app.showLoader(773);
 		$.get(app.serverUrl + 'Market/userMarketItems/', data, function(results) {
 			
@@ -1999,8 +1935,6 @@ var app = {
 			$.each(results.data, function(i, item) {
 			
 				category = '';
-			
-				//console.log(item);
 				$('.my-item-template').find('.news').attr('data-id', item.id);
 				if (item.active && item.active == 1)
 					$('.my-item-template').find('.item-status').html('Aktiivne').css('color', 'green');
@@ -2091,7 +2025,6 @@ var app = {
 		$('.marketContainer').find('#marketList').show();
 		$('.marketContainer').find('#marketDetail').show();
 		
-		//console.log(data);
 		app.showLoader(816);
 		$.get(app.serverUrl + 'Market/search/', data, function(results) {
 			
@@ -2106,7 +2039,6 @@ var app = {
 			
 				category = '';
 			
-				//console.log(item);
 				$('.market-template').find('.item').attr('data-id', item.id);
 				$('.market-template').find('img').attr('src', item.icon);
 				
@@ -2122,7 +2054,6 @@ var app = {
 			
 				category = '';
 			
-				//console.log(item);
 				$('.market-template').find('.item').attr('data-id', item.id);
 				$('.market-template').find('img').attr('src', item.icon);
 				
@@ -2140,26 +2071,10 @@ var app = {
 			var was_hidden = false;
 			$('.fake-thumb').each(function() {
 				$(this).load(function() {
-					//console.log(i + ' ja ' + total_thumbs);
 					i++;
 					if(i == 10) {
 						$('.ajax-loader').hide();
-						/*if ($('#marketPage').is(':hidden')) {
-							was_hidden = true;
-							$('#marketPage').show();
-						} else {
-							was_hidden = false;
-						}
-							
-							
-						$('#marketPage').css('visibility', 'hidden').css('height', 'auto');
-						//console.log($('#marketPage').height());
-						$('#marketPage').height($('#marketPage').height()-400);
-						$('#marketPage').css('visibility', 'visible');
 						
-						if (was_hidden) {
-							$('#marketPage').hide();
-						}*/
 					}
 					src = $(this).attr('src');
 					$(this).parent().find('.thumb').attr('src', src).css('min-height', 0);
@@ -2202,8 +2117,6 @@ var app = {
 		
 		$('body').scrollTop(0);
 		
-		//console.log(isUser);
-		
 		if(isUser)
 			method = 'userMarketItem';
 		else
@@ -2227,7 +2140,6 @@ var app = {
 			$('.ajax-loader').hide();
 			
 			offer = results.data.item[0];
-			console.log(offer);
 			
 			$('.images-container').html('<a href="'+offer.image+'" class="item-image"><img class="toode_preview" src="'+offer.image+'" alt="logo"/></a><div class="product-thumbs"></div>');
 			
@@ -2258,16 +2170,15 @@ var app = {
 			$('.product-thumbs').html('');
 			
 			$.each(results.data.descriptionOptions, function(i, option) {
-				//console.log(option);
+				
 				//armap = option.values.map();
 				var arr = $.map(option.values, function (value, key) { return value; });
-				//console.log(arr);
+				
 				if(option.values)
 					$('.desc-options').append('<p><strong style="text-transform:capitalize;">' + option.name + '</strong>: ' + arr.join(', ') + '</p>');
 				
 			});
 			
-			//console.log(results.data.item);
 			
 			if(offer.itemType == 'ad') {
 				
@@ -2506,7 +2417,6 @@ var app = {
 		
 		$.get(app.serverUrl + 'User/messages/', data, function(results) {
 		
-			//console.log('hide IT');
 			$('.ajax-loader').hide();
 			
 			if (!start)
@@ -2532,8 +2442,7 @@ var app = {
 					total = results.data.length;
 					$.each(results.data, function(i, item) {
 						//unread[item.id] = true;
-						//console.log(item);
-						//console.log(unread);
+						
 						$('#messagesList').find('.wrap').each(function() {
 							if($(this).attr('id') == item.id) {
 								$(this).find('p').css('font-weight', 'bold');
@@ -2545,7 +2454,6 @@ var app = {
 					$('.newMessagesCount').html(total);
 				}, 'jsonp');
 			}
-			//console.log('hide IT');
 			
 			$('.ajax-loader').hide();
 			
@@ -2781,7 +2689,7 @@ var app = {
 		setTimeout(function(){
 			
 			var pageheight = $(document).height();
-			//console.log(pageheight);
+			
 			$('.oveflowscroll').css('height', pageheight);
 		},500);
 		
@@ -2824,7 +2732,7 @@ var app = {
 		
 		$('#searchForm').submit(function(e) {
 			e.preventDefault();
-			//console.log('ok..');
+			
 			app.getArticles('search', $('#search').val(), 0);
 		});
 		
@@ -2870,9 +2778,9 @@ var app = {
 			e.preventDefault();
 			//status = validateComment();
 			status = true;
-			//console.log(status);
+			
 			if (status == true || status == 'true') {
-				//console.log('davai');
+				
 				app.postComment();
 			}
 		})
@@ -2905,13 +2813,12 @@ var app = {
 				} else {
 					cats = cats + ',' + cat;
 					allCats = allCats + ',' + cat;
-					//console.log(allCats);
 				}
 			});
 			$('#newsPage').find('.menu_level1').append('<a href="#" data-cats="' + cats + '">' + item.nameEst + '</a>');
 		});
 		//$('.menu_level1').append('<a href="#" data-cats="' + 17 + '">Shopping</a>');
-		//console.log(allCats);
+		
 		$('#newsPage').find('.menu_level1').find('a').unbind('click');
 		$('#newsPage').find('.menu_level1').find('a').click(function(e) {
 			e.preventDefault();
@@ -2976,12 +2883,10 @@ var app = {
 				searchStr = '?lang=est&limit=20&word=' + search + '&start=' + start;
 				break;
 			case 'category':
-				//console.log(search);
+				
 				searchStr = '?lang=est&limit=20&categories=' + search + '&start=' + start;
 				break;
 		}
-		
-		//console.log('tüüp:' + type);
 		
 		if (type == 'last' || type == 'hot')
 			$('.hotnews').show();
@@ -3012,7 +2917,6 @@ var app = {
 	},
 	
 	parseHotNews: function(news) {
-		//console.log(news);
 		template = $('.hotTemplate');
 		$('.hotnews_title').find('.title').html('Nädala kuumad!');
 		$('#hotNews').html('');
@@ -3063,9 +2967,7 @@ var app = {
 		
 		
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
-			
-			//console.log(results);
-
+	
 			$('#gallery').hide();
 			$('#comments').hide();
 			
@@ -3104,7 +3006,7 @@ var app = {
 				//setTimeout(function() {
 				$('body').scrollTop(0);
 				//}, 100);
-				//console.log(results.data.image);
+				
 				$('#newsImage').attr('href', results.data.image);
 				//myPhotoSwipeMain = {};
 				//var myPhotoSwipeMain = $('#newsImage').photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
@@ -3135,9 +3037,6 @@ var app = {
 					else
 						pollActive = false;
 					
-					//console.log(pollEnds + ' ja ' + currentTime);
-					
-					//console.log(pollActive);
 					
 					$.get(app.supportUrl, data, function(results) {
 
@@ -3237,9 +3136,9 @@ var app = {
 			data.age = $('#vanus').val();
 		if ($('#comment').val() != $('#comment').attr('title'))
 			data.comment = $('#comment').val();
-		//console.log(data);
+		
 		$.get(app.supportUrl, data, function(results) {
-			//console.log(results);
+			
 			if (results.code == '1') {
 				$('#nimi').val('');
 				$('#email').val('');
@@ -3284,8 +3183,6 @@ var app = {
 				if (result.code == '1')
 					total = parseInt(total)+1;
 				
-				//console.log(results);
-				
 				results.options2[answer] = parseInt(results.options2[answer]) + 1;
 			
 				localStorage.setItem("poll_" + app.currentNews, true);
@@ -3329,10 +3226,7 @@ function getAge(d1, d2){
 
 
 function captureImage() {
-    // Launch device camera application, 
-    // allowing user to capture up to 2 images
-    //navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 2});
-    //console.log('capturing');
+    
 	navigator.camera.getPicture(captureSuccess, captureError, {
 		quality : 50, 
 		destinationType: destinationType.FILE_URI,
@@ -3350,7 +3244,6 @@ function getPhoto() {
 
 // Upload files to server
 function uploadFile(mediaFile, isSave) {
-	//console.log('uploading');
     
     if(!isSave && app.saveStage == 1) {
 		$('.one').removeClass('active');
@@ -3394,24 +3287,14 @@ function uploadFile(mediaFile, isSave) {
 		} else {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 		}
-		//alert(url);
-	    //alert(app.saveStage);
-	    
+		
 	    ft.upload(path, url,
 	        function(result) {
-	        	//console.log(url);
-				//console.log(result.response);
-				//alert(result.response);
+	        	
 				result.response = result.response.replace('123(', '').replace(')' , '');
-				alert(result.response);
+				
 	            response = $.parseJSON(result.response);  
-	                 
-				//alert(response);
-				
-				//console.log(response);
-				
-				//alert('ok..');
-				
+	
 				if(app.saveStage == 1) {
 					
 					if (response.code == '1' || response.code == 1) {
@@ -3482,13 +3365,11 @@ function uploadFile(mediaFile, isSave) {
 	        	} else {
 		        	alert('Viga faili laadimisel');
 	        	}
-	            //console.log('Error uploading file ' + path + ': ' + error.code);
+	            
 	        }, options
 	    ); 
 	    
     } else {
-    
-    	//console.log('ID: ' + app.currentEditId);
     
     	data = {};
     	data.id = app.currentEditId;
@@ -3498,7 +3379,7 @@ function uploadFile(mediaFile, isSave) {
 				
 			if (results.code == '1' || results.code == 1) {
 				if(!isSave) {
-					//console.log
+					
 					app.currentEditId = results.data.item.id;
 					$('.one').removeClass('active');
 					$('.two').addClass('active');
