@@ -204,9 +204,9 @@
 				<p class="market-description" style="font-size:12px;">Lorem impsum adasdasd adsasdasd sdfsdfasdf safsadfsdf sdfasdfsdf sdfsdfsdf</p>
 				
 				<h4 style="color:#da4b8b;font-size:12px;">&nbsp;</h4>
-				<span>Koduleht: </span><strong><a class="market-web" style="color:#da4b8b;" href="#">www.prettywoman.ee</a></strong><br />
-				<span>E-mail: </span><strong><a class="market-mail" style="color:#da4b8b;" href="#">pretty@prettywoman.ee</a></strong><br />
-				<span>Telefon: </span><strong><a class="market-phone" style="color:#da4b8b;" href="#">5078222</a></strong><br />
+				<span>Koduleht: </span><strong class="market-web"><a style="color:#da4b8b;" href="#"></a></strong><br />
+				<span>E-mail: </span><strong class="market-mail"><a style="color:#da4b8b;" href="#"></a></strong><br />
+				<span>Telefon: </span><strong class="market-phone"><a style="color:#da4b8b;" href="#"></a></strong><br />
 				<!--<span>Saada: </span><strong><a class="market-message-to-owner" style="color:#da4b8b;" href="#">Sõnum omanikule</a></strong><br />-->
 				
 				
@@ -474,18 +474,18 @@
 								<span>Nimi</span>
 								<input type="text" id="ad_name" name="nimi" class="defaultText textinput" placeholder="Nimi"><br />
 								
-								<div class="pricebox client-type-box">
-									<input type="radio" data-value="0" id="add_private" name="ad_client" value="0" checked/>
-									<label class="label" for="add_private" style="margin-right:7px;"><span></span> Erakuulutus </label>
-									<input type="radio" data-value="1" id="add_business" name="ad_client" value="1"/><label for="add_business"><span></span> Ärikuulutus</label>
-									<br style="clear:both;" />
-								</div>
-								
 								<div class="pricebox">
 									<span>Tüüp</span> 
 									<input type="radio" data-value="kuulutus" id="add_ad" name="ad_type" value="kuulutus" checked/><label for="add_ad"><span></span> Kuulutus</label>
 									<input type="radio" data-value="oksjon" id="add_auction" name="ad_type" value="oksjon"/><label class="label" for="add_auction"><span></span> Oksjon </label>
 									
+								</div>
+								
+								<div class="pricebox client-type-box">
+									<input type="radio" data-value="0" id="add_private" name="ad_client" value="0" checked/>
+									<label class="label" for="add_private" style="margin-right:7px;"><span></span> Erakuulutus </label>
+									<input type="radio" data-value="1" id="add_business" name="ad_client" value="1"/><label for="add_business"><span></span> Ärikuulutus</label>
+									<br style="clear:both;" />
 								</div>
 								
 								<div class="pricebox add-type-box">
@@ -584,7 +584,8 @@
 									<img src="#" id="profilePic" style="max-height:200px;" />
 								</div>
 							<div class="clear"></div>
-							<input type="submit" class="submit" id="back1" value="Tagasi" style="float:left;margin-right:8%">
+							<button name="back" id="back1" style="float:left;margin-right:8%" type="button" value="back">Tagasi</button>
+							<!--<input type="submit" class="submit" id="back1" value="Tagasi" style="float:left;margin-right:8%">-->
 							<a href="#" class="save-button" id="saveStep1"><span></span>Salvesta</a>
 							<br style="clear:both;" />
 							<input type="submit" class="submit" id="addStep2" style="width:46%;" value="Edasi »">
@@ -625,7 +626,8 @@
 						
 						<div class="clear"></div>
 						<br /><br />
-						<input type="submit" class="submit" id="back2" value="Tagasi" style="float:left;margin-right:8%">
+						<button name="back" id="back2" style="float:left;margin-right:8%" type="button" value="back">Tagasi</button>
+						<!-- <input type="submit" class="submit" id="back2" value="Tagasi" style="float:left;margin-right:8%"> -->
 						<a href="#" class="save-button" id="saveStep2"><span></span>Salvesta</a>
 						<br style="clear:both;" />
 						<input type="submit" class="submit" id="addStep2" style="width:46%;" value="Edasi »">
@@ -742,7 +744,8 @@
 						
 							<div class="clear"></div>
 							<br /><br />
-							<input type="submit" class="submit" id="back3" value="Tagasi" style="float:left;margin-right:8%">
+							<button name="back" id="back3" style="float:left;margin-right:8%" type="button" value="back">Tagasi</button>
+							<!--<input type="submit" class="submit" id="back3" value="Tagasi" style="float:left;margin-right:8%">-->
 							<!--<a href="#" class="save-button" id="saveStep3"><span></span>Salvesta</a>
 							<br style="clear:both;" />-->
 							<input type="submit" class="submit" id="addStep3" value="Salvesta »">
@@ -1075,6 +1078,7 @@
 		   	
 		   	app.init();
 		   	$('.only-app').show();
+		   	appMode = true;
 		   	 	
 		}	
 		

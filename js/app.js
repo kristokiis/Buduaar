@@ -33,6 +33,8 @@ var search = {};
 
 var offline = false;
 
+var appMode = false;
+
 var app = {
 
 	marketCats: {},
@@ -61,7 +63,7 @@ var app = {
 	
 	init: function() {
 		
-		console.log('app init!');
+		//console.log('app init!');
 		
 		app.oldAndroidStuff();
 	
@@ -72,13 +74,18 @@ var app = {
 				return false;
 			}, false);
 		}
-		networkState = navigator.connection.type;
 		
-		if (networkState == Connection.NONE){
-			alert('Interneti ühendus puudub');
-			offline = true;
-			app.init();
-			return false;
+		if(appMode) {
+		
+			networkState = navigator.connection.type;
+			
+			if (networkState == Connection.NONE){
+				alert('Interneti ühendus puudub');
+				offline = true;
+				app.init();
+				return false;
+			}
+		
 		}
 		
 		window.addEventListener('popstate', function(e) {
@@ -316,9 +323,7 @@ var app = {
 			data = {};
 			
 		});
-		
-		
-		
+
 		$('.addphoto').unbind('click');
 		$('.addphoto').click(function(e) {
 			e.preventDefault();
@@ -1654,18 +1659,30 @@ var app = {
 						$('#itemForm').css('margin-top', '-' + total_h + 'px');
 						
 					} else {
-						navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+						if (appMode) {
+							navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+						} else {
+							alert('Salvestatud');
+						}
 						//alert();
 					}
 					
 				} else {
-					if(results.data && results.data.length)
-						navigator.notification.alert(results.data, 'Teade', 'Ok!');
+					if(results.data && results.data.length) {
+						if (appMode) {
+							navigator.notification.alert(results.data, 'Teade', 'Ok!');
+						} else {
+							alert(results.data);
+						}
 						//alert(results.data);
-					else
-						navigator.notification.alert(results.message, 'Teade', 'Ok!');
+					} else {
+						if (appMode) {
+							navigator.notification.alert(results.message, 'Teade', 'Ok!');
+						} else {
+							alert(results.message);
+						}
 						//alert(results.message);
-					
+					}
 				}
 			
 			}, 'jsonp');
@@ -1740,24 +1757,29 @@ var app = {
 				
 				console.log(curStore);
 				
-				if (!curStore.email || curStore.email == '')
-					curStore.email = '-';
-					
-				if (!curStore.contactPhoneNumber || curStore.contactPhoneNumber == '')
-					curStore.contactPhoneNumber = '-';
-					
-				if (!curStore.website || curStore.website == '')
-					curStore.website = '-';
+				
 				
 				
 				
 				$('.market-header').find('.market-image').attr('src', curStore.mediumIcon);
 				$('.market-header').find('.market-title').html(curStore.name);
 				$('.market-header').find('.market-description').html(curStore.description);
-				$('.market-header').find('.market-mail').attr('href', 'mailto:' + curStore.email).html(curStore.email);
-				$('.market-header').find('.market-phone').attr('href', 'tel:' + curStore.contactPhoneNumber).html(curStore.contactPhoneNumber);
 				$('.market-header').find('.market-message-to-owner').attr('data-username', curStore.owner);
-				$('.market-header').find('.market-web').attr('href', 'http://' + curStore.website).html(curStore.website)
+				
+				if (!curStore.email || curStore.email == '')
+					$('.market-mail').html('-');
+				else
+					$('.market-header').find('.market-mail').html('<a style="color:#da4b8b;" href="mailto:' + curStore.email + '">' + curStore.email + '</a>');
+					
+				if (!curStore.contactPhoneNumber || curStore.contactPhoneNumber == '')
+					$('.market-phone').html('-');
+				else
+					$('.market-header').find('.market-phone').html('<a style="color:#da4b8b;" href="mailto:' + curStore.contactPhoneNumber + '">' + curStore.contactPhoneNumber + '</a>');
+					
+				if (!curStore.website || curStore.website == '')
+					$('.market-web').html('-');
+				else
+					$('.market-header').find('.market-web').html('<a style="color:#da4b8b;" href="mailto:' + curStore.website + '">' + curStore.website + '</a>');
 				
 				$('.market-message-to-owner').unbind('click');
 				$('.market-message-to-owner').click(function(e) {
@@ -2039,7 +2061,12 @@ var app = {
 				
 				//e.stopPropagation();
 				$.get(app.serverUrl + 'Market/updateMarketItemExpires/' + rel, data, function(results) {
-					navigator.notification.alert(results.data, 'Teade', 'Ok!');
+					if (appMode) {
+						navigator.notification.alert(results.data, 'Teade', 'Ok!');
+					} else {
+						alert(results.data);
+					}
+					
 					//alert(results.data);
 					element.hide();
 					//return false;	
@@ -2345,7 +2372,11 @@ var app = {
 					$.get(app.supportUrl, data, function(results) {
 					
 						$('.item-quantity').html(oldQuantity - quantity);
-						navigator.notification.alert(results.data, 'Teade', 'Ok!');
+						if (appMode) {
+							navigator.notification.alert(results.data, 'Teade', 'Ok!');
+						} else {
+							alert(results.data);
+						}
 						//alert(results.data);
 						itemQuantity = itemQuantity-quantity;
 					
@@ -2357,8 +2388,11 @@ var app = {
 						$.get(app.serverUrl + 'Market/makeAuctionBid/' + id + '/' + quantity, data, function(results) {
 						
 							$('.item-quantity').html(oldQuantity - quantity);
-							
-							navigator.notification.alert(results.data, 'Teade', 'Ok!');
+							if (appMode) {
+								navigator.notification.alert(results.data, 'Teade', 'Ok!');
+							} else {
+								alert(results.data);
+							}
 							//alert(results.data);
 							itemQuantity = itemQuantity-quantity;
 							
@@ -3380,18 +3414,33 @@ function uploadFile(mediaFile, isSave) {
 					if (response.code == '1' || response.code == 1) {
 				
 						app.currentEditId = response.data.item.id;
-	
+						app.saveParams.id = app.currentEditId;
+						
+						$('.no-pic-text').hide();
+						
 						//alert('Salvestatud!');
-						navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+						if (appMode) {
+							navigator.notification.alert('Salvestatud!', 'Teade', 'Ok!');
+						} else {
+							alert('Salvestatud');
+						}
 						
 					} else {
-						if(response.data && response.data.length)
-							navigator.notification.alert(response.data, 'Teade', 'Ok!');
+						if(response.data && response.data.length) {
+							if (appMode) {
+								navigator.notification.alert(response.data, 'Teade', 'Ok!');
+							} else {
+								alert(response.data);
+							}
 							//alert(response.data);
-						else
-							navigator.notification.alert(response.message, 'Teade', 'Ok!');
+						} else {
+							if (appMode) {
+								navigator.notification.alert(response.message, 'Teade', 'Ok!');
+							} else {
+								alert(response.message);
+							}
 							//alert(response.message);
-						
+						}
 					}
 					
 				} else {
@@ -3425,7 +3474,11 @@ function uploadFile(mediaFile, isSave) {
 				
 	        },
 	        function(error) {
-	        	navigator.notification.alert('Viga faili laadimisel', 'Teade', 'Ok!');
+	        	if (appMode) {
+	        		navigator.notification.alert('Viga faili laadimisel', 'Teade', 'Ok!');
+	        	} else {
+		        	alert('Viga faili laadimisel');
+	        	}
 	            //console.log('Error uploading file ' + path + ': ' + error.code);
 	        }, options
 	    ); 
