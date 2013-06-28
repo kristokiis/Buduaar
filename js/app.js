@@ -1512,6 +1512,7 @@ var app = {
 				$('#itemForm2').show();
 				height1 = $('#itemForm').height();
 				$('#itemForm').css('margin-top', '-' + height1 + 'px');
+				app.saveStage = 2;
 				app.saveParams = {};
 				return false;
 				
@@ -1527,6 +1528,7 @@ var app = {
 				height1 = $('#itemForm').height();
 				height2 = $('#itemForm2').height();
 				total_h = height1 + height2;
+				app.saveStage = 3;
 				$('#itemForm').css('margin-top', '-' + total_h + 'px');
 				return false;
 				
