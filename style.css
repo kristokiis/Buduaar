@@ -3235,6 +3235,30 @@ select.no-apperance {
 	}
 }
 
+dl {
+	width: 100%;
+}
+
+dd, dt {
+	padding: 1%;
+	width: 48%;
+	background: #B93C7A;
+	color: white;
+	float: left;
+}
+
+dd a, dt a {
+	color: white;
+}
+
+dd:nth-of-type(odd) , dt:nth-of-type(odd) { 
+  background: #eee; 
+  color: #490A27;
+}
+
+dd:nth-of-type(odd) a , dt:nth-of-type(odd) a {
+	color: #490A27;
+}
 
 /*
 * TABLE
@@ -3248,6 +3272,13 @@ table {
   display: block;
   width: 100%; 
   border-collapse: collapse; 
+}
+
+@media screen and (min-width: 640px) {
+	
+	td {
+		width: 298px;
+	}
 }
 
 tr {
