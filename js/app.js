@@ -195,8 +195,16 @@ var app = {
 			return false;
 		}
 		
-		if($('.page-sidebar-wrap').find('.active').length) {
-			$('.page-sidebar-wrap').find('.active').removeClass('active');
+		if($('.page-sidebar-wrap').find('.sidebar.active').length) {
+			$('.page-sidebar-wrap').find('.sidebar.active').removeClass('active');
+			return false;
+		}
+		
+		if($('.page-sidebar-wrap').find('.searchbox.active').length) {
+			$('.search').find('span.active').removeClass('active');
+			$('.page-sidebar-wrap').find('.underbarsubmenu.active').removeClass('active');
+			$('.page-sidebar-wrap').find('.searchbox.active').removeClass('active');
+			$('.page-sidebar-wrap').find('.barsubmenu.active').removeClass('active');
 			return false;
 		}
 		
@@ -600,6 +608,9 @@ var app = {
 				
 				$.get(app.serverUrl + 'User/loggedInUser', {session: app.session}, function(results) {
 					user = results.data;
+
+					
+					//console.log(user);
 					$('#nimi').val(user.username);
 					$('#email').val(user.email);
 					cur_date = new Date();
@@ -1174,7 +1185,9 @@ var app = {
 				$('#ad_condition').val(item.condition);
 				$('#ad_availability').val(item.availability);
 				
-				if(item.adType == 'oksjon') {
+				//console.log(item);
+				
+				if(item.itemType == 'auction') {
 					
 					data.price = $('#auction_price').val(item.price);
 					data.length = $('#auction_length').val(item.length);
@@ -1184,6 +1197,9 @@ var app = {
 					$('.add-ad-section').hide();
 					$('.add-type-box').hide();
 					
+					$('#add_ad').removeAttr('checked');
+					$('#add_auction').attr('checked', 'checked');
+					
 				} else {
 					$('#ad_price').val(item.price);
 					$('#ad_quantity').val(item.amount);
@@ -1192,6 +1208,9 @@ var app = {
 					$('.add-auction-section').hide();
 					$('.add-ad-section').show();
 					$('.add-type-box').show();
+					
+					$('#add_auction').removeAttr('checked');
+					$('#add_ad').attr('checked', 'checked');
 
 				}
 				
@@ -1212,9 +1231,15 @@ var app = {
 				
 				//$('.uploaded').append('<a href="#" class="remove-pic" rel="'+item.id+'"><img src="'+item.image+'" /><span></span></a>');
 				
+				$('input[name="post"]').removeAttr('checked');
+				$('#postSizes').hide();
+				$('#smartSizes').hide();
+				
+				$('#add_ad').parent().hide();
+				
 				$('#profilePic').attr('src', item.image);
 				
-				$.get(app.serverUrl + 'Market/itemImages/' + id, data, function(results) {
+				$.get(app.serverUrl + 'Market/itemImages/' + id, {}, function(results) {
 					
 					$.each(results.data, function(i, itemImage) {
 						$('.uploaded').append('<a class="remove-pic" rel="'+itemImage.id+'" href="#"><img class="toode_thumb" src="'+itemImage.icon+'" alt="logo"/><br style="clear:both;" /><span></span></a>')
@@ -1226,15 +1251,16 @@ var app = {
 				
 				}, 'jsonp');
 				
-				$('input[name="post"]').removeAttr('checked');
-				$('#postSizes').hide();
-				$('#smartSizes').hide();
+				
 				
 				//$('.uploaded').append();
 				
 			}, 'jsonp');
 			
 		} else {
+		
+			$('#add_ad').parent().show();
+		
 			$('.no-pic-text').show();
 			$('.category-features').html('');
 			
@@ -1242,6 +1268,10 @@ var app = {
 			$('input[name="post"]').attr('checked', 'checked');
 			$('#postSizes').show();
 			$('#smartSizes').show();
+			
+			$('#add_auction').removeAttr('checked');
+			$('#add_ad').attr('checked', 'checked');
+			
 		}
 		
 		$('#marketAdd').find('.takepicture').unbind('click');
@@ -1398,6 +1428,14 @@ var app = {
 			e.preventDefault();
 			app.saveItem(3, true);
 		});
+		
+		$('#addCountry').val(user.country);
+		$('#addCounty').val(user.county);
+		$('#addCity').val(user.city);
+		$('#addStreet').val(user.street);
+		$('#addHouse').val(user.houseNumber);
+		$('#addApartment').val(user.apartmentNumber);
+		$('#addIndex').val(user.postalIndex);
 		
 	},
 	
@@ -2144,6 +2182,7 @@ var app = {
 				$('.toode').find('.ad-content').hide();
 				$('.toode').find('.toode_preview').hide();
 				$('.marketContainer').find('.page-wrap').addClass('opened');
+				$('.ajax-loader').hide();
 				return false;
 			} else {
 				$('.toode').find('.ad-content').show();
@@ -2418,7 +2457,15 @@ var app = {
 	},
 	
 	initMessagesPage: function(start, send) {
-	
+		
+		if (send) {
+			$('.arrived').removeClass('active');
+			$('.send').addClass('active');
+		} else {
+			$('.send').removeClass('active');
+			$('.arrived').addClass('active');
+		}
+		
 		app.showLoader(1059);
 		data = {};
 		data.session = app.session;
@@ -2515,6 +2562,9 @@ var app = {
 			$('#messagesList').html('');
 			$('#newMessageForm').fadeIn();
 			
+			$('#messageForm2').find('#heading').val('Pealkiri');
+			$('#messageForm2').find('#message').val('Teade');
+			
 			$('.page-wrap').removeClass('opened');
 			
 			$('#messageForm2').find('#user').keyup(function() {
@@ -2522,7 +2572,7 @@ var app = {
 				if ($(this).val().length > 2) {
 					data = {};
 					data.username = $(this).val();
-					
+					app.showLoader();
 					$.get(app.serverUrl + 'User/users/', data, function(results) {
 					
 						$('.auto-search').html('');
@@ -2531,12 +2581,15 @@ var app = {
 							$('.auto-search').append('<a href="#" rel="' + item.id + '">' + item.username + '</a>');
 						});
 						
+						$('.ajax-loader').hide();
+						
 						$('.auto-search').find('a').click(function(e) {
 							e.preventDefault();
 							$('#messageForm2').find('#user').val($(this).html());
 							toUser = $(this).attr('rel');
 							$('.auto-search').html('');
 						});
+						
 						
 					}, 'jsonp');
 				}
@@ -2568,11 +2621,19 @@ var app = {
 					data.to = toUser;
 					
 					$.get(app.supportUrl + '?action=sendMessage', data, function(results) {
-						jQuery("#heading").removeClass('alertForm');
-						jQuery("#message").removeClass('alertForm').val('');
-						
-						//$('#messagesPage').find('.menu_bar').find('.back').click();
-						$('#messagesPage').find('.send').click();
+						if (results.code == '1') {
+							jQuery("#heading").removeClass('alertForm');
+							jQuery("#message").removeClass('alertForm').val('');
+							
+							//$('#messagesPage').find('.menu_bar').find('.back').click();
+							$('#messagesPage').find('.send').click();
+						} else {
+							if (appMode) {
+								navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
+							} else {
+								alert(results.data);
+							}
+						}
 						
 					}, 'jsonp');
 				}
@@ -2746,8 +2807,7 @@ var app = {
 		
 		$('#searchForm').submit(function(e) {
 			e.preventDefault();
-			
-			app.getArticles('search', $('#search').val(), 0);
+			app.getArticles('search', $('#newsPage').find('#search').val(), 0);
 		});
 		
 		$('.comments-tab').click(function(e) {
@@ -2788,6 +2848,7 @@ var app = {
 			
 		});
 		
+		$('#commentForm').unbind('submit');
 		$('#commentForm').submit(function(e) {
 			e.preventDefault();
 			//status = validateComment();
@@ -2854,6 +2915,8 @@ var app = {
 		newsSearch = search;
 		
 		specialBack = true;
+		
+		app.showLoader();
 		
 		data = {};
 		switch (type) {
