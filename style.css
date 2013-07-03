@@ -3245,6 +3245,7 @@ Generic Styling, for Desktops/Laptops
 */
 table { 
   margin: 0 auto;
+  display: block;
   width: 100%; 
   border-collapse: collapse; 
 }
