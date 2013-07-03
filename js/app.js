@@ -3241,6 +3241,15 @@ var app = {
 					
 				}, 'jsonp');
 				
+			} else {
+				
+				if (results.data && results.data.length) {
+					if (appMode) {
+						navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
+					} else {
+						alert(results.data);
+					}
+				}
 			}
 				
 			
