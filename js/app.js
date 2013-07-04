@@ -450,21 +450,28 @@ var app = {
 				$('#newsPage').addClass('active');
 			}, 200);
 			
+			
+			
 			app.initNewsListScroll();
-			var slider = new Swipe(document.getElementById('slider') , {'auto': 4000} );
-			$('#slider').find('.next').click(function(e) {
-				e.preventDefault();
-				slider.next();
-			});
-			$('#slider').find('.prev').click(function(e) {
-				e.preventDefault();
-				slider.prev();
-			});
-			$('#hotNews').find('li').click(function(e) {
-				e.preventDefault();
-				//$('.newssectionopen').find('.meta:first').html($(this).find('.meta').html());
-				app.getNews($(this).attr('rel'));
-			});
+			
+			setTimeout(function() {
+			
+				var slider = new Swipe(document.getElementById('slider') , {'auto': 4000} );
+				$('#slider').find('.next').click(function(e) {
+					e.preventDefault();
+					slider.next();
+				});
+				$('#slider').find('.prev').click(function(e) {
+					e.preventDefault();
+					slider.prev();
+				});
+				$('#hotNews').find('li').click(function(e) {
+					e.preventDefault();
+					//$('.newssectionopen').find('.meta:first').html($(this).find('.meta').html());
+					app.getNews($(this).attr('rel'));
+				});
+			
+			}, 800);
 			
 			app.hideSearch();
 			app.hideCategories();
