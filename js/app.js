@@ -454,25 +454,6 @@ var app = {
 			
 			app.initNewsListScroll();
 			
-			setTimeout(function() {
-			
-				var slider = new Swipe(document.getElementById('slider') , {'auto': 4000} );
-				$('#slider').find('.next').click(function(e) {
-					e.preventDefault();
-					slider.next();
-				});
-				$('#slider').find('.prev').click(function(e) {
-					e.preventDefault();
-					slider.prev();
-				});
-				$('#hotNews').find('li').click(function(e) {
-					e.preventDefault();
-					//$('.newssectionopen').find('.meta:first').html($(this).find('.meta').html());
-					app.getNews($(this).attr('rel'));
-				});
-			
-			}, 800);
-			
 			app.hideSearch();
 			app.hideCategories();
 			
@@ -1963,7 +1944,10 @@ var app = {
 			$('#orderBuyer').html(order.buyerFirstName + ' ' + order.buyerLastName + ', kasutajanimi: ' + order.buyerUsername);
 			$('#orderBuyerMail').find('a').attr('href','mailto:' + order.buyerEmail).html(order.buyerEmail);
 			$('#orderBuyerPhone').find('a').attr('href','tel:' + order.buyerPhone).html(order.buyerPhone);
-			$('#orderComments').html(order.explanation);
+			if (order.explanation && order.explanation != '')
+				$('#orderComments').html(order.explanation);
+			else
+				$('#orderComments').html('&nbsp;');
 			
 			$('.ajax-loader').hide();
 			
@@ -3011,7 +2995,25 @@ var app = {
 			template.find('span').html(item.headline);
 			template.find('img').attr('src', image);
 			$('#hotNews').append(template.html());
-		});		
+		});
+		
+		setTimeout(function() {
+			var slider = new Swipe(document.getElementById('slider') , {'auto': 4000} );
+			$('#slider').find('.next').click(function(e) {
+				e.preventDefault();
+				slider.next();
+			});
+			$('#slider').find('.prev').click(function(e) {
+				e.preventDefault();
+				slider.prev();
+			});
+			$('#hotNews').find('li').click(function(e) {
+				e.preventDefault();
+				//$('.newssectionopen').find('.meta:first').html($(this).find('.meta').html());
+				app.getNews($(this).attr('rel'));
+			});
+		}, 800);
+		
 	},
 	
 	parseNewsList: function(news, add) {
