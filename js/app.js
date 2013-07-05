@@ -1370,7 +1370,7 @@ var app = {
 		
 		$.each(app.catsTree, function(i, cat) {
 						
-			$('#ad_category').append('<option value="'+cat.id+'">' + cat.name+'</option>');
+			$('#ad_category').append('<option value="'+cat.id+'" disabled="disabled">' + cat.name+'</option>');
 			
 			if(cat.children) {
 				
