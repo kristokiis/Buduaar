@@ -3438,6 +3438,9 @@ function uploadFile(mediaFile, isSave) {
 	        	
 				result.response = result.response.replace('123(', '').replace(')' , '');
 				
+				alert(result.response);
+				alert(app.saveStage);
+				
 	            response = $.parseJSON(result.response);  
 	
 				if(app.saveStage == 1) {
