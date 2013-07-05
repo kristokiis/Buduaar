@@ -601,6 +601,9 @@ var app = {
 					//console.log(user);
 					$('#nimi').val(user.username);
 					$('#email').val(user.email);
+					
+					
+					
 					cur_date = new Date();
 					birth_date = new Date(user.birthday);
 					
@@ -1162,6 +1165,27 @@ var app = {
 				
 				item = results.data.item[0];
 				
+				$('input[name="post"]').removeAttr('checked');
+				
+				$('#postSizes').hide();
+				$('#smartSizes').hide();
+				
+				//console.log(results.data);
+				
+				$.each(results.data.postingMethods, function(i, method) {
+					//console.log(method.method);
+					//console.log($('#' + method.method).val());
+					$('#' + method.method).attr('checked', 'checked');
+					if (method.method == 'smartpost') {
+						console.log('smart check');
+						$('#smartSizes').show();
+						$('#smartPostPacketSize').val(method.packageSize);
+					}
+					if (method.method == 'eestipost') {
+						$('#postSizes').show();
+						$('#post24PackageSize').val(method.packageSize);
+					}
+				});
 				
 				$('#ad_name').val(item.name);
 				$('#add_description').val(item.description);
@@ -1177,7 +1201,7 @@ var app = {
 				
 				if(item.itemType == 'auction') {
 					
-					data.price = $('#auction_price').val(item.price);
+					data.price = $('#auction_price').val(item.openingPrice);
 					data.length = $('#auction_length').val(item.length);
 					data.bidStep = $('#auction_step').val(item.bidStep);
 					
@@ -1219,9 +1243,8 @@ var app = {
 				
 				//$('.uploaded').append('<a href="#" class="remove-pic" rel="'+item.id+'"><img src="'+item.image+'" /><span></span></a>');
 				
-				$('input[name="post"]').removeAttr('checked');
-				$('#postSizes').hide();
-				$('#smartSizes').hide();
+				
+				
 				
 				$('#add_ad').parent().hide();
 				
@@ -1424,6 +1447,8 @@ var app = {
 		$('#addHouse').val(user.houseNumber);
 		$('#addApartment').val(user.apartmentNumber);
 		$('#addIndex').val(user.postalIndex);
+		
+		$('#add_additional').val(user.marketItemsAdditionalInformation);
 		
 	},
 	
@@ -1655,6 +1680,7 @@ var app = {
 						height3 = $('#itemForm3').height();
 						total_h = height1 + height2 + height3;
 						$('#itemForm').css('margin-top', '-' + total_h + 'px');
+						$('.oth').hide();
 						
 					} else {
 						if (appMode) {
@@ -2228,6 +2254,8 @@ var app = {
 				
 				$('.item-bid-step').parent().hide();
 				
+				$('.item-quantity').parent().show();
+				
 				$('.buy').find('span').html('Broneeri');
 				
 				$('.minus').unbind('click');
@@ -2254,6 +2282,8 @@ var app = {
 				$('.item-bid-step').parent().show();
 			
 				$('.buy').find('span').html('Paku');
+				
+				$('.item-quantity').parent().hide();
 				
 				$('.auction-info').show();
 				$('.item-bid-step').html(offer.bidStep);
@@ -2324,15 +2354,19 @@ var app = {
 					data.session = app.session;
 					
 					$.get(app.supportUrl, data, function(results) {
-					
-						$('.item-quantity').html(oldQuantity - quantity);
+						
+						
+						
+						
 						if (appMode) {
 							navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 						} else {
 							alert(results.data);
 						}
-						//alert(results.data);
-						itemQuantity = itemQuantity-quantity;
+						if (results.code == '1') {
+							$('.item-quantity').html(oldQuantity - quantity);
+							itemQuantity = itemQuantity-quantity;
+						}
 					
 						// http:/api.buduaar.ee/Market/makeAuctionBid/[$i d]/[$amount]/
 					}, 'jsonp');
@@ -2341,14 +2375,24 @@ var app = {
 					if (r==true) {
 						$.get(app.serverUrl + 'Market/makeAuctionBid/' + id + '/' + quantity, data, function(results) {
 						
-							$('.item-quantity').html(oldQuantity - quantity);
 							if (appMode) {
 								navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 							} else {
 								alert(results.data);
 							}
-							//alert(results.data);
-							itemQuantity = itemQuantity-quantity;
+							
+							if (results.code == '1') {
+								
+								bidStep = parseFloat($('.item-bid-step').html());
+								bid = parseFloat($('#orderCount').html());
+								//oldPrice = $('.item-price').val();
+							
+								$('.item-price').html(bid + '€');
+								//itemQuantity = itemQuantity-quantity;
+								$('#orderCount').html(bidStep + bid);
+							}
+							
+							
 							
 						}, 'jsonp');
 					} else {
@@ -2377,7 +2421,7 @@ var app = {
 			
 				e.preventDefault();
 				
-				$('#messageForm2').find('#user').val($(this).data('username'));
+				username = $(this).data('username');
 				
 				$('.page-sidebar-wrap').hide().removeClass('active');
 				$('#messagesPage').show();
@@ -2388,6 +2432,7 @@ var app = {
 					setTimeout(function() {
 						$('body').addClass('bturg');
 						$('#startNewMessage').click();
+						$('#messageForm2').find('#user').val(username);
 					}, 300);
 				}, 200);
 			});
@@ -2553,6 +2598,7 @@ var app = {
 			$('#messagesList').html('');
 			$('#newMessageForm').fadeIn();
 			
+			$('#messageForm2').find('#user').val('Kasutajanimi');
 			$('#messageForm2').find('#heading').val('Pealkiri');
 			$('#messageForm2').find('#message').val('Teade');
 			
@@ -3231,6 +3277,8 @@ var app = {
 				$('#vanus').val('');
 				$('#comment').val('');
 				
+				app.showLoader();
+				
 				$.get(app.serverUrl + 'Article/comments/' + app.currentNews + '?limit=1000', data, function(results) {
 					
 					total = results.data.length;
@@ -3245,6 +3293,8 @@ var app = {
 						$('#commentsList').append($('.comments-template').html());
 						
 					});
+					
+					$('.ajax-loader').hide();
 					
 					$('.comments-tab:not(.active)').click();
 					
@@ -3530,5 +3580,6 @@ function captureSuccess(imageURI) {
 // 
 function captureError(error) {
     var msg = 'Viga pildi saamisel: ' + error;
-    alert(msg);
+    console.log(msg);
+    //alert(msg);
 }
