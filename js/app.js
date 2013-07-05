@@ -3438,8 +3438,8 @@ function uploadFile(mediaFile, isSave) {
 	        	
 				result.response = result.response.replace('123(', '').replace(')' , '');
 				
-				alert(result.response);
-				alert(app.saveStage);
+				//alert(result.response);
+				//alert(app.saveStage);
 				
 	            response = $.parseJSON(result.response);  
 	
@@ -3460,6 +3460,7 @@ function uploadFile(mediaFile, isSave) {
 						}
 						
 					} else {
+						//alert('error');
 						if(response.data && response.data.length) {
 							if (appMode) {
 								navigator.notification.alert(response.data, {}, 'Teade', 'Ok');
