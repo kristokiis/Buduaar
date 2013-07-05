@@ -3440,9 +3440,15 @@ function uploadFile(mediaFile, isSave) {
 				
 				//alert(result.response);
 				//alert(app.saveStage);
-				
-	            response = $.parseJSON(result.response);  
-	
+				try {
+	            	response = $.parseJSON(result.response);  
+	            } catch(e) {
+		            if (appMode) {
+						navigator.notification.alert('Tundmatu viga, kontrolli väljasid', {}, 'Teade', 'Ok');
+					} else {
+						alert('Tundmatu viga, kontrolli väljasid');
+					}
+	            }
 				if(app.saveStage == 1) {
 					
 					if (response.code == '1' || response.code == 1) {
@@ -3474,6 +3480,15 @@ function uploadFile(mediaFile, isSave) {
 							} else {
 								alert(response.message);
 							}
+							
+							if (!response) {
+								if (appMode) {
+									navigator.notification.alert('Tundmatu viga', {}, 'Teade', 'Ok');
+								} else {
+									alert('Tundmatu viga');
+								}
+							}
+							
 							//alert(response.message);
 						}
 					}
