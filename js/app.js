@@ -122,6 +122,8 @@ var app = {
 			$('.message-to-user').parent().show();
 			$('.login-to-use').hide();	
 		}
+		if (appMode)
+			$('.only-app').show();
 	
 		$('.search span').unbind('click');
 		$('.search span').click(function(e) {
