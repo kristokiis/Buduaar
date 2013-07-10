@@ -118,6 +118,11 @@ var app = {
 	},
 	
 	subInit: function() {
+		if (app.session) {
+			$('.message-to-user').parent().show();
+			$('.login-to-use').hide();	
+		}
+	
 		$('.search span').unbind('click');
 		$('.search span').click(function(e) {
 			e.preventDefault();
@@ -159,7 +164,7 @@ var app = {
 			}
 		});	
 		
-		app.initMarketCatsNav();
+		//app.initMarketCatsNav();
 		
 		var allPanels = $('#accordion .content');
 		var allPanels2 = $('#accordion .title');
@@ -438,6 +443,10 @@ var app = {
 			
 		} else if($('#messagesPage').is(':visible')) {
 			
+			if ($('#newMessageForm').is(':visible')) {
+				$('.messages-tab.active').click();
+				return false;
+			}
 			
 		} else if($('#newsPage').is(':visible')) {
 			$('#newsContent').html('');
@@ -572,22 +581,22 @@ var app = {
 		
 		//alert($('#marketPage').html().length);
 		
-		if ($('#marketPage').html().length) {
+		if ($('#marketPage').find('.other-content').html().length) {
 			setTimeout(function() {
 				app.toMarketPage(subPage);
 			}, 1000);
 			//alert('straight to it');
 		} else {
 			
-			$('#marketPage').html('');
+			$('#marketPage').find('.other-content').html('');
 			
 			setTimeout(function() {
 		
 				$.get('marketPage.html', function(data) {
 					//$('.result').html(data);				
 					
-					$('#marketPage').html($('.huge-header').html());
-					$('#marketPage').append(data);
+					$('#marketPage').find('.other-content').html($('.huge-header').html());
+					$('#marketPage').find('.other-content').append(data);
 					
 					app.toMarketPage(subPage);
 					
@@ -965,19 +974,22 @@ var app = {
 		//$('#marketPage').find('.menu_level1').html('');
 		$('#marketMenu').html('<nav class="menu_level1"></nav>');
 		
-		level1s = {};
-		level2s = {};
-		level3s = {};
+		var level1s = {};
+		var level2s = {};
+		var level3s = {};
+		
+		var catsHtml1 = '';
+		var catsHtml2 = '';
+		var catsHtml3 = '';
 		
 		$.each(app.marketCats, function(i, cat) {
-			if(cat.level == 0) {
-			
+			if (cat.level == 0) {
 				$('#marketMenu').find('.menu_level1').append('<a class="main-cat" rel="' + cat.id + '"  href="#">' + cat.name + '<span></span></a>');
 			} else {
 				if ($('.subnav' + cat.parentId).length) {
 					$('.subnav' + cat.parentId).append('<a href="#" rel="' + cat.id + '">' + cat.name + '<span></span></a>');
 				} else {
-					$('#marketMenu').append('<nav class="sub-cat subnav' + cat.parentId + '"><a rel="' + cat.parentId + '" class="catsback" href="#">Tagasi</a><a href="#" rel="' + cat.id + '">' + cat.name + '<span></span></a></nav>');
+					$('#marketMenu').append('<div style="display:none;" class="sub-cat subnav' + cat.parentId + '"><a rel="' + cat.parentId + '" class="catsback" href="#">Tagasi</a><a href="#" rel="' + cat.id + '">' + cat.name + '<span></span></a></div>');
 				}
 			}
 			
@@ -991,26 +1003,31 @@ var app = {
 			
 		});
 		
-		$.each(level3s, function(key, val) {
+		
+		setTimeout(function() {
+			$.each(level3s, function(key, val) {
 			
-			if (level2s[val.parentId]) {
-				if(!level2s[val.parentId].children)
-					level2s[val.parentId].children = {};
+				if (level2s[val.parentId]) {
+					if(!level2s[val.parentId].children)
+						level2s[val.parentId].children = {};
+						
+					level2s[val.parentId].children[val.id] = val;
+				}
+			});
+			
+			$.each(level2s, function(key, val) {
+				if (level1s[val.parentId]) {
+					if(!level1s[val.parentId].children)
+						level1s[val.parentId].children = {};
 					
-				level2s[val.parentId].children[val.id] = val;
-			}
-		});
+					level1s[val.parentId].children[val.id] = val;
+				}
+			});
+			
+			app.catsTree = level1s;
+		}, 2000);
 		
-		$.each(level2s, function(key, val) {
-			if (level1s[val.parentId]) {
-				if(!level1s[val.parentId].children)
-					level1s[val.parentId].children = {};
-				
-				level1s[val.parentId].children[val.id] = val;
-			}
-		});
 		
-		app.catsTree = level1s;
 		app.initMarketCatsNav();
 			
 	},
@@ -1044,7 +1061,7 @@ var app = {
 			e.stopPropagation();
 			$(window).scrollTop(0);
 			$('#marketPage').find('.menu_level1').addClass('active');
-			$('.subnav' + rel).addClass('active');
+			$('.subnav' + rel).show().addClass('active');
 		});
 		$('.sub-cat').find('span').unbind('click');
 		$('.sub-cat').find('span').bind('click', function(e) {
@@ -1056,7 +1073,7 @@ var app = {
 			if ($('.subnav' + rel).html()) {
 				
 				$('.sub-cat').removeClass('active');
-				$('.subnav' + rel).addClass('active');
+				$('.subnav' + rel).show().addClass('active');
 				 
 			} else {
 				$('#marketMenu').find('a').removeClass('active');
@@ -2584,19 +2601,12 @@ var app = {
 					
 				}
 				
-				
-				
-				
-				/*
-				* if auction the bid - GET, if book then book, with message and add post to helper php.. - 30min
-				*/
-				
 				return false;
 				
 			});
 			
-			$('.message-to-user').data('username', offer.username);
-			$('.message-to-user').data('id', offer.user);
+			$('.message-to-user').attr('data-username', offer.username);
+			$('.message-to-user').attr('data-id', offer.user);
 			
 			$('.message-to-user').unbind('click');
 			$('.message-to-user').click(function(e) {
@@ -2611,11 +2621,13 @@ var app = {
 					$('body').scrollTop(0);
 					$('#page-wrap').addClass('active');
 					$('#messagesPage').addClass('active');
+					app.initMessagesPage();
 					setTimeout(function() {
 						$('body').addClass('bturg');
+						
 						$('#startNewMessage').click();
 						$('#messageForm2').find('#user').val(username);
-					}, 300);
+					}, 500);
 				}, 200);
 			});
 			
