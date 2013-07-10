@@ -1665,14 +1665,14 @@ body{
 }
 
 #itemsList {
-    -moz-column-count: 2;
+    /*-moz-column-count: 2;
     -moz-column-gap: 2px;
     -webkit-column-count: 2;
     -webkit-column-gap: 2px;
     column-count: 2;
-    column-gap: 2px;
+    column-gap: 2px;*/
     width: 100%;
-    -webkit-transition: all 0.3s;
+    /*-webkit-transition: all 0.3s;*/
 }
 
 .storelist .row{
@@ -1680,14 +1680,17 @@ body{
 }
 
 .storelist .row .item{
-	background: #FFF;
 	float: left;
 	position: relative;
-	/*border-top: 4px solid #AA0303;*/
 	margin-bottom: 5px;
-	display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
-    width: 100%;
+	display: block;
+	width: 49.5%;
 }
+
+.item:nth-child(odd) {
+	margin-right: 1%;
+}
+
 .storelist.wider .row .item{
 	width: 200% !important;
 }
@@ -1711,10 +1714,11 @@ body{
 
 .row .item p {
 	background-color: white;
-	height: 30px;
+	height: 54px;
 	font-size: 11px;
 }
 
+/*
 .storelist .row .item:nth-child(odd):after{
 	position: absolute;
 	right: 0;
@@ -1725,7 +1729,6 @@ body{
 	content: "";
 }
 
-
 .storelist .row .item:nth-child(even):before{
 	position: absolute;
 	left: 0;
@@ -1735,7 +1738,7 @@ body{
 	background: #DE80A1;
 	content: "";
 }
-
+*/
 
 .storelist .row .item .text {
 	display: block;
@@ -1752,13 +1755,21 @@ body{
 }
 
 .storelist .row .item .price {
-	font-weight: bold;
 	bottom: 0;
+	position: absolute;
+	right: 2px;
+	font-weight: bold;
 	color: #B93B79;
 	display: block;
 	font-size: 20px;
 	float: right;
 	padding-top:5px;
+}
+
+.special-thumb {
+	display: inline-block;
+	background-position: center;
+	width: 100%;
 }
 
 .news .price {
@@ -2822,13 +2833,13 @@ select.no-apperance {
 
 @media screen and (max-width: 640px) {
 	.newsContainer .page-wrap{
-		width: 48%;
+		width: 50%;
 	}
 	.marketContainer .page-wrap{
-		width: 48%;
+		width: 50%;
 	}
 	.messagesContainer .page-wrap{
-		width: 48%;
+		width: 50%;
 	}
 	
 }

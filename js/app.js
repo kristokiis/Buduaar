@@ -103,45 +103,159 @@ var app = {
 			//
 		});
 		
-		//if (navigator.onLine) {
-
-			this.initLogin();
-			
-			this.initScrolls();
-			
-			this.initMainBack();
-			
-			app.getMarketCats();
-			
-			$('.logo-link').click(function(e){
-				e.preventDefault();
-				$('body').removeClass('bturg');
-				$('body').scrollTop(0);
-				$('#page-wrap').removeClass('active');
-				$('.page-sidebar-wrap').removeClass('active');
-				setTimeout(function() {
-					$('.page-sidebar-wrap').hide();
-				}, 300);
-				$('.page-wrap').removeClass('opened');
-			});
-			$('.home').click(function(e){
-				e.preventDefault();
-				$('body').removeClass('bturg');
-				$('body').scrollTop(0);
-				$('#page-wrap').removeClass('active');
-				$('.page-sidebar-wrap').removeClass('active');
-				setTimeout(function() {
-					$('.page-sidebar-wrap').hide();
-				}, 300);
-				$('.page-wrap').removeClass('opened');
-			});
-			
-			page_inited = page_inited+1;
-			
-			offlineAlerted = false;
-			
-			clearTimeout(offlineTimeout);
+		this.initLogin();
 		
+		this.subInit();
+		
+		page_inited = page_inited+1;
+		
+		offlineAlerted = false;
+		
+		clearTimeout(offlineTimeout);
+		
+	},
+	
+	subInit: function() {
+		
+		this.initScrolls();
+		
+		this.initMainBack();
+		
+		app.getMarketCats();
+		
+		$('.logo-link').click(function(e){
+			e.preventDefault();
+			$('body').removeClass('bturg');
+			$('body').scrollTop(0);
+			$('#page-wrap').removeClass('active');
+			$('.page-sidebar-wrap').removeClass('active');
+			setTimeout(function() {
+				$('.page-sidebar-wrap').hide();
+			}, 300);
+			$('.page-wrap').removeClass('opened');
+		});
+		$('.home').click(function(e){
+			e.preventDefault();
+			$('body').removeClass('bturg');
+			$('body').scrollTop(0);
+			$('#page-wrap').removeClass('active');
+			$('.page-sidebar-wrap').removeClass('active');
+			setTimeout(function() {
+				$('.page-sidebar-wrap').hide();
+			}, 300);
+			$('.page-wrap').removeClass('opened');
+		});
+		
+		
+		/*
+		* Special!!!
+		*/
+		
+		$('.messages').unbind('click');
+		$('.messages').click(function(e) {
+			window.history.pushState('stuff', 'stuff', '');
+			window.history.pushState('stuff', 'stuff', '');
+			e.preventDefault();
+			$('.page-sidebar-wrap').hide().removeClass('active');
+			$('#messagesPage').show();
+			setTimeout(function() {
+				
+				$('#page-wrap').addClass('active');
+				$('#messagesPage').addClass('active');
+				setTimeout(function() {
+					$('body').addClass('bturg');
+				}, 300);
+			}, 200);
+			
+			app.hideSearch();
+			app.hideCategories();
+			data = {};
+			
+		});
+
+		$('.addphoto').unbind('click');
+		$('.addphoto').click(function(e) {
+			e.preventDefault();
+			var subPage = 'add-item';
+			if($('#marketPage').is(':visible')) 
+				app.showSubPage(subPage);
+			else
+				app.clickMarket(subPage);
+		});
+		
+		$('.sub_menu_icons').find('.list').unbind('click');
+		$('.sub_menu_icons').find('.list').click(function(e) {
+			e.preventDefault();
+			var subPage = 'my-orders';
+			if($('#marketPage').is(':visible')) 
+				app.showSubPage(subPage);
+			else
+				app.clickMarket(subPage);
+		});
+		
+		$('.sub_menu_icons').find('.horn').unbind('click');
+		$('.sub_menu_icons').find('.horn').click(function(e) {
+			e.preventDefault();
+			var subPage = 'my-list';
+			if($('#marketPage').is(':visible')) 
+				app.showSubPage(subPage);
+			else
+				app.clickMarket(subPage);
+			
+		});
+		
+		$('.logout').unbind('click');
+		$('.logout').click(function(e) {
+		
+			$('.message-to-user').parent().hide();
+			$('.login-to-use').show();
+		
+			$('.open_bt_login').find('img').attr('src', 'images/login_img.png');
+		
+			$('.logged-out').show();
+			$('.logged-in').hide();
+			$('.logout-link').hide();
+			
+			//$('#userUsername').find('span').html('Viimati lisatud');
+			
+			e.preventDefault();
+			app.session = '';
+			$('#page-wrap').removeClass('active');
+			$('.page-sidebar-wrap').removeClass('active');
+			setTimeout(function() {
+				$('.page-sidebar-wrap').hide();
+			}, 300);
+			$('body').removeClass('bturg');
+			
+			$('.smi').hide();
+			$('.log-header').show();
+			
+			$('.open_bt_login').find('span').html('LOGI SISSE');
+			localStorage.removeItem('budu_username');
+			localStorage.removeItem('budu_password');
+			app.initLogin();
+		});
+		
+		$('.add-new').unbind('click');
+		$('.add-new').click(function(e) {
+			e.preventDefault();
+			app.initMarketAdd(false);
+			app.hideSearch();
+			app.hideCategories();
+		});
+
+		$('.check-new').unbind('click');
+		$('.check-new').click(function(e) {
+			e.preventDefault();
+			id = $(this).attr('rel');
+			app.getProduct(id, true);
+			$('.marketContainer').find('.page-wrap').hide();
+			$('#marketDetail').show();
+			$('#marketList').show();
+			app.hideSearch();
+			app.hideCategories();
+		});
+
 	},
 	
 	oldAndroidStuff: function() {
@@ -272,193 +386,6 @@ var app = {
 	
 	initLogin: function() {
 	
-		$('.market-link').unbind('click');
-		$('.market-link').click(function(e) {
-		
-			app.initMarket();
-			
-			window.history.pushState('stuff', 'stuff', '');
-			window.history.pushState('stuff', 'stuff', '');
-			
-			e.preventDefault();
-			
-			app.hideEverything();
-			
-			$('#marketPage').show();
-			setTimeout(function() {
-				$('#page-wrap').addClass('active');
-				$('#marketPage').addClass('active');
-				setTimeout(function() {
-					$('body').addClass('bturg');
-				}, 300);
-			}, 200);
-			
-			data = {};
-		});
-		
-		/*
-		* init user icons and links
-		*/
-		
-		$('.messages').unbind('click');
-		$('.messages').click(function(e) {
-			window.history.pushState('stuff', 'stuff', '');
-			window.history.pushState('stuff', 'stuff', '');
-			e.preventDefault();
-			$('.page-sidebar-wrap').hide().removeClass('active');
-			$('#messagesPage').show();
-			setTimeout(function() {
-				
-				$('#page-wrap').addClass('active');
-				$('#messagesPage').addClass('active');
-				setTimeout(function() {
-					$('body').addClass('bturg');
-				}, 300);
-			}, 200);
-			
-			app.hideSearch();
-			app.hideCategories();
-			data = {};
-			
-		});
-
-		$('.addphoto').unbind('click');
-		$('.addphoto').click(function(e) {
-			e.preventDefault();
-			$('.page-sidebar-wrap').hide().removeClass('active');
-			$('body').addClass('bturg');
-			$('#marketPage').show();
-			
-			$('#marketOrders').hide();
-			$('#myList').hide();
-			
-			setTimeout(function() {
-				$('#page-wrap').addClass('active');
-				$('#marketPage').addClass('active');
-			}, 200);
-			if ($('#marketAdd').is(':visible')) {
-				/*$('.oth').hide();
-				$('#marketList').show();
-				$('#marketDetail').show();
-				$('#marketAdd').hide();*/
-			} else {
-				$('.oth').show();
-				$('.marketContainer').find('.page-wrap').hide();
-				$('#marketAdd').fadeIn('fast');
-			}
-			app.initMarketAdd(false);
-			app.hideSearch();
-			app.hideCategories();
-		});
-		
-		$('.add-new').unbind('click');
-		$('.add-new').click(function(e) {
-			e.preventDefault();
-			app.initMarketAdd(false);
-			app.hideSearch();
-			app.hideCategories();
-		});
-		
-		
-		$('.check-new').unbind('click');
-		$('.check-new').click(function(e) {
-			e.preventDefault();
-			id = $(this).attr('rel');
-			app.getProduct(id, true);
-			$('.marketContainer').find('.page-wrap').hide();
-			$('#marketDetail').show();
-			$('#marketList').show();
-			app.hideSearch();
-			app.hideCategories();
-		});
-		
-		$('.sub_menu_icons').find('.list').unbind('click');
-		$('.sub_menu_icons').find('.list').click(function(e) {
-			
-			e.preventDefault();
-			$('.page-sidebar-wrap').hide().removeClass('active');
-			$('body').addClass('bturg');
-			$('#marketPage').show();
-			setTimeout(function() {
-				$('#page-wrap').addClass('active');
-				$('#marketPage').addClass('active');
-			}, 200);
-			
-			$('.oth').hide();	
-			$('#myList').hide();	
-			$('#marketAdd').hide();
-			
-			if ($('#marketOrders').is(':visible')) {
-				/*$('#marketList').show();
-				$('#marketDetail').show();
-				$('#marketOrders').hide();*/
-			} else {
-				$('.marketContainer').find('.page-wrap').hide();
-				$('#marketOrders').fadeIn('fast');
-				app.getUserOrders('buyer');
-			}
-			app.hideSearch();
-			app.hideCategories();
-			
-		});
-		
-		$('.sub_menu_icons').find('.horn').unbind('click');
-		$('.sub_menu_icons').find('.horn').click(function(e) {
-			
-			e.preventDefault();
-			$('.page-sidebar-wrap').hide().removeClass('active');
-			$('body').addClass('bturg');
-			$('#marketPage').show();
-			
-			$('#marketOrders').hide();
-			$('#marketAdd').hide();
-			
-			setTimeout(function() {
-				$('#page-wrap').addClass('active');
-				$('#marketPage').addClass('active');
-			}, 200);
-				$('.oth').hide();
-			if ($('#myList').is(':visible')) {
-				/*$('#marketList').show();
-				$('#marketDetail').show();
-				$('#myList').hide();*/
-			} else {
-				$('.marketContainer').find('.page-wrap').hide();
-				$('#myList').fadeIn('fast');
-				app.getUserMarket(false);
-			}
-			app.hideSearch();
-			app.hideCategories();
-			
-		});
-	
-		$('.news-link').unbind('click');
-		$('.news-link').click(function(e) {
-			app.initNews(true);
-			
-			window.history.pushState('stuff', 'stuff', '');
-			window.history.pushState('stuff', 'stuff', '');
-		
-			app.hideEverything();
-			$('body').removeClass('bturg');
-			data = {};
-			
-			e.preventDefault();
-			$('#newsPage').show();
-			setTimeout(function() {
-				$('#page-wrap').addClass('active');
-				$('#newsPage').addClass('active');
-			}, 200);
-			
-			
-			
-			app.initNewsListScroll();
-			
-			app.hideSearch();
-			app.hideCategories();
-			
-		});
-		
 		if (localStorage.getItem('budu_username') && localStorage.getItem('budu_password')) {
 			$('#username').val(localStorage.getItem('budu_username'));
 			$('#password').val(localStorage.getItem('budu_password'));
@@ -513,7 +440,226 @@ var app = {
 		if (localStorage.getItem('budu_username') && localStorage.getItem('budu_password')) {
 			$('#loginForm2').submit();
 		}
+	
+		$('.market-link').unbind('click');
+		$('.market-link').click(function(e) {
+			
+			e.preventDefault();			
+			
+			app.clickMarket(false);
+
+		});
+
+		$('.news-link').unbind('click');
+		$('.news-link').click(function(e) {
+
+			e.preventDefault();
+			
+			app.showLoader(457);
+			
+			app.hideEverything();
+
+			if ($('#newsPage').html().length) {
+				setTimeout(function() {
+					app.toNewsPage();
+				}, 1000);
+			} else {
+			
+				setTimeout(function() {
+				
+					$.get('newsPage.html', function(data) {
+					
+						$('#newsPage').html(data);
+						
+						app.toNewsPage();
+					});	
+				
+				}, 1000);
+			
+			}
+			
+		});
 		
+	},
+	
+	clickMarket: function(subPage) {
+		
+		app.showLoader(416);
+
+		app.hideEverything();
+		
+		//alert($('#marketPage').html().length);
+		
+		if ($('#marketPage').html().length) {
+			setTimeout(function() {
+				app.toMarketPage(subPage);
+			}, 1000);
+			//alert('straight to it');
+		} else {
+			
+			$('#marketPage').html('');
+			
+			setTimeout(function() {
+		
+				$.get('marketPage.html', function(data) {
+					//$('.result').html(data);				
+					
+					$('#marketPage').html($('.huge-header').html());
+					$('#marketPage').append(data);
+					
+					app.toMarketPage(subPage);
+					
+				});	
+			
+			}, 1000);
+		}
+			
+	},
+	
+	toMarketPage: function(subPage) {
+		
+		$('#marketPage').show();
+					
+		$('.ajax-loader').hide();
+		setTimeout(function() {
+			$('#page-wrap').addClass('active');
+			$('#marketPage').addClass('active');
+			setTimeout(function() {
+				$('body').addClass('bturg');
+			}, 300);
+		}, 200);
+		
+		
+		app.subInit();
+		
+		data = {};
+		console.log(subPage);
+		app.initMarket();
+		
+		if (subPage) {
+			
+			app.showSubPage(subPage);
+			
+		}
+		
+	},
+	
+	showSubPage: function(subPage) {
+		switch(subPage) {
+				
+			case 'add-item':
+				
+				$('.page-sidebar-wrap').hide().removeClass('active');
+				$('body').addClass('bturg');
+				$('#marketPage').show();
+				
+				$('#marketOrders').hide();
+				$('#myList').hide();
+				
+				setTimeout(function() {
+					$('#page-wrap').addClass('active');
+					$('#marketPage').addClass('active');
+				}, 200);
+				if ($('#marketAdd').is(':visible')) {
+					/*$('.oth').hide();
+					$('#marketList').show();
+					$('#marketDetail').show();
+					$('#marketAdd').hide();*/
+				} else {
+					$('.oth').show();
+					$('.marketContainer').find('.page-wrap').hide();
+					$('#marketAdd').fadeIn('fast');
+				}
+				app.initMarketAdd(false);
+				app.hideSearch();
+				app.hideCategories();
+			
+				break;
+			case 'my-list':
+				$('.page-sidebar-wrap').hide().removeClass('active');
+				$('body').addClass('bturg');
+				$('#marketPage').show();
+				
+				$('#marketOrders').hide();
+				$('#marketAdd').hide();
+				
+				setTimeout(function() {
+					$('#page-wrap').addClass('active');
+					$('#marketPage').addClass('active');
+				}, 200);
+					$('.oth').hide();
+				if ($('#myList').is(':visible')) {
+					/*$('#marketList').show();
+					$('#marketDetail').show();
+					$('#myList').hide();*/
+				} else {
+					$('.marketContainer').find('.page-wrap').hide();
+					$('#myList').fadeIn('fast');
+					app.getUserMarket(false);
+				}
+				app.hideSearch();
+				app.hideCategories();
+				break;
+			case 'my-orders':
+				$('.page-sidebar-wrap').hide().removeClass('active');
+				$('body').addClass('bturg');
+				$('#marketPage').show();
+				setTimeout(function() {
+					$('#page-wrap').addClass('active');
+					$('#marketPage').addClass('active');
+				}, 200);
+				
+				$('.oth').hide();	
+				$('#myList').hide();	
+				$('#marketAdd').hide();
+				
+				if ($('#marketOrders').is(':visible')) {
+					/*$('#marketList').show();
+					$('#marketDetail').show();
+					$('#marketOrders').hide();*/
+				} else {
+					$('.marketContainer').find('.page-wrap').hide();
+					$('#marketOrders').fadeIn('fast');
+					app.getUserOrders('buyer');
+				}
+				app.hideSearch();
+				app.hideCategories();
+			
+				break;
+			
+		}
+	},
+	
+	toNewsPage: function() {
+		
+		app.subInit();
+						
+		app.initNews(true);
+		
+		window.history.pushState('stuff', 'stuff', '');
+		window.history.pushState('stuff', 'stuff', '');
+	
+		app.hideEverything();
+		$('body').removeClass('bturg');
+		data = {};
+		
+		
+		$('#newsPage').show();
+		setTimeout(function() {
+			$('#page-wrap').addClass('active');
+			$('#newsPage').addClass('active');
+		}, 200);
+		
+		app.initNewsListScroll();
+		app.hideSearch();
+		app.hideCategories();
+		
+	},
+	
+	toMessagesPage: function() {
+		
+		
+			
 	},
 	
 	hideEverything: function() {
@@ -549,39 +695,7 @@ var app = {
 				$('#u_username').html(userData.username);
 				
 				$('.open_bt_login').find('img').attr('src', 'images/laptop.jpg');
-				
-				$('.logout').unbind('click');
-				$('.logout').click(function(e) {
-				
-					$('.message-to-user').parent().hide();
-					$('.login-to-use').show();
-				
-					$('.open_bt_login').find('img').attr('src', 'images/login_img.png');
-				
-					$('.logged-out').show();
-					$('.logged-in').hide();
-					$('.logout-link').hide();
-					
-					//$('#userUsername').find('span').html('Viimati lisatud');
-					
-					e.preventDefault();
-					app.session = '';
-					$('#page-wrap').removeClass('active');
-					$('.page-sidebar-wrap').removeClass('active');
-					setTimeout(function() {
-						$('.page-sidebar-wrap').hide();
-					}, 300);
-					$('body').removeClass('bturg');
-					
-					$('.smi').hide();
-					$('.log-header').show();
-					
-					$('.open_bt_login').find('span').html('LOGI SISSE');
-					localStorage.removeItem('budu_username');
-					localStorage.removeItem('budu_password');
-					app.initLogin();
-				});
-			
+
 				if ($('#rememberMe').is(':checked')) {
 					
 					localStorage.setItem('budu_username', userData.username);
@@ -618,6 +732,39 @@ var app = {
 				$('.bturglogin, #footer').removeClass('active');
 				$('.usual-site').show();
 				$('body').animate({scrollTop: "0px"}, 200);
+				
+				$('#messagesPage').html('');
+					
+				//app.showLoader(662);
+				
+				//app.hideEverything();
+				
+				//setTimeout(function() {
+				
+					$.get('messagesPage.html', function(data) {
+				
+						//$('body').addClass('bturg');
+						$('#messagesPage').html($('.smi:last').clone());
+						
+						$('#messagesPage').append(data);
+					});
+					
+				//}, 1000);
+				
+				$('.open_bt_login').unbind('click');
+				$('.open_bt_login').click(function(e) {
+					e.preventDefault();	
+					$('#messagesPage').show();
+					setTimeout(function() {
+						$('#page-wrap').addClass('active');
+						$('#messagesPage').addClass('active');
+						setTimeout(function() {
+							$('body').addClass('bturg');
+						}, 300);
+						app.subInit();
+					}, 200);
+					app.initMessagesPage();
+				});
 				
 				//$('#page-wrap').hide();
 				//$('#messagesPage').fadeIn('fast');
@@ -2083,77 +2230,54 @@ var app = {
 	},
 	
 	getMarket: function(data) {
+	
 		if(!data.store)
 			$('.market-header').hide();
 	
 		app.storeMode = false;
 		
-		app.getFilters(data);
+		//app.getFilters(data);
 		
 		$('.marketContainer').find('.page-wrap').hide();
 		$('.marketContainer').find('#marketList').show();
 		$('.marketContainer').find('#marketDetail').show();
 		
-		app.showLoader(816);
+		app.showLoader();
+		
 		$.get(app.serverUrl + 'Market/search/', data, function(results) {
 			
 			$('.page-wrap').removeClass('opened');
 			
-			$('.ajax-loader').hide();
+			
 			
 			if (!data.start)
 				$('#itemsList').html('');
-		
+				
+				
+			//alert('ok');
 			$.each(results.data, function(i, item) {
 			
 				category = '';
-			
-				$('.market-template').find('.item').attr('data-id', item.id);
-				$('.market-template').find('img').attr('src', item.icon);
 				
-				$('.market-template').find('.fake-thumb').attr('src', item.image);
+				console.log(item);
+				
+				$('.market-template').find('.item').attr('data-id', item.id);
+				$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.image + '")');
+				
+				//$('.market-template').find('.fake-thumb').attr('src', item.image);
 				
 				$('.market-template').find('.item-description').html(item.categoryName);
 				$('.market-template').find('.price').html(parseFloat(Math.round(item.price * 100) / 100).toFixed(2) + '€');
-				if (isOdd(i+1))
-					$('#itemsList').append($('.market-template').html());
+				//if (isOdd(i+1))
+				//alert('ok2');
+				$('#itemsList').append($('.market-template').html());
+				
+				//return true;
 				
 			});
-			$.each(results.data, function(i, item) {
 			
-				category = '';
 			
-				$('.market-template').find('.item').attr('data-id', item.id);
-				$('.market-template').find('img').attr('src', item.icon);
-				
-				$('.market-template').find('.fake-thumb').attr('src', item.image);
 
-				$('.market-template').find('.item-description').html(item.categoryName);
-				$('.market-template').find('.price').html(parseFloat(Math.round(item.price * 100) / 100).toFixed(2) + '€');
-				if (!isOdd(i+1))
-					$('#itemsList').append($('.market-template').html());
-				
-			});
-			
-			//total_thumbs = $('.fake-thumb').length;
-			i = 0;
-			var was_hidden = false;
-			$('.fake-thumb').each(function() {
-				$(this).load(function() {
-					i++;
-					if(i == 10) {
-						$('.ajax-loader').hide();
-						
-					}
-					src = $(this).attr('src');
-					$(this).parent().find('.thumb').attr('src', src).css('min-height', 0);
-					//$('#marketPage').height($('#itemsList').height());
-				})
-			});
-			
-			//alert('hide this shit..');
-			
-			//$('.ajax-loader').hide();
 			
 			$('.item').unbind('click');
 			$('.item').click(function(e) {
@@ -2165,17 +2289,9 @@ var app = {
 				
 			});
 			
-			
-			
-			//$('#itemsList').imagesLoaded(function() {
-				//alert('ok');
-				//$('.marketContainer').height($('#marketList').height());
-				//$('.ajax-loader').hide();
-				
-			//});
-			
-			//alert('wdf');
-			
+			setTimeout(function() {
+				$('.ajax-loader').hide();
+			}, 500);
 
 		}, 'jsonp');	
 	},
@@ -2557,21 +2673,6 @@ var app = {
 			$('#messagesList').find('.wrap').click(function(){
 				app.initMessage($(this).attr('id'), send);
 				
-			});
-			
-			$('.open_bt_login').unbind('click');
-			$('.open_bt_login').click(function(e) {
-				e.preventDefault();
-				//$('body').addClass('bturg');
-				$('#messagesPage').show();
-				setTimeout(function() {
-					$('#page-wrap').addClass('active');
-					$('#messagesPage').addClass('active');
-					setTimeout(function() {
-						$('body').addClass('bturg');
-					}, 300);
-				}, 200);
-				app.initMessagesPage();
 			});
 			
 			$('.messages-tab').unbind('click');
