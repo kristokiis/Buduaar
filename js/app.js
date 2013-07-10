@@ -2624,10 +2624,9 @@ var app = {
 					app.initMessagesPage();
 					setTimeout(function() {
 						$('body').addClass('bturg');
-						
 						$('#startNewMessage').click();
 						$('#messageForm2').find('#user').val(username);
-					}, 500);
+					}, 1000);
 				}, 200);
 			});
 			
