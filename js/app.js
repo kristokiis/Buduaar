@@ -3611,9 +3611,9 @@ function uploadFile(mediaFile, isSave) {
 		if (app.saveStage == 1) {
 			options.params = params;
 			
-			//url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
+			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
 			
-			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&callback=123';
+			//url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&callback=123';
 			
 		} else {
 			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
