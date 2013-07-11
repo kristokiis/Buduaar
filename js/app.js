@@ -1360,6 +1360,7 @@ var app = {
 			e.preventDefault();
 			$('#itemForm2').hide();
 			$('#itemForm').css('margin-top', '-' + 0 + 'px');
+			app.saveStage = 1;
 		});
 		
 		$('#back3').unbind('click');
@@ -1369,6 +1370,7 @@ var app = {
 			height1 = $('#itemForm').height();
 			total_h = height1;
 			$('#itemForm').css('margin-top', '-' + total_h + 'px');
+			app.saveStage = 2;
 		});
 		
 		$('.one').unbind('click');
@@ -3617,6 +3619,8 @@ function uploadFile(mediaFile, isSave) {
 	        function(result) {
 	        	
 				result.response = result.response.replace('123(', '').replace(')' , '');
+				
+				console.log(result.response);
 				
 				//alert(result.response);
 				//alert(app.saveStage);
