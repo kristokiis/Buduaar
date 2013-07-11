@@ -3658,13 +3658,9 @@ function uploadFile(mediaFile, isSave) {
 		 
 		if (app.saveStage == 1) {
 			options.params = params;
-			
-			url = app.serverUrl + "Market/updateItem/" + params.adType + "/" + params.stage + "/" + app.currentEditId + "?session=" + app.session + '&callback=123';
-			
-			//url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&callback=123';
-			
+			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&type=main&callback=123';
 		} else {
-			url = app.serverUrl + "Market/addItemImage/" + app.currentEditId + "?session=" + app.session + '&callback=123';
+			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&type=extra&callback=123';
 		}
 		
 	    ft.upload(path, url,
@@ -3674,8 +3670,6 @@ function uploadFile(mediaFile, isSave) {
 				
 				console.log(result.response);
 				
-				//alert(result.response);
-				//alert(app.saveStage);
 				try {
 	            	response = $.parseJSON(result.response);  
 	            } catch(e) {
