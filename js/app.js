@@ -924,9 +924,6 @@ var app = {
 				   	   if(!$('#marketList').hasClass('opened') && $('#marketList').is(':visible')) {
 				   	   	   loaded = true;
 					       totalItems = $('#marketList').find('.item').length;
-					       
-					       
-					       
 					       data.start = totalItems;
 					       data.limit = 10;
 					       
@@ -943,6 +940,35 @@ var app = {
 					       }, 1000);
 					       //alert('whaat');
 				       
+				       } else if ($('#myList').is(':visible')) {
+					       loaded = true;
+					       totalItems = $('#myList').find('.news').length;
+					       app.showLoader();
+					       app.getUserMarket(totalItems);
+					       setTimeout(function() {
+						       loaded = false;
+					       }, 1000);
+				       } else if ($('#marketOrders').is(':visible')) {
+				       		
+				       		loaded = true;
+				       		totalItems = $('.orders-content').find('tr').length;
+				       		app.showLoader();
+				       		data = {};
+					   		data.start = totalItems;
+					   		data.limit = 10;
+					   		
+							if ($(this).hasClass('order-buy')) {
+								app.getUserOrders('buyer');
+								$('.seller-buyer').html('Müüja');
+							} else {
+								app.getUserOrders('seller');
+								$('.seller-buyer').html('Ostja');
+							}
+							
+							setTimeout(function() {
+						    	loaded = false;
+						    }, 1000);
+							
 				       }
 				   }
 			   } else if ($('#newsPage').is(':visible')) {
@@ -2142,6 +2168,10 @@ var app = {
 			if (!data.start)
 				$('.orders-content').html('');
 		
+			setTimeout(function() {
+				$('.ajax-loader').hide();
+			}, 1000);
+		
 			$.each(results.data, function(i, item) {
 				
 				category = '';
@@ -2243,16 +2273,20 @@ var app = {
 		app.storeMode = false;
 		data.session = app.session;
 		
-		data.limit = 25;
+		data.limit = 20;
 		
 		if (!start)
 			data.start = 0;
+		else
+			data.start = start;
 		
 		app.showLoader(773);
 		$.get(app.serverUrl + 'Market/userMarketItems/', data, function(results) {
 			
 			if (!data.start)
 				$('#myList').find('.list-container').html('').show();
+		
+			$('.ajax-loader').hide();
 		
 			$.each(results.data, function(i, item) {
 			
@@ -2278,8 +2312,10 @@ var app = {
 			});
 			
 			//alert('hide this shit..');
+			setTimeout(function() {
+				$('.ajax-loader').hide();
+			}, 1000);
 			
-			$('.ajax-loader').hide();
 			
 			$('.list-container').find('.news').unbind('click');
 			$('.list-container').find('.news').click(function(e) {
