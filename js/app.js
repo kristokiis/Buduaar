@@ -122,8 +122,14 @@ var app = {
 			$('.message-to-user').parent().show();
 			$('.login-to-use').hide();	
 		}
-		if (appMode)
+		if (appMode) {
 			$('.only-app').show();
+			$('.no-app').hide();
+		} else {
+			$('.no-app').show();
+			$('.only-app').hide();
+		}
+			
 	
 		$('.search span').unbind('click');
 		$('.search span').click(function(e) {
@@ -622,6 +628,8 @@ var app = {
 			}, 300);
 		}, 200);
 		
+		window.history.pushState('stuff', 'stuff', '');
+		window.history.pushState('stuff', 'stuff', '');
 		
 		app.subInit();
 		
@@ -1613,13 +1621,13 @@ var app = {
 		
 		$.each(app.catsTree, function(i, cat) {
 						
-			$('#ad_category').append('<option value="'+cat.id+'" disabled="disabled">' + cat.name+'</option>');
+			$('#ad_category').append('<option value="' + cat.id + '" disabled="disabled">' + cat.name + '</option>');
 			
-			if(cat.children) {
+			if (cat.children) {
 				
 				$.each(cat.children, function(i, sub_cat) {
 				
-					$('#ad_category').append('<option value="'+sub_cat.id+'">&nbsp;&nbsp;&nbsp;&nbsp;' + sub_cat.name+'</option>');
+					$('#ad_category').append('<option value="' + sub_cat.id + '"' + ( sub_cat.children.length ? 'disabled="disabled"' : '' ) + '>&nbsp;&nbsp;&nbsp;&nbsp;' + sub_cat.name+'</option>');
 					
 					if(sub_cat.children) {
 				
@@ -3596,8 +3604,8 @@ function uploadFile(mediaFile, isSave) {
 	    
 	    var options = new FileUploadOptions();
 	    options.fileKey="image";
-	    option.mimeType="image/jpeg";
-	    options.fileName="image.jpg";
+	    //option.mimeType="image/jpeg";
+	    //options.fileName="image.jpg";
 	    
 	    ft.onprogress = function(progressEvent) {
 		    if (progressEvent.lengthComputable) {

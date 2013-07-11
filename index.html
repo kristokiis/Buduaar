@@ -215,7 +215,18 @@
 		   	$('.only-app').show();
 		   	appMode = true;
 		   	 	
-		}	
+		}
+		
+		document.addEventListener("backbutton", function(e) {
+			e.preventDefault();
+			//if in subpage trigger correct 
+			if ($('#page-wrap').hasClass('active')) {
+				app.triggerBack();
+			} else {
+				 navigator.app.exitApp();
+			}
+			
+		}, false);	
 		
 	</script>
 	
