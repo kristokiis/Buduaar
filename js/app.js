@@ -125,9 +125,11 @@ var app = {
 		if (appMode) {
 			$('.only-app').show();
 			$('.no-app').hide();
+			$('.app-mode').show();
 		} else {
 			$('.no-app').show();
 			$('.only-app').hide();
+			$('.app-mode').hide();
 		}
 			
 	
@@ -1627,7 +1629,7 @@ var app = {
 				
 				$.each(cat.children, function(i, sub_cat) {
 				
-					$('#ad_category').append('<option value="' + sub_cat.id + '"' + ( sub_cat.children.length ? 'disabled="disabled"' : '' ) + '>&nbsp;&nbsp;&nbsp;&nbsp;' + sub_cat.name+'</option>');
+					$('#ad_category').append('<option value="' + sub_cat.id + '"' + (sub_cat.children && sub_cat.children.length ? 'disabled="disabled"' : '' ) + '>&nbsp;&nbsp;&nbsp;&nbsp;' + sub_cat.name+'</option>');
 					
 					if(sub_cat.children) {
 				
