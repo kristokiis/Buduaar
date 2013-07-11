@@ -33,9 +33,6 @@
     <feature name="http://api.phonegap.com/1.0/camera"/>
 	<feature name="http://api.phonegap.com/1.0/file"/>
 	<feature name="http://api.phonegap.com/1.0/network"/>
-	
-	<plugin name="File" value="CDVFile" />
-	<plugin name="FileTransfer" value="CDVFileTransfer" />
     
     <icon src="assets/icon.png" gap:platform="ios" width="57" height="57" />
     <icon src="assets/icon-72.png" gap:platform="ios" width="72" height="72" />
