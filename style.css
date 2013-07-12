@@ -1293,12 +1293,14 @@ body{
 	background: #A92361;
 	color: #490A27;
 	width: 50%;
-	padding: 20px 0 12px 0;
 	display: block;
 	text-align: center;
 	text-decoration: none;
 	float: left;
 	margin-bottom: 10px;
+}
+.messages-tab div {
+	padding: 20px 0 12px 0;
 }
 .messages-tab.active {
 	background: #CECCCC;

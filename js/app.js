@@ -2836,15 +2836,14 @@ var app = {
 		$('#startNewMessage').parent().click(function(e) {
 			e.preventDefault();
 			
+			$('.page-wrap').removeClass('opened');
+			
 			$('#messagesList').html('');
 			$('#newMessageForm').fadeIn();
 			
 			$('#messageForm2').find('#user').val('Kasutajanimi');
 			$('#messageForm2').find('#heading').val('Pealkiri');
-			$('#messageForm2').find('#message').val('Teade');
-			
-			$('.page-wrap').removeClass('opened');
-			
+
 			$('#messageForm2').find('#user').keyup(function() {
 				
 				if ($(this).val().length > 2) {
