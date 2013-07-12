@@ -3416,7 +3416,7 @@ var app = {
 						if (localStorage.getItem("poll_" + app.currentNews) || !pollActive) {
 							
 							$.each(results.options, function(i, option) {
-								$('#comments').append('<p>' + option + '</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/totalVote)+'%"></section></section>');
+								$('#comments').append('<p>' + option + ' ('+((results.options2[i]*100)/totalVote).toFixed(0)+'%)</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/totalVote)+'%"></section></section>');
 								
 							});
 						} else {
@@ -3574,7 +3574,7 @@ var app = {
 				localStorage.setItem("poll_" + app.currentNews, true);
 				$('#comments').html('<h3>' + question + '</h3>');
 				$.each(results.options, function(i, option) {
-					$('#comments').append('<p>' + option + '</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/total)+'%"></section></section>');
+					$('#comments').append('<p>' + option + ' ('+((results.options2[i]*100)/total)+'%)</p><section class="loading"><section class="loader" style="width:'+((results.options2[i]*100)/total)+'%"></section></section>');
 								
 				});
 			}

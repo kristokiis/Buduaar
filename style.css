@@ -2290,6 +2290,9 @@ body{
 input[type="radio"] {
     display:none;
 }
+#comments input[type="radio"] {
+    display:inline;
+}
 input[type="radio"] + label {
 	color: white;
 }
