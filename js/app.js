@@ -3604,13 +3604,16 @@ function captureImage() {
 		quality : 50, 
 		destinationType: destinationType.FILE_URI,
 		targetWidth: 1280,
-			targetHeight: 960
+		targetHeight: 960
 	});
 }
 
 function getPhoto() {
       // Retrieve image file location from specified source
-      navigator.camera.getPicture(captureSuccess, captureError, { quality: 50, 
+      navigator.camera.getPicture(captureSuccess, captureError, { 
+      	quality: 50, 
+      	targetWidth: 1280, 
+      	targetHeight: 960, 
         destinationType: destinationType.FILE_URI,
         sourceType: pictureSource.PHOTOLIBRARY });
 }
@@ -3649,6 +3652,8 @@ function uploadFile(mediaFile, isSave) {
 		    if (progressEvent.lengthComputable) {
 		      percent = ((progressEvent.loaded * 100) / progressEvent.total);
 		      $('.loader').css('width', percent + '%');
+		      if(percent == 100)
+		      	app.showLoader();
 		    } else {
 		      $('.loader').css('width', '100%');
 		    }
@@ -3669,6 +3674,8 @@ function uploadFile(mediaFile, isSave) {
 				result.response = result.response.replace('123(', '').replace(')' , '');
 				
 				console.log(result.response);
+				
+				$('.ajax-loader').hide();
 				
 				try {
 	            	response = $.parseJSON(result.response);  
