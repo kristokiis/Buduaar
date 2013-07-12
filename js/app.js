@@ -2089,7 +2089,7 @@ var app = {
 						$('#messagesPage').addClass('active');
 						setTimeout(function() {
 							$('body').addClass('bturg');
-							$('#startNewMessage').click();
+							$('#startNewMessage').parent().click();
 						}, 300);
 					}, 200);
 				});					
@@ -2141,14 +2141,18 @@ var app = {
 		$('.detail-container').hide();
 	
 		if(!data)
-			data = {};
+			
 		
 		app.storeMode = false;
 		
-		data.limit = 10;
-		
 		if (!data.start)
-			data.start = 0;
+			start = 0;
+		else
+			start = data.start;
+			
+		data = {};
+		data.limit = 10;
+		data.start = start;
 		
 		app.showLoader(723);
 		
@@ -2674,7 +2678,7 @@ var app = {
 					app.initMessagesPage();
 					setTimeout(function() {
 						$('body').addClass('bturg');
-						$('#startNewMessage').click();
+						$('#startNewMessage').parent().click();
 						$('#messageForm2').find('#user').val(username);
 					}, 1000);
 				}, 200);
@@ -2819,8 +2823,8 @@ var app = {
 		
 		toUser = 0;
 		
-		$('#startNewMessage').unbind('click');
-		$('#startNewMessage').click(function(e) {
+		$('#startNewMessage').parent().unbind('click');
+		$('#startNewMessage').parent().click(function(e) {
 			e.preventDefault();
 			
 			$('#messagesList').html('');
