@@ -2776,7 +2776,7 @@ var app = {
 			
 			if (!send) {
 				data = {};
-				data.limit = 20;
+				data.limit = 100;
 				data.start = 0;
 				data.onlyUnread = 1;
 				data.session = app.session;
@@ -2938,7 +2938,7 @@ var app = {
 			
 			
 			data = {};
-			data.limit = 20;
+			data.limit = 100;
 			data.start = 0;
 			data.onlyUnread = 1;
 			data.session = app.session;
