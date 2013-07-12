@@ -408,6 +408,7 @@ var app = {
 		
 		if($('.page-sidebar-wrap').find('.sidebar.active').length) {
 			$('.page-sidebar-wrap').find('.sidebar.active').removeClass('active');
+			$('.categories').removeClass('active');
 			return false;
 		}
 		
@@ -973,7 +974,7 @@ var app = {
 				   }
 			   } else if ($('#newsPage').is(':visible')) {
 				   if ($(window).scrollTop() + $(window).height() + 60 >= $(document).height() && !loaded) {
-					   	if (!$('#newsItem').hasClass('opened')) {
+					   	if (!$('#newsItem').hasClass('opened') && !$('#newsPage').find('.sidebar').hasClass('active')) {
 						   	loaded = true;
 							totalNews = $('.newslist').find('.news').length;
 							if(newsType == 'hot')
@@ -1072,6 +1073,9 @@ var app = {
 	
 	initMarketCatsNav: function() {
 		
+		var lastSubCat = false;
+		var loadSubCat = false;
+		
 		$('.main-cat').unbind('click');
 		$('.main-cat').bind('click', function(e) {
 			e.preventDefault();
@@ -1095,6 +1099,10 @@ var app = {
 		$('.main-cat').find('span').unbind('click');
 		$('.main-cat').find('span').bind('click', function(e) {
 			rel = $(this).parent().attr('rel');
+			
+			lastSubCat = rel;
+			loadSubCat = false;
+			
 			e.preventDefault();
 			e.stopPropagation();
 			$(window).scrollTop(0);
@@ -1109,15 +1117,13 @@ var app = {
 			$(window).scrollTop(0);
 			
 			if ($('.subnav' + rel).html()) {
-				
+				loadSubCat = true;
 				$('.sub-cat').removeClass('active');
 				$('.subnav' + rel).show().addClass('active');
 				 
 			} else {
 				$('#marketMenu').find('a').removeClass('active');
 				$(this).addClass('active');
-				
-				
 				
 				$('#marketPage').find('.menu_level1').removeClass('active');
 				$(this).parent().removeClass('active');
@@ -1162,8 +1168,17 @@ var app = {
 		$('.catsback').bind('click', function(e) {
 			e.preventDefault();
 			rel = $(this).attr('rel');
-			$('#marketPage').find('.menu_level1').removeClass('active');
-			$('.subnav' + rel).removeClass('active');
+			
+			if (loadSubCat) {
+				$('.sub-cat').removeClass('active');
+				$('.subnav' + lastSubCat).show().addClass('active');
+				lastSubCat = false;
+				loadSubCat = false;
+			} else {
+				$('#marketPage').find('.menu_level1').removeClass('active');
+				$('.subnav' + rel).removeClass('active');
+			}
+			
 		});	
 		
 	},
@@ -1561,6 +1576,8 @@ var app = {
 			
 			$('#add_auction').removeAttr('checked');
 			$('#add_ad').attr('checked', 'checked');
+			
+			$('.add-ad-section').show();
 			
 		}
 		
@@ -2393,16 +2410,12 @@ var app = {
 		$.get(app.serverUrl + 'Market/search/', data, function(results) {
 			
 			$('.page-wrap').removeClass('opened');
-			
-			
-			
+	
 			if (!data.start)
 				$('#itemsList').html('');
-				
-				
-			//alert('ok');
+
 			$.each(results.data, function(i, item) {
-			
+				//console.log(item);
 				category = '';
 				
 				$('.market-template').find('.item').attr('data-id', item.id);
@@ -2412,10 +2425,6 @@ var app = {
 				$('#itemsList').append($('.market-template').html());
 				
 			});
-			
-			
-
-			
 			$('.item').unbind('click');
 			$('.item').click(function(e) {
 				e.preventDefault();
@@ -3669,7 +3678,7 @@ function uploadFile(mediaFile, isSave) {
 			options.params = params;
 			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&type=main&callback=123';
 		} else {
-			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&type=extra&callback=123';
+			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&type=extra&id=' + app.currentEditId + '&callback=123';
 		}
 		
 	    ft.upload(path, url,

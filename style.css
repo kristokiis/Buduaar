@@ -1771,6 +1771,8 @@ body{
 .special-thumb {
 	display: inline-block;
 	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
 	width: 100%;
 }
 
@@ -2845,9 +2847,9 @@ select.no-apperance {
 	}
 	
 }
-@media screen and (max-width: 520px) {
-	.page-wrap {
-		/*padding: 8px;*/
+@media screen and (min-width: 520px) {
+	#newsPage .sidebar {
+		top: 137px;
 	}
 }
 
