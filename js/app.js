@@ -363,11 +363,9 @@ var app = {
 			//alert(androidversion);
 			if (androidversion <= 2.3) {
 				$('.intro_btns div').css('font-family', 'Arial');
-				$('#marketList').find('.storelist').addClass('wider');
-				$('body').removeClass('normal-activity');
-				$('body').addClass('paranormal-activity');
+				app.oldAndroid = true;
 			} else if (androidversion <= 4.1) {
-				$('.intro_btns div').css('font-family', 'Arial');
+				//$('.intro_btns div').css('font-family', 'Arial');
 			}
 		}
 		
@@ -465,8 +463,6 @@ var app = {
 			app.initNewsListScroll();
 			
 		}
-		
-		
 		
 		if ($('.page-wrap.opened').length) {
 			
@@ -621,7 +617,7 @@ var app = {
 	toMarketPage: function(subPage) {
 		
 		$('#marketPage').show();
-					
+		$('body').scrollTop(0);			
 		$('.ajax-loader').hide();
 		setTimeout(function() {
 			$('#page-wrap').addClass('active');
@@ -648,6 +644,7 @@ var app = {
 	},
 	
 	showSubPage: function(subPage) {
+		$('body').scrollTop(0);	
 		switch(subPage) {
 				
 			case 'add-item':
@@ -746,6 +743,7 @@ var app = {
 		$('body').removeClass('bturg');
 		data = {};
 		
+		$('body').scrollTop(0);	
 		
 		$('#newsPage').show();
 		setTimeout(function() {
@@ -844,6 +842,7 @@ var app = {
 						$('#messagesPage').html($('.smi:last').clone());
 						
 						$('#messagesPage').append(data);
+						$('body').animate({scrollTop: "0px"}, 200);
 					});
 					
 				//}, 1000);
@@ -2419,7 +2418,11 @@ var app = {
 				category = '';
 				
 				$('.market-template').find('.item').attr('data-id', item.id);
-				$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.image + '")');
+				if (app.oldAndroid)
+					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.mediumIcon + '")');
+				else
+					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.image + '")');
+					
 				$('.market-template').find('.item-description').html(item.categoryName);
 				$('.market-template').find('.price').html(parseFloat(Math.round(item.price * 100) / 100).toFixed(2) + '€');
 				$('#itemsList').append($('.market-template').html());

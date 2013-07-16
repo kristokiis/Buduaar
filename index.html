@@ -20,9 +20,10 @@
 	<meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
 	<!-- provide the splash screens for iPhone 5 and previous -->
 
-	
-	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/photoswipe.css">
+	<style>
+		body { display: none; }
+	</style>
 	
 	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 	<script src="js/jquery.js"></script> 
@@ -55,8 +56,9 @@
 					<a href="#" class="market-link">
 						<div class="pink"><img src="images/web_img.png" width="101" height="98" alt="thumb"/><span>B-TURG&nbsp;</span></div>
 					</a>
-					<div class="lightpink open_bt_login"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE</span></div>
-					
+					<a href="#" class="open_bt_login">
+						<div class="lightpink"><img src="images/login_img.png" width="101" height="98" alt="thumb"/><span>LOGI SISSE</span></div>
+					</a>
 					<a href="#" class="logout-link logout" style="display:none;">
 						<div class="dark"><img src="images/logout.jpg" width="101" height="98" alt="thumb"/><span style="margin-top: 18px;"><span id="u_username" style="margin:0;font-size:12px;">k_kiis</span> <br />LOGI VÄLJA</span></div>
 					</a>

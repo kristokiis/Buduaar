@@ -2,6 +2,27 @@ var eventSt = (navigator.userAgent.match(/Android/i) || navigator.userAgent.matc
 		
 var eventEnd = (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) ? "touchend" : "click";
 
+var ua = navigator.userAgent;
+var head  = document.getElementsByTagName('head')[0];
+var link  = document.createElement('link');
+//link.id   = cssId;
+link.rel  = 'stylesheet';
+link.type = 'text/css';
+
+if( ua.indexOf("Android") >= 0 ) {
+	var androidversion = parseFloat(ua.slice(ua.indexOf("Android")+8)); 
+	//alert(androidversion);
+	if (androidversion <= 2.3) {
+		link.href = 'style2.css';
+	} else {
+		link.href = 'style.css';
+	}
+} else {
+	link.href = 'style.css';
+}
+
+head.appendChild(link);
+
 function validateForm(){
 	
 	jQuery("#username, #password").removeClass('alertForm');		
