@@ -3363,6 +3363,9 @@ var app = {
 			});
 			
 			$('#post').find('h2').html(results.data.headline);
+			results.data.contents = results.data.contents.replace(/px/g, '');
+			results.data.contents = results.data.contents.replace(/&nbsp;/g, ' ');
+			
 			$('#newsContent').html(results.data.contents);
 			$('#newsShortContent').html(results.data.introduction);
 			
