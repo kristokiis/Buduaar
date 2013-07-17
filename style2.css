@@ -60,7 +60,7 @@ body{
 }
 
 .pages-container {
-	overflow: hidden;
+	/*overflow: hidden;*/
 	margin: 0 auto;
 	max-width: 620px;
 }
