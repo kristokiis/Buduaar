@@ -806,9 +806,7 @@ body{
 	position: relative;
     z-index: -1;
 	top: 0;
-	-webkit-transform: translateZ(0);
 	-webkit-transform: translate3d(0, -56px, 0);
-	-moz-transform: translateZ(0);
 	-moz-transform: translate3d(0, -56px, 0);
 	-webkit-transition: all 0.30s;
 	-moz-transition: all 0.30s;
@@ -851,9 +849,7 @@ body{
 }
 .newssection, #messageList {
 	/* margin-top: -56px; */
-	-webkit-transform: translateZ(0);
 	-webkit-transform: translate3d(0, -56px, 0);
-	-moz-transform: translateZ(0);
 	-moz-transform: translate3d(0, -56px, 0);
 	-webkit-transition: all 0.30s;
 	-moz-transition: all 0.30s;
@@ -863,9 +859,7 @@ body{
 .newssectionopen, #messageDetail {
 	/*padding: 0 10px 10px 10px;*/
 	/* margin-top: -56px; */
-	-webkit-transform: translateZ(0);
 	-webkit-transform: translate3d(0, -56px, 0);
-	-moz-transform: translateZ(0);
 	-moz-transform: translate3d(0, -56px, 0);
 	-webkit-transition: all 0.30s;
 	-moz-transition: all 0.30s;
@@ -1392,9 +1386,7 @@ body{
     width: 100%;
 	left: 0%;
 	overflow: hidden;
-	-webkit-transform: translateZ(0);
 	-webkit-transform: translate3d(0%, 0, 0);
-	-moz-transform: translateZ(0);
 	-moz-transform: translate3d(0%, 0, 0);
 	-webkit-transition: all 0.30s;
 	-moz-transition: all 0.30s;
@@ -1406,9 +1398,7 @@ body{
     width: 100%;
 	right: 0;
 	overflow: hidden;
-	-webkit-transform: translateZ(0);
 	-webkit-transform: translate3d(100%, 0, 0);
-	-moz-transform: translateZ(0);
 	-moz-transform: translate3d(100%, 0, 0);
 	-webkit-transition: all 0.30s;
 	-moz-transition: all 0.30s;
