@@ -91,6 +91,7 @@ body{
 }
 
 #page-wrap {
+	opacity: 1;
 	width: 50%;
 	padding: 0px !important;
 	-webkit-transform: translate3d(0, 0, 0);
@@ -101,6 +102,7 @@ body{
 	transition: transform 0.30s;
 }
 .normal-activity #page-wrap.active {
+	opacity: 0;
 	-webkit-transform: translate3d(-100%, 0, 0);
 	-moz-transform: translate3d(-100%, 0, 0);
 	transform: translate3d(-100%, 0, 0);
@@ -846,6 +848,7 @@ body{
 
 .newssection {
 	min-height: 1000px;
+	overflow: hidden;
 }
 .newssection, #messageList {
 	/* margin-top: -56px; */
@@ -859,6 +862,7 @@ body{
 .newssectionopen, #messageDetail {
 	/*padding: 0 10px 10px 10px;*/
 	/* margin-top: -56px; */
+	opacity: 0;
 	-webkit-transform: translate3d(0, -56px, 0);
 	-moz-transform: translate3d(0, -56px, 0);
 	-webkit-transition: all 0.30s;
@@ -868,11 +872,11 @@ body{
 
 .newssection.active, .newssectionopen.active, #messageDetail.active, #messageList.active, #marketDetail.active, #marketList.active {
 	/* margin-top: 0px; */
-	
 	-webkit-transform: translate3d(0, 0, 0) !important;
 	-moz-transform: translate3d(0, 0, 0) !important;
 }
 .newssection.opened, .newssectionopen.opened, #messageDetail.opened, #messageList.opened, #marketDetail.opened, #marketList.opened {
+	opacity: 1;
 	-webkit-transform: translate3d(-100%, -56px, 0);
 	-moz-transform: translate3d(-100%, -56px, 0);
 }
@@ -880,7 +884,18 @@ body{
 	opacity: 0;
 }
 
-
+#marketDetail {
+	opacity: 0;
+}
+#marketDetail.opened {
+	opacity: 1;
+}
+#marketList {
+	opacity: 1;
+}
+#marketList.opened {
+	opacity: 0;
+}
 #marketDetail.opened, #marketList.opened {
 
 	-webkit-transform: translate3d(-100%, -496px, 0) !important;
@@ -969,7 +984,10 @@ body{
 .swipe {
 	height: 179px;
 }
-
+.swipe li {
+	padding-left: 5px;
+	padding-right: 5px;
+}
 .prev{
 	position: absolute;
 	left: 0;
@@ -1366,6 +1384,7 @@ body{
 	transition: all 0.30s;
 	-webkit-transform: translate3d(100%, 0, 0);
 	-moz-transform: translate3d(100%, 0, 0);
+	opacity: 0;
 }
 
 .oveflowscroll{
@@ -1378,7 +1397,7 @@ body{
 .sidebar.active {
 	-webkit-transform: translate3d(0%, 0, 0);
 	-moz-transform: translate3d(0%, 0, 0);
-	
+	opacity: 1;
 }
 
 .menu_level1{

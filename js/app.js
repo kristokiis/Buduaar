@@ -3007,7 +3007,9 @@ var app = {
 	},
 	
 	initNewsListScroll: function() {
-	
+		if(appMode)
+			return false;
+		
 		if (history.pushState)
 			window.history.pushState('news', 'news', "");
 	
