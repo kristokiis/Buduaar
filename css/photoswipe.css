@@ -39,6 +39,7 @@ div.ps-uilayer {
 	
 	background: #000;
 	cursor: pointer;
+	opacity: 0;
 	
 }
 
@@ -158,6 +159,14 @@ div.ps-toolbar-next-disabled div.ps-toolbar-content
 div.ps-toolbar-play div.ps-toolbar-content
 {
 	background-position: -88px 0;
+}
+
+body.ps-active, 
+body.ps-building, 
+div.ps-active, 
+div.ps-building, 
+div.ps-uilayer {
+    background: transparent !important;
 }
 
 /* Hi-res display */

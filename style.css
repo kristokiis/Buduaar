@@ -860,14 +860,16 @@ body{
 }
 
 .newssectionopen, #messageDetail {
-	/*padding: 0 10px 10px 10px;*/
-	/* margin-top: -56px; */
 	opacity: 0;
 	-webkit-transform: translate3d(0, -56px, 0);
 	-moz-transform: translate3d(0, -56px, 0);
 	-webkit-transition: all 0.30s;
 	-moz-transition: all 0.30s;
 	transition: all 0.30s;
+}
+#messageDetail {
+	-webkit-transform: translate3d(0, -10px, 0);
+	-moz-transform: translate3d(0, -10px, 0);
 }
 
 .newssection.active, .newssectionopen.active, #messageDetail.active, #messageList.active, #marketDetail.active, #marketList.active {
@@ -879,6 +881,10 @@ body{
 	opacity: 1;
 	-webkit-transform: translate3d(-100%, -56px, 0);
 	-moz-transform: translate3d(-100%, -56px, 0);
+}
+#messageDetail.opened {
+	-webkit-transform: translate3d(-100%, -10px, 0);
+	-moz-transform: translate3d(-100%, -10px, 0);
 }
 .newssection.opened {
 	opacity: 0;
