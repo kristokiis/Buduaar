@@ -2427,6 +2427,7 @@ var app = {
 				category = '';
 				
 				$('.market-template').find('.item').attr('data-id', item.id);
+				$('.market-template').find('.special-thumb').find('.thumb').attr('src', 'images/FF4D00-0.0.png');
 				if (app.oldAndroid)
 					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.mediumIcon + '")');
 				else
@@ -2630,10 +2631,6 @@ var app = {
 					data.session = app.session;
 					
 					$.get(app.supportUrl, data, function(results) {
-						
-						
-						
-						
 						if (appMode) {
 							navigator.notification.alert(results.data, {}, 'Teade', 'Ok');
 						} else {
