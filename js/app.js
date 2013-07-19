@@ -6,6 +6,12 @@ window.addEventListener("load",function() {
   }, 0);
 });
 
+$(document).ajaxStop(function() {
+	setTimeout(function() {
+		$(".ajax-loader").hide();
+	}, 1500);
+});
+
 var user = {};
 var newsCats = {};
 var allCats = '';
@@ -1241,6 +1247,8 @@ var app = {
 			$('.oth').hide();
 			if ($(this).hasClass('fashion')) {
 				data.types = 'fashion';
+			} else {
+				data.types = 'big,small';
 			}
 			
 			app.storeMode = true;
@@ -2707,7 +2715,7 @@ var app = {
 
 				});
 				var myPhotoSwipe2 = {};
-				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: false });	
+				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: false, captionAndToolbarAutoHideDelay: 0 });	
 				
 			}, 'jsonp');
 		
@@ -3284,6 +3292,7 @@ var app = {
 			template.find('li').attr('rel', item.id);
 			template.find('span').html(item.headline);
 			template.find('img').attr('src', image);
+			template.attr('data-cat', item.categoryName);
 			$('#hotNews').append(template.html());
 		});
 		
@@ -3301,6 +3310,8 @@ var app = {
 				e.preventDefault();
 				//$('.newssectionopen').find('.meta:first').html($(this).find('.meta').html());
 				app.getNews($(this).attr('rel'));
+				$('.newssectionopen').find('.meta:first').html(template.data('cat'));
+				
 			});
 		}, 800);
 		
@@ -3340,10 +3351,8 @@ var app = {
 		app.currentNews = id;
 		$('.postthumb:first').attr('src', '');
 		
-		
-		
 		$.get(app.serverUrl + 'Article/article/' + id, data, function(results) {
-	
+			console.log(results);
 			$('#gallery').hide();
 			$('#comments').hide();
 			
@@ -3475,7 +3484,7 @@ var app = {
 								$('.special-gal').append('<p><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a><h3 style="font-weight:bold;">'+image.names+'</h3>'+image.description+'</p><br style="clear:both;" />');
 							});
 							
-							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: false });
+							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: false, captionAndToolbarAutoHideDelay: 0 });
 						} else {
 							$('#specialGallery').hide();
 							$('#gallery').show();
