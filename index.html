@@ -114,15 +114,6 @@
 				
 			</section>	
 			<section class="barmenu">
-				
-				<nav class="menu_bar logged-out log-header">
-					<form class="loginForm2">
-					<input type="text" class="first" name="username" placeholder="Kasutaja" />
-					<input type="password" name="password" placeholder="Parool" />
-					<input type="submit" value="ok" />
-					</form>
-				</nav>
-				
 				<nav class="menu_bar logged-out">
 					<a class="back" href="#"><span></span></a>
 					<a class="latest refreshMarket" href="#" ><span>Viimati lisatud</span></a>
@@ -195,9 +186,29 @@
 				<br style="clear:both;" />
 				
 			</section>	
+			
+			
+			<div>
+			
+			</div>
 		
 		</div>
 	</div>
+	
+	<div class="login-popup" style="position:absolute;display:none;">
+		<span class="close-popup"></span>
+		<section class="loginform active darker">
+			<section class="wrap">
+				<form id="loginForm2" class="loginForm2" action="#" autocomplete="off">
+					<input type="text" id="username" name="username" class="defaultText textinput" title="Kasutajanimi"><br />
+					<input type="password" id="password" name="password" class="defaultText textinput" title="Parool"><br />
+					<input type="checkbox" id="rememberMe" value="1" checked /><label for="rememberMe"><span></span>jäta mind meelde</label><br />
+					<input type="submit" class="submit" value="Logi sisse">
+				</form> 
+			</section>
+		</section>
+	</div>
+	
 	</div>
 	
 	<script src="js/scripts.js"></script> 

@@ -316,6 +316,20 @@ body{
 	width: 100%;
 	height: 254px;
 }
+.loginform.darker {
+	background-color: rgba(207,131,155,0.95);
+	padding: 10px;
+}
+.close-popup {
+	position: absolute;
+	right: -45px;
+	top: -25px;
+	width: 40px;
+	height: 40px;
+	background: url("images/close-button.png") no-repeat;
+	background-size: contain;
+	background-position: center;
+}
 
 .loginform .wrap{
 	max-width: 424px;
@@ -989,10 +1003,6 @@ body{
 }
 .swipe {
 	height: 179px;
-}
-.swipe li {
-	padding-left: 5px;
-	padding-right: 5px;
 }
 .prev{
 	position: absolute;
@@ -2880,6 +2890,10 @@ select.no-apperance {
 @media screen and (min-width: 520px) {
 	#newsPage .sidebar {
 		top: 137px;
+	}
+	.swipe li {
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 }
 
