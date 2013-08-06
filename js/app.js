@@ -390,9 +390,25 @@ var app = {
 	showLogin: function() {
 		$('.login-popup').center();
 		$('.login-popup').fadeIn();
-		$('.close-popup').click(function(e) {
+		$('.error-popup').find('.close-popup').click(function(e) {
 			e.preventDefault();
 			$('.login-popup').hide();
+		});
+	},
+	
+	showDialog: function(message, heading) {
+		
+		$('.error-popup').find('h2').html(heading);
+		$('.error-popup').find('p').html(message);
+		$('.error-popup').center();
+		$('.error-popup').fadeIn();
+		$('.error-popup').find('.close-popup').click(function(e) {
+			e.preventDefault();
+			$('.error-popup').hide();
+		});
+		$('.error-popup').find('input').click(function(e) {
+			e.preventDefault();
+			$('.error-popup').hide();
 		});
 	},
 	
@@ -1987,33 +2003,18 @@ var app = {
 							}
 							
 						} else {
-							if (appMode) {
-								navigator.notification.alert('Salvestatud!', null, 'Teade', 'Ok');
-							} else {
-								
-								alert('Salvestatud');
-							}
+							app.showDialog('Salvestatud!', 'Teade!');
 						}
 						
 					}
 					
 				} else {
-					alert(results.data);
-					/*if(results.data && results.data.length) {
-						if (appMode) {
-							navigator.notification.alert(results.data, app.responseFunction, 'Teade', 'Ok');
-						} else {
-							alert(results.data);
-						}
-						//alert(results.data);
+					//alert(results.data);
+					if(results.data && results.data.length) {
+						app.showDialog(results.data, 'Teade!');
 					} else {
-						if (appMode) {
-							navigator.notification.alert(results.message, app.responseFunction, 'Teade', 'Ok');
-						} else {
-							alert(results.message);
-						}
-						//alert(results.message);
-					}*/
+						app.showDialog(results.message, 'Teade!');
+					}
 				}
 			
 			}, 'jsonp');
@@ -2390,11 +2391,7 @@ var app = {
 				
 				//e.stopPropagation();
 				$.get(app.serverUrl + 'Market/updateMarketItemExpires/' + rel, data, function(results) {
-					if (appMode) {
-						navigator.notification.alert(results.data, null, 'Teade', 'Ok');
-					} else {
-						alert(results.data);
-					}
+					app.showDialog(results.data, 'Teade!');
 					
 					//alert(results.data);
 					element.hide();
@@ -2640,11 +2637,7 @@ var app = {
 					data.session = app.session;
 					
 					$.get(app.supportUrl, data, function(results) {
-						if (appMode) {
-							navigator.notification.alert(results.data, null, 'Teade', 'Ok');
-						} else {
-							alert(results.data);
-						}
+						app.showDialog(results.data, 'Teade!');
 						if (results.code == '1') {
 							$('.item-quantity').html(oldQuantity - quantity);
 							itemQuantity = itemQuantity-quantity;
@@ -2656,13 +2649,7 @@ var app = {
 					var r=confirm("Oled kinde, et soovid pakkumist teha?")
 					if (r==true) {
 						$.get(app.serverUrl + 'Market/makeAuctionBid/' + id + '/' + quantity, data, function(results) {
-						
-							if (appMode) {
-								navigator.notification.alert(results.data, null, 'Teade', 'Ok');
-							} else {
-								alert(results.data);
-							}
-							
+							app.showDialog(results.data, 'Teade!');
 							if (results.code == '1') {
 								
 								bidStep = parseFloat($('.item-bid-step').html());
@@ -2925,11 +2912,7 @@ var app = {
 							//$('#messagesPage').find('.menu_bar').find('.back').click();
 							$('#messagesPage').find('.send').click();
 						} else {
-							if (appMode) {
-								navigator.notification.alert(results.data, null, 'Teade', 'Ok');
-							} else {
-								alert(results.data);
-							}
+							app.showDialog(results.data, 'Teade!');
 						}
 						
 					}, 'jsonp');
@@ -3567,11 +3550,7 @@ var app = {
 			} else {
 				
 				if (results.data && results.data.length) {
-					if (appMode) {
-						navigator.notification.alert(results.data, null, 'Teade', 'Ok');
-					} else {
-						alert(results.data);
-					}
+					app.showDialog(results.data, 'Teade!');
 				}
 			}
 				
@@ -3703,11 +3682,7 @@ function uploadFile(mediaFile, isSave) {
 				try {
 	            	response = $.parseJSON(result.response);  
 	            } catch(e) {
-		            if (appMode) {
-						navigator.notification.alert('Tundmatu viga, kontrolli väljasid', null, 'Teade', 'Ok');
-					} else {
-						alert('Tundmatu viga, kontrolli väljasid');
-					}
+	            	app.showDialog('Tundmatu viga, kontrolli väljasid', 'Teade!');
 	            }
 				if(app.saveStage == 1) {
 					
@@ -3730,36 +3705,20 @@ function uploadFile(mediaFile, isSave) {
 							app.saveStage = 2;
 							
 						} else {
-							if (appMode) {
-								navigator.notification.alert('Salvestatud!', null, 'Teade', 'Ok');
-							} else {
-								alert('Salvestatud');
-							}
-							
+							app.showDialog('Salvestatud', 'Teade!');
 						}
 						
 					} else {
 						//alert('error');
 						if(response.data && response.data.length) {
-							if (appMode) {
-								navigator.notification.alert(response.data, null, 'Teade', 'Ok');
-							} else {
-								alert(response.data);
-							}
+							app.showDialog(results.data, 'Teade!');
 							//alert(response.data);
 						} else {
-							if (appMode) {
-								navigator.notification.alert(response.message, null, 'Teade', 'Ok');
-							} else {
-								alert(response.message);
-							}
 							
 							if (!response) {
-								if (appMode) {
-									navigator.notification.alert('Tundmatu viga', null, 'Teade', 'Ok');
-								} else {
-									alert('Tundmatu viga');
-								}
+								app.showDialog('Tundmatu viga', 'Teade!');
+							} else {
+								app.showDialog(response.message, 'Teade!');
 							}
 							
 							//alert(response.message);
@@ -3797,12 +3756,7 @@ function uploadFile(mediaFile, isSave) {
 				
 	        },
 	        function(error) {
-	        	if (appMode) {
-	        		navigator.notification.alert('Viga faili laadimisel', null, 'Teade', 'Ok');
-	        	} else {
-		        	alert('Viga faili laadimisel');
-	        	}
-	            
+	        	app.showDialog('Viga faili laadimisel', 'Teade!');
 	        }, options
 	    ); 
 	    
@@ -3828,28 +3782,16 @@ function uploadFile(mediaFile, isSave) {
 					app.saveParams = {};
 					app.saveStage = 2;
 				} else {
-					if (appMode) {
-						navigator.notification.alert('Salvestatud', null, 'Teade', 'Ok');
-					} else {
-						alert('Salvestatud');
-					}
+					app.showDialog('Salvestatud', 'Teade!');
 					app.currentEditId = results.data.item.id;
 					//alert('Salvestatud');
 				}
 			
 			} else {
 				if (results.data && results.data.length) {
-					if (appMode) {
-						navigator.notification.alert(results.data, null, 'Teade', 'Ok');
-					} else {
-						alert(results.data);
-					}
+					app.showDialog(results.data, 'Teade!');
 				} else {
-					if (appMode) {
-						navigator.notification.alert(results.message, null, 'Teade', 'Ok');
-					} else {
-						alert(results.message);
-					}
+					app.showDialog(results.message, 'Teade!');
 				}
 			}
 		}, 'jsonp');
