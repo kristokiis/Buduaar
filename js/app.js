@@ -2000,14 +2000,14 @@ var app = {
 				} else {
 					if(results.data && results.data.length) {
 						if (appMode) {
-							navigator.notification.alert(results.data, null, 'Teade', 'Ok');
+							navigator.notification.alert(results.data, app.responseFunction, 'Teade', 'Ok');
 						} else {
 							alert(results.data);
 						}
 						//alert(results.data);
 					} else {
 						if (appMode) {
-							navigator.notification.alert(results.message, null, 'Teade', 'Ok');
+							navigator.notification.alert(results.message, app.responseFunction, 'Teade', 'Ok');
 						} else {
 							alert(results.message);
 						}
@@ -2017,6 +2017,12 @@ var app = {
 			
 			}, 'jsonp');
 		}
+	},
+	
+	responseFunction: function(data) {
+		
+		return false;
+			
 	},
 	
 	getStores: function(data) {
