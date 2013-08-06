@@ -227,6 +227,8 @@
 		   	$('.only-app').show();
 		   	appMode = true;
 		   	
+		   	navigator.notification.alert('Test', null, 'Teade', 'Ok');
+		   	
 		   	document.addEventListener("backbutton", function(e) {
 				e.preventDefault();
 				//if in subpage trigger correct 
