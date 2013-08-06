@@ -1999,7 +1999,7 @@ var app = {
 					
 				} else {
 					alert(results.data);
-					if(results.data && results.data.length) {
+					/*if(results.data && results.data.length) {
 						if (appMode) {
 							navigator.notification.alert(results.data, app.responseFunction, 'Teade', 'Ok');
 						} else {
@@ -2013,7 +2013,7 @@ var app = {
 							alert(results.message);
 						}
 						//alert(results.message);
-					}
+					}*/
 				}
 			
 			}, 'jsonp');
