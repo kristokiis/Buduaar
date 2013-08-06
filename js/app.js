@@ -1998,6 +1998,7 @@ var app = {
 					}
 					
 				} else {
+					alert(results.data);
 					if(results.data && results.data.length) {
 						if (appMode) {
 							navigator.notification.alert(results.data, app.responseFunction, 'Teade', 'Ok');
