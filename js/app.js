@@ -2407,7 +2407,9 @@ var app = {
 	},
 	
 	getMarket: function(data) {
-	
+		
+		ga_storage._trackPageview('app/turg/');
+		
 		if(!data.store)
 			$('.market-header').hide();
 	
@@ -2488,9 +2490,13 @@ var app = {
 				$('.toode').find('.product-thumbs').show();
 			}
 			
+			
+			
 			$('.ajax-loader').hide();
 			
 			offer = results.data.item[0];
+			
+			ga_storage._trackPageview('app/turg/' + offer.slug);
 			
 			$('.images-container').html('<a href="'+offer.image+'" class="item-image"><img class="toode_preview" src="'+offer.image+'" alt="logo"/></a><div class="product-thumbs"></div>');
 			
@@ -3193,6 +3199,9 @@ var app = {
 	
 	getArticles: function(type, search, start) {
 		//app.showLoader(1492);
+		
+		ga_storage._trackPageview('app/uudised');
+		
 		newsType = type;
 		newsSearch = search;
 		
@@ -3352,6 +3361,8 @@ var app = {
 			/*$('.reccomend-container').html('<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fbuduaar.ee%2FArticle%2Farticle%2F' + id + '&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=recommend&amp;height=35&amp;appId=161092774064906" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:310px; height:35px;" allowTransparency="true"></iframe>');*/
 			
 			//$('#fbShare').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=buduaar.ee/Article/article/' + results.data.id);
+			
+			ga_storage._trackPageview('app/artikkel/' + results.data.slug);
 			
 			$('.top-tab').unbind('click');
 			$('.top-tab').click(function(e) {
