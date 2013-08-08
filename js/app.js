@@ -1966,7 +1966,7 @@ var app = {
 		
 		data.action = 'addItem';
 		if (step == 1) {
-			uploadFile(app.imageURI, isSave);
+			uploadFile(app.imageURI, isSave, false);
 		} else {
 			$.get(app.supportUrl, data, function(results) {
 				
@@ -3651,7 +3651,7 @@ function getPhoto() {
 }
 
 // Upload files to server
-function uploadFile(mediaFile, isSave) {
+function uploadFile(mediaFile, isSave, uploadError) {
      
     //alert(app.saveStage);
     
@@ -3776,7 +3776,11 @@ function uploadFile(mediaFile, isSave) {
 				
 	        },
 	        function(error) {
-	        	app.showDialog('Viga faili laadimisel', 'Teade!');
+	        	if(uploadError) {
+	        		app.showDialog('Viga faili laadimisel', 'Teade!');
+	        	} else {
+	        		uploadFile(mediaFile, isSave, true);
+	        	}
 	        	console.log(error);
 	        }, options
 	    ); 
@@ -3823,7 +3827,7 @@ function uploadFile(mediaFile, isSave) {
 function captureSuccess(imageURI) {
 	app.imageURI = imageURI;
 	if (imageURI != null && app.saveStage != 1) {
-		uploadFile(imageURI, false);
+		uploadFile(imageURI, false, false);
     } else {
     	$('.no-pic-text').hide();
 	    $('#profilePic').attr('src', imageURI);
