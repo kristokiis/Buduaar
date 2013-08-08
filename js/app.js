@@ -3687,6 +3687,9 @@ function uploadFile(mediaFile, isSave) {
 			url = app.supportUrl + "?session=" + app.session + '&action=uploadFile&type=extra&id=' + app.currentEditId + '&callback=123';
 		}
 		
+		console.log(path);
+		console.log(url);
+		
 	    ft.upload(path, url,
 	        function(result) {
 	        	
