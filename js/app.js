@@ -35,6 +35,8 @@ var offline = false;
 
 var appMode = false;
 
+var storeMode = 'big,small';
+
 var app = {
 
 	marketCats: {},
@@ -1276,9 +1278,11 @@ var app = {
 			$('.market-header').hide();
 			$('.oth').hide();
 			if ($(this).hasClass('fashion')) {
-				data.types = 'fashion';
+				//data.types = 
+				storeMode = 'fashion';
 			} else {
-				data.types = 'big,small';
+				//data.types = 'big,small';
+				storeMode = 'big,small';
 			}
 			
 			app.storeMode = true;
@@ -2031,6 +2035,8 @@ var app = {
 		data.limit = 100;
 		app.showLoader(603);
 		
+		data.types = storeMode;
+		
 		$('.marketContainer').find('.page-wrap').hide();
 		$('.marketContainer').find('#marketList').show();
 		$('.marketContainer').find('#marketDetail').show();
@@ -2718,7 +2724,7 @@ var app = {
 
 				});
 				var myPhotoSwipe2 = {};
-				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: true, captionAndToolbarAutoHideDelay: 0 });	
+				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, captionAndToolbarAutoHideDelay: 0 });	
 				
 			}, 'jsonp');
 		
@@ -3486,7 +3492,7 @@ var app = {
 								$('.special-gal').append('<p><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a><h3 style="font-weight:bold;">'+image.names+'</h3>'+image.description+'</p><br style="clear:both;" />');
 							});
 							
-							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: true, captionAndToolbarAutoHideDelay: 0 });
+							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, captionAndToolbarAutoHideDelay: 0 });
 						} else {
 							$('#specialGallery').hide();
 							$('#gallery').show();
@@ -3494,7 +3500,7 @@ var app = {
 								$('.gallery').append('<li><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a></li>');
 							});
 							
-							var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
+							var myPhotoSwipe = $(".gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, backButtonHideEnabled: false, captionAndToolbarAutoHideDelay: 0 });
 						}
 						
 						hasGallery = true;
@@ -3768,6 +3774,7 @@ function uploadFile(mediaFile, isSave) {
 	        },
 	        function(error) {
 	        	app.showDialog('Viga faili laadimisel', 'Teade!');
+	        	console.log(error);
 	        }, options
 	    ); 
 	    
