@@ -1190,8 +1190,9 @@ body{
 }
 
 .answerForm .auto-search {
-	top: 114px;
-	width: 94%;
+	top: 74px;
+	width: 100%;
+	left: 0;
 	background-color: white;
 	position: absolute;
 	opacity: 0.95;
@@ -1332,7 +1333,7 @@ body{
 .sidebar {
 	position: absolute;
 	right: -100%;
-	top: 115px;
+	top: 112px;
 	width: 100%;
 	z-index: 4;
 	overflow: hidden;

@@ -33,6 +33,8 @@ var search = {};
 
 var offline = false;
 
+var alerted = false;
+
 var appMode = false;
 
 var storeMode = 'big,small';
@@ -75,15 +77,25 @@ var app = {
 			}, false);
 		}
 		
-		if(appMode) {
+		console.log('app inited');
 		
+		if(appMode) {
 			networkState = navigator.connection.type;
-			
+			console.log(networkState);
 			if (networkState == Connection.NONE){
-				alert('Interneti ühendus puudub');
+				if (!alerted) {
+					alert('Interneti ühendus on vajalik, et rakendust kasutada');
+					alerted = true;
+				}
 				offline = true;
-				app.init();
+				setTimeout(function() {
+					app.init();
+					
+				}, 2000);
+				
 				return false;
+			} else {
+				alerted = false;
 			}
 		
 		}
@@ -473,6 +485,13 @@ var app = {
 
 			}
 			
+			//console.log('whaat');
+			
+			if ($('#marketOrders').is(':visible') && $('#marketOrders').find('.detail-container').is(':visible')) {
+				$('#marketOrders').find('.detail-container').hide();
+				$('#marketOrders').find('.list-container').show();
+				return false;
+			}
 			
 			$('#sellerother').html('');
 			
@@ -2055,29 +2074,22 @@ var app = {
 				category = '';
 				
 				stores[item.id] = item;
-			
+					
 				$('.market-template').find('.item').attr('data-id', item.id);
-				$('.market-template').find('img').attr('src', item.mediumIcon);
+				
+				$('.market-template').find('.special-thumb').find('.thumb').attr('src', 'images/FF4D00-0.0.png');
+				if (app.oldAndroid)
+					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.mediumIcon + '")');
+				else
+					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.mediumIcon + '")');
 
 				$('.market-template').find('.item-description').html(item.name + '(' + item.numberOfMarketItems + ')');
 				$('.market-template').find('.price').html('');
-				if (isOdd(i+1))
-					$('#itemsList').append($('.market-template').html());
+				
+				$('#itemsList').append($('.market-template').html());
 				
 			});
-			$.each(results.data, function(i, item) {
 			
-				category = '';
-			
-				$('.market-template').find('.item').attr('data-id', item.id);
-				$('.market-template').find('img').attr('src', item.mediumIcon);
-
-				$('.market-template').find('.item-description').html(item.name + '(' + item.numberOfMarketItems + ')');
-				$('.market-template').find('.price').html('');
-				if (!isOdd(i+1))
-					$('#itemsList').append($('.market-template').html());
-				
-			});
 			
 			$('.ajax-loader').hide();
 			
@@ -2428,40 +2440,47 @@ var app = {
 		$('.marketContainer').find('#marketDetail').show();
 		
 		app.showLoader();
-		
+		$('body').scrollTop(0);
 		$.get(app.serverUrl + 'Market/search/', data, function(results) {
 			
 			$('.page-wrap').removeClass('opened');
 	
 			if (!data.start)
 				$('#itemsList').html('');
-
-			$.each(results.data, function(i, item) {
-				//console.log(item);
-				category = '';
-				
-				$('.market-template').find('.item').attr('data-id', item.id);
-				$('.market-template').find('.special-thumb').find('.thumb').attr('src', 'images/FF4D00-0.0.png');
-				if (app.oldAndroid)
-					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.mediumIcon + '")');
-				else
-					$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.image + '")');
-					
-				$('.market-template').find('.item-description').html(item.categoryName);
-				$('.market-template').find('.price').html(parseFloat(Math.round(item.price * 100) / 100).toFixed(2) + '€');
-				$('#itemsList').append($('.market-template').html());
-				
-			});
-			$('.item').unbind('click');
-			$('.item').click(function(e) {
-				e.preventDefault();
-				//app.showLoader();
-				app.getProduct($(this).data('id'), false);
-				
-				app.productCat = $(this).find('.item-description').html();
-				
-			});
 			
+			if (results.data.length) {
+			
+				$.each(results.data, function(i, item) {
+					//console.log(item);
+					category = '';
+					
+					$('.market-template').find('.item').attr('data-id', item.id);
+					$('.market-template').find('.special-thumb').find('.thumb').attr('src', 'images/FF4D00-0.0.png');
+					if (app.oldAndroid)
+						$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.mediumIcon + '")');
+					else
+						$('.market-template').find('.special-thumb').css('background-image', 'url("' + item.image + '")');
+						
+					$('.market-template').find('.item-description').html(item.categoryName);
+					$('.market-template').find('.price').html(parseFloat(Math.round(item.price * 100) / 100).toFixed(2) + '€');
+					$('#itemsList').append($('.market-template').html());
+					
+				});
+				$('.item').unbind('click');
+				$('.item').click(function(e) {
+					e.preventDefault();
+					//app.showLoader();
+					app.getProduct($(this).data('id'), false);
+					
+					app.productCat = $(this).find('.item-description').html();
+					
+				});
+			} else {
+				data = {};
+				app.getFilters(data);
+				app.showDialog('Otsingu tulemustele vastuseid ei leitud kahjuks.', 'Teade!');
+				
+			}
 			setTimeout(function() {
 				$('.ajax-loader').hide();
 			}, 500);
@@ -2641,14 +2660,16 @@ var app = {
 					return false;
 				}
 				
+				console.log(app.session);
+				
 				if(offer.itemType == 'ad') {
 					data = {};
 					data.action = 'bookItem';
-					data.id = results.data.item.id;
+					data.id = offer.id;
 					data.quantity = quantity;
 					data.session = app.session;
 					
-					$.get(app.supportUrl, data, function(results) {
+					$.get(app.serverUrl + 'Market/bookItem/' + id + '/' + quantity, data, function(results) {
 						app.showDialog(results.data, 'Teade!');
 						if (results.code == '1') {
 							$('.item-quantity').html(oldQuantity - quantity);
@@ -2724,7 +2745,7 @@ var app = {
 
 				});
 				var myPhotoSwipe2 = {};
-				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, captionAndToolbarAutoHideDelay: 0 });	
+				myPhotoSwipe2 = $(".images-container a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });	
 				
 			}, 'jsonp');
 		
@@ -2920,7 +2941,7 @@ var app = {
 						if (results.code == '1') {
 							jQuery("#heading").removeClass('alertForm');
 							jQuery("#message").removeClass('alertForm').val('');
-							
+							app.showDialog('Sõnum saadetud edukalt.', 'Teade!');
 							//$('#messagesPage').find('.menu_bar').find('.back').click();
 							$('#messagesPage').find('.send').click();
 						} else {
@@ -3492,7 +3513,7 @@ var app = {
 								$('.special-gal').append('<p><a href="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.image+'"><img class="" alt="'+i+'" src="http://buduaar.ee/files/Upload/Articles/Gallery/'+image.icon+'" alt="thumb"/></a><h3 style="font-weight:bold;">'+image.names+'</h3>'+image.description+'</p><br style="clear:both;" />');
 							});
 							
-							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false, captionAndToolbarAutoHideDelay: 0 });
+							var myPhotoSwipe = $(".special-gal a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarShowEmptyCaptions: false });
 						} else {
 							$('#specialGallery').hide();
 							$('#gallery').show();
@@ -3561,6 +3582,8 @@ var app = {
 					$('.ajax-loader').hide();
 					
 					$('.comments-tab:not(.active)').click();
+					
+					app.showDialog('Kommentaar lisatud edukalt.', 'Teade!');
 					
 				}, 'jsonp');
 				

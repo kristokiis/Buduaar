@@ -32,7 +32,8 @@ html {
 }
 body { 
 	display: block;
-	min-height: 100%; 
+	min-height: 100%;
+	position: relative; 
 }
 
 .clear{
@@ -1169,6 +1170,8 @@ body{
 }
 .gallery-slider {
 	margin: -10px;
+	-webkit-overflow-scrolling:touch;
+	overflow-x: scroll;
 }
 #gallery ul {
 	width: 1000px;
@@ -1241,8 +1244,9 @@ body{
 }
 
 .answerForm .auto-search {
-	top: 114px;
-	width: 94%;
+	top: 74px;
+	left: 0;
+	width: 100%;
 	background-color: white;
 	position: absolute;
 	opacity: 0.95;
@@ -1391,7 +1395,7 @@ body{
 .sidebar {
 	position: absolute;
 	right: 0;
-	top: 115px;
+	top: 112px;
 	width: 100%;
 	z-index: 4;
 	overflow: hidden;

@@ -241,9 +241,11 @@
 		   	pictureSource = navigator.camera.PictureSourceType;
 		   	destinationType = navigator.camera.DestinationType;
 		   	
-		   	app.init();
+		   	
 		   	$('.only-app').show();
 		   	appMode = true;
+		   	
+		   	app.init();
 		   	
 		   	document.addEventListener("backbutton", function(e) {
 				e.preventDefault();
