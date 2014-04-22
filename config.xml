@@ -54,6 +54,10 @@
     <gap:splash src="assets/splash/ios/screen-ipad-portrait.png"      gap:platform="ios"     width="768" height="1024" />
     <gap:splash src="assets/splash/ios/screen-ipad-landscape.png"     gap:platform="ios"     width="1024" height="768" />
     
-	
+	<gap:plugin name="org.apache.cordova.core.file" />
+    <gap:plugin name="org.apache.cordova.core.file-transfer" />
+    <gap:plugin name="org.apache.cordova.core.network-information" />
+    <gap:plugin name="org.apache.cordova.camera" version="0.2.4" />
+    <gap:plugin name="org.apache.cordova.media-capture" version="0.2.8" />
 
 </widget>
