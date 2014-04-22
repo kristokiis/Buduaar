@@ -3862,5 +3862,5 @@ function captureError(error) {
 }
 
 window.onerror = function (msg, url, line) {
-	alert(msg + ' - ' + url + ' - ' + line);
+	console.error(msg + ' - ' + url + ' - ' + line);
 }
