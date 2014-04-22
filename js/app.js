@@ -3860,3 +3860,7 @@ function captureSuccess(imageURI) {
 function captureError(error) {
     var msg = 'Viga pildi saamisel: ' + error;
 }
+
+window.onerror = function (msg, url, line) {
+	alert(msg + ' - ' + url + ' - ' + line);
+}
